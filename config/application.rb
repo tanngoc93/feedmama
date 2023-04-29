@@ -19,6 +19,6 @@ module AutoMama
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    config.hosts << "0faa-143-198-218-5.ngrok-free.app"
+    config.hosts << "feedmama.markiee.co"
   end
 end
