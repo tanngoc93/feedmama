@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_28_233204) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_29_022022) do
+  create_table "blockers", charset: "utf8mb3", force: :cascade do |t|
+    t.string "post_id"
+    t.string "commentator_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "settings", charset: "utf8mb3", force: :cascade do |t|
     t.string "facebook_page_id"
     t.string "facebook_page_access_token"

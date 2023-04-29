@@ -44,6 +44,7 @@ gem "bootsnap", require: false
 
 gem "koala"
 gem "faraday"
+gem "sidekiq"
 
 # Use Sass to process CSS
 # gem "sassc-rails"
