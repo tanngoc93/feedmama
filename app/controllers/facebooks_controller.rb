@@ -26,8 +26,6 @@ class FacebooksController < ApplicationController
 
         return if comment.nil? || comment_id.nil? || comment_id == PAGE_ID
 
-        Rails.logger.debug(">>>> comment: #{comment}")
-
         if new_comment?(data)
           Rails.logger.debug('>>>>> REPLY')
 
@@ -76,11 +74,14 @@ class FacebooksController < ApplicationController
       }.to_json
     end
 
+    puts
     puts '>>>>> Koala GPT Processing <<<<<'
     puts "status: #{response.status}"
     puts "headers #{response.headers}"
+    puts "comment #{message}"
     puts "body:   #{response.body}"
     puts '>>>>> Koala GPT Processed <<<<<'
+    puts
 
     JSON.parse(response.body)['output']
   rescue StandardError => e
