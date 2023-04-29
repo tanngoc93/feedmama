@@ -51,11 +51,20 @@ class FacebooksController < ApplicationController
     return if comment.nil? || commentator_id == PAGE_ID
 
     if new_comment?(data)
-      blocker = Blocker.where(post_id: post_id, commentator_id: commentator_id).last
+      blocker = Blocker.where(commentator_id: commentator_id).last
 
-      Rails.logger.debug('>>>>> REPLY')
-
-      ReplyCommentJob.perform_at(1.minutes.from_now, post_id, comment_id, comment, commentator_id, commentator_name)
+      if blocker&.updated_at < 24.hours.ago
+        ReplyCommentJob.perform_at(
+          3.minutes.from_now,
+          post_id,
+          comment_id,
+          comment,
+          commentator_id,
+          commentator_name
+        )
+      else
+        Rails.logger.debug('>>>>> BLOCKED')
+      end
     else
       Rails.logger.debug('>>>>> SKIP')
     end

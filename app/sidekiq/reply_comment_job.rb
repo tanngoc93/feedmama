@@ -7,11 +7,12 @@ class ReplyCommentJob
   def perform(post_id, comment_id, comment, commentator_id, commentator_name)
     page = Koala::Facebook::API.new( KOALA_PAGE_ACCESS_TOKEN )
 
-    result = ask_gpt(comment, commentator_name)
+    reply_comment = ask_gpt(comment, commentator_name)
 
-    page.put_comment(comment_id, result)
+    page.put_comment(comment_id, reply_comment)
+    page.put_like(comment_id)
 
-    Blocker.find_or_create_by(post_id: post_id, commentator_id: commentator_id)
+    Blocker.find_or_create_by(commentator_id: commentator_id)
   end
 
   private
@@ -32,7 +33,7 @@ class ReplyCommentJob
         input: input,
         inputHistory: [],
         outputHistory: [],
-        realTimeData: true,
+        realTimeData: false,
       }.to_json
     end
 
@@ -41,7 +42,7 @@ class ReplyCommentJob
     puts '>>>>> Koala GPT Processing <<<<<'
     puts "status: #{response.status}"
     puts "headers: #{response.headers}"
-    puts "comment: #{message}"
+    puts "comment: #{comment}"
     puts "response: #{response.body}"
     puts '>>>>> Koala GPT Processed <<<<<'
     puts
