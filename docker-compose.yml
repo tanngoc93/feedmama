@@ -1,0 +1,67 @@
+version: "3.8"
+
+services:
+  db:
+    image: mariadb:10.7.4-focal
+    environment:
+      MYSQL_ROOT_PASSWORD: 1qazxsw2
+    volumes:
+      - db:/var/lib/mysql
+    networks:
+      - bridge-network
+
+  redis:
+    image: redis:7.0.11
+    command: redis-server
+    networks:
+      - bridge-network
+
+  backend:
+    tty: true
+    stdin_open: true
+    build:
+      context: .
+      dockerfile: ./.dockerdev/Dockerfile.dev
+    working_dir: /app
+    volumes:
+      - .:/app
+      - bundle_cache:/bundle
+    environment:
+      DATABASE_POOL: 5
+      DATABASE_HOST: db
+      DATABASE_PORT: 3306
+      DATABASE_USER: root
+      DATABASE_PASSWORD: 1qazxsw2
+      REDIS_URL: redis://redis:6379/0
+      BUNDLE_PATH: /bundle
+      RAILS_ENV: development
+      NODE_ENV: development
+      PORT: 3000
+      # 
+      KOALA_ACCESS_TOKEN: ''
+      KOALA_APP_ACCESS_TOKEN: ''
+      KOALA_APP_ID: ''
+      KOALA_APP_SECRET: ''
+      KOALA_PAGE_ACCESS_TOKEN: ''
+      # 
+      KOALA_GPT_TOKEN: ''
+      # 
+      VERIFY_TOKEN: ''
+      # 
+      PAGE_ID: ''
+    command: /bin/sh ".dockerdev/commander/rails.sh"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - redis
+    networks:
+      - bridge-network
+
+networks:
+  bridge-network:
+    driver: bridge
+
+volumes:
+  db:
+  bundle_cache:
