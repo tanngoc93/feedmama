@@ -3,6 +3,6 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
-  get "webhooks", to: "facebooks#subscription"
-  post "webhooks", to: "facebooks#subscription"
+  get "webhooks/:verify_token", to: "facebooks#subscription"
+  post "webhooks/:verify_token", to: "facebooks#subscription"
 end

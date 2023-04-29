@@ -3,10 +3,13 @@ class FacebooksController < ApplicationController
 
   PAGE_ID = ENV.fetch('PAGE_ID')
   VERIFY_TOKEN = ENV.fetch('VERIFY_TOKEN')
+  SECURE_TOKEN = ENV.fetch('SECURE_TOKEN')
   KOALA_TOKEN = ENV.fetch('KOALA_GPT_TOKEN')
   KOALA_PAGE_ACCESS_TOKEN = ENV.fetch('KOALA_PAGE_ACCESS_TOKEN')
 
   def subscription
+    return unless params[:verify_token] == SECURE_TOKEN
+
     if(realtime_request?(request))
       case request.method
       when "GET"
