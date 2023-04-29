@@ -24,17 +24,19 @@ class FacebooksController < ApplicationController
         comment_id = data['from']['id']
         commenter_name = data['from']['name']
 
-        return if comment.nil? || comment_id.nil? || commenter_id == PAGE_ID
+        return if comment.nil? || comment_id.nil? || comment_id == PAGE_ID
 
         Rails.logger.debug(">>>> comment: #{comment}")
 
-        return unless new_comment?(data)
+        if new_comment?(data)
+          Rails.logger.debug('>>>>> REPLY')
 
-        @page = Koala::Facebook::API.new( KOALA_PAGE_ACCESS_TOKEN )
-
-        reply_message = ask_koala_gpt(comment, commenter_name)
-
-        @page.put_comment(data['comment_id'], reply_message)
+          @page = Koala::Facebook::API.new( KOALA_PAGE_ACCESS_TOKEN )
+          reply_message = ask_koala_gpt(comment, commenter_name)
+          @page.put_comment(data['comment_id'], reply_message)
+        else
+          Rails.logger.debug('>>>>> SKIP')
+        end
 
         render :plain => 'Thanks for the update.'
       end
