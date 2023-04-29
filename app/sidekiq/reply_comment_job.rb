@@ -4,15 +4,13 @@ class ReplyCommentJob
   KOALA_GPT_TOKEN = ENV.fetch('KOALA_GPT_TOKEN')
   KOALA_PAGE_ACCESS_TOKEN = ENV.fetch('KOALA_PAGE_ACCESS_TOKEN')
 
-  def perform(post_id, comment_id, comment, commentator_id, commentator_name)
+  def perform(post_id, comment_id, comment, commentator_name)
     page = Koala::Facebook::API.new( KOALA_PAGE_ACCESS_TOKEN )
 
     reply_comment = ask_gpt(comment, commentator_name)
 
     page.put_comment(comment_id, "#{reply_comment} (I'm a Bot. If I make any mistakes, please forgive me. You can find me at www.AllLoveHere.com)")
     page.put_like(comment_id)
-
-    Blocker.find_or_create_by(commentator_id: commentator_id)
   rescue StandardError => e
     Rails.logger.debug(">>>>> #{e.message}")
   end

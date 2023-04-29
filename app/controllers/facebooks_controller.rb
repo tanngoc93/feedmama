@@ -53,7 +53,7 @@ class FacebooksController < ApplicationController
     if new_comment?(data)
       blocker = Blocker.where(commentator_id: commentator_id).first
 
-      return if blocker&.updated_at < 24.hours.ago && blocker.commentator_id != '5569956876395939'
+      return if blocker&.updated_at > 12.hours.ago
 
       Rails.logger.debug('>>>>> REPLY')
 
@@ -62,9 +62,14 @@ class FacebooksController < ApplicationController
         post_id,
         comment_id,
         comment,
-        commentator_id,
         commentator_name
       )
+
+      blocker = Blocker.find_or_create_by(
+        commentator_id: commentator_id
+      )
+
+      blocker.update(post_id: post_id)
     else
       Rails.logger.debug('>>>>> SKIP')
     end
