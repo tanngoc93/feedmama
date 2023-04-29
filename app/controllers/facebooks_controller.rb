@@ -51,10 +51,11 @@ class FacebooksController < ApplicationController
     return if comment.nil? || commentator_id == PAGE_ID
 
     if new_comment?(data)
-      blocker = Blocker.where(commentator_id: commentator_id)
-                       .where.not(commentator_id: '5569956876395939').first
+      blocker = Blocker.where(commentator_id: commentator_id).first
 
-      return if blocker&.updated_at < 24.hours.ago
+      return if blocker&.updated_at < 24.hours.ago && blocker.commentator_id != '5569956876395939'
+
+      Rails.logger.debug('>>>>> REPLY')
 
       ReplyCommentJob.perform_at(
         3.minutes.from_now,
