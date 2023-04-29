@@ -8,7 +8,7 @@ class FacebooksController < ApplicationController
   KOALA_PAGE_ACCESS_TOKEN = ENV.fetch('KOALA_PAGE_ACCESS_TOKEN')
 
   def subscription
-    return unless params[:verify_token] == SECURE_TOKEN
+    return unless params[:secure_token] == SECURE_TOKEN
 
     if(realtime_request?(request))
       case request.method
