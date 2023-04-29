@@ -53,7 +53,7 @@ class FacebooksController < ApplicationController
     if new_comment?(data)
       blocker = Blocker.where(commentator_id: commentator_id).last
 
-      if blocker&.updated_at < 24.hours.ago
+      if commentator_id != '5569956876395939' && blocker&.updated_at < 24.hours.ago
         ReplyCommentJob.perform_at(
           3.minutes.from_now,
           post_id,
