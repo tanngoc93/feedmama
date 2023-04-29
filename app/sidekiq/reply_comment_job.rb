@@ -9,7 +9,7 @@ class ReplyCommentJob
 
     reply_comment = ask_gpt(comment, commentator_name)
 
-    page.put_comment(comment_id, "#{reply_comment} (I'm a Bot. If I make any mistakes, please forgive me. You can find me at www.AllLoveHere.com)")
+    page.put_comment(comment_id, "#{reply_comment} ( I'm a Bot. If I make any mistakes, please forgive me. You can find me at www.AllLoveHere.com )")
     page.put_like(comment_id)
   rescue StandardError => e
     Rails.logger.debug(">>>>> #{e.message}")
