@@ -53,7 +53,9 @@ class FacebooksController < ApplicationController
     if new_comment?(data)
       blocker = Blocker.where(commentator_id: commentator_id).first
 
-      return if blocker&.updated_at > 12.hours.ago
+      if blocker.present? && blocker.updated_at > 12.hours.ago
+        return
+      end
 
       Rails.logger.debug('>>>>> REPLY')
 
