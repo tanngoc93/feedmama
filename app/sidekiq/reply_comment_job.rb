@@ -13,6 +13,8 @@ class ReplyCommentJob
     page.put_like(comment_id)
 
     Blocker.find_or_create_by(commentator_id: commentator_id)
+  rescue StandardError => e
+    Rails.logger.debug(">>>>> #{e.message}")
   end
 
   private
