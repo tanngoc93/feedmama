@@ -44,17 +44,18 @@ class FacebooksController < ApplicationController
   def reply_service(data)
     post_id = data['post_id']
     comment = data['message']
+    comment_id = data['comment_id']
     commentator_id = data['from']['id']
     commentator_name = data['from']['name']
 
-    return if comment.nil? || comment_id.nil? || comment_id == PAGE_ID
+    return if comment.nil? || commentator_id == PAGE_ID
 
     if new_comment?(data)
-      blocker = Blocker.where(post_id: post_id, commenter_id: comment_id).last
+      blocker = Blocker.where(post_id: post_id, commentator_id: commentator_id).last
 
       Rails.logger.debug('>>>>> REPLY')
 
-      ReplyCommentJob.perform_at(1.minutes.from_now, post_id, comment_id, comment, commentator_name)
+      ReplyCommentJob.perform_at(1.minutes.from_now, post_id, comment_id, comment, commentator_id, commentator_name)
     else
       Rails.logger.debug('>>>>> SKIP')
     end
