@@ -185,6 +185,9 @@ GEM
     reline (0.3.3)
       io-console (~> 0.5)
     rexml (3.2.5)
+    ruby-openai (4.0.0)
+      faraday (>= 1)
+      faraday-multipart (>= 1)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     selenium-webdriver (4.9.0)
@@ -245,6 +248,7 @@ DEPENDENCIES
   mysql2
   puma (~> 5.0)
   rails (~> 7.0.4, >= 7.0.4.3)
+  ruby-openai
   selenium-webdriver
   sidekiq
   sprockets-rails
