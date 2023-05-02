@@ -9,18 +9,18 @@ class ReplyCommentJob
   def perform(post_id, comment_id, comment, commentator_name)
     page = Koala::Facebook::API.new( KOALA_PAGE_ACCESS_TOKEN )
 
-    reply_comment = ''
+    message = '❤❤❤'
 
     if GPT_TYPE == 'KOALA'
-      reply_comment = ask_koala(comment, commentator_name)
+      message = ask_koala(comment, commentator_name)
     elsif GPT_TYPE == 'OPENAI'
-      reply_comment = ask_openai(comment, commentator_name)
+      message = ask_openai(comment, commentator_name)
     end
 
-    page.put_comment(comment_id, "#{reply_comment} ( I'm a Bot. If I make any mistakes, please forgive me. You can find me at www.AllLoveHere.com )")
+    page.put_comment(comment_id, "#{message} ( I'm a Bot. If I make any mistakes, please forgive me. You can find me at www.AllLoveHere.com )")
     page.put_like(comment_id)
   rescue StandardError => e
-    Rails.logger.debug(">>>>> #{e.message}")
+    Rails.logger.debug(">>>>> ReplyCommentJob:Perform #{e.message}")
   end
 
   private
@@ -45,20 +45,9 @@ class ReplyCommentJob
       }.to_json
     end
 
-    puts
-    puts
-    puts '>>>>> Koala GPT Processing <<<<<'
-    puts "status: #{response.status}"
-    puts "headers: #{response.headers}"
-    puts "comment: #{comment}"
-    puts "response: #{response.body}"
-    puts '>>>>> Koala GPT Processed <<<<<'
-    puts
-    puts
-
     JSON.parse(response.body)['output']
   rescue StandardError => e
-    Rails.logger.debug(">>>>> #{e.message}")
+    Rails.logger.debug(">>>>> ask_koala: #{e.message}")
   end
 
   def ask_openai(comment = '', commentator_name = '')
@@ -68,11 +57,13 @@ class ReplyCommentJob
 
     response = client.chat(
       parameters: {
-          model: "gpt-3.5-turbo", # Required.
-          messages: [{ role: "user", content: input }], # Required.
+          model: "gpt-3.5-turbo",
+          messages: [{ role: "user", content: input }],
           temperature: 0.7,
       })
 
     response.dig("choices", 0, "message", "content")
+  rescue StandardError => e
+    Rails.logger.debug(">>>>> ask_openai: #{e.message}")
   end
 end
