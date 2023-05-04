@@ -21,7 +21,7 @@ class ReplyCommentJob
   private
 
   def ask_openai(app_setting, comment, commentator_name, content)
-    client = OpenAI::Client.new( access_token: openai_token.openai_token )
+    client = OpenAI::Client.new( access_token: app_setting.openai_token )
 
     content = content.sub('#comment', comment)
     content = content.sub('#fullName', commentator_name)
