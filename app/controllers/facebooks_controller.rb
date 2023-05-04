@@ -79,7 +79,8 @@ class FacebooksController < ApplicationController
         comment_id,
         comment,
         commentator_name,
-        @social_account.id
+        @social_account.id,
+        @app_setting.id
       )
 
       blocker = Blocker.find_or_create_by(
