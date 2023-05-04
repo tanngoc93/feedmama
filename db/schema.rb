@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_04_065800) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_04_143115) do
   create_table "active_admin_comments", charset: "utf8mb3", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -37,8 +37,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_04_065800) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "app_settings", charset: "utf8mb3", force: :cascade do |t|
+    t.boolean "status", default: false
+    t.string "verify_token"
+    t.string "secured_token"
+    t.string "openai_token"
+    t.string "openai_model"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "blockers", charset: "utf8mb3", force: :cascade do |t|
     t.string "post_id"
+    t.string "comment_id"
     t.string "commentator_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -46,20 +57,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_04_065800) do
   end
 
   create_table "comments", charset: "utf8mb3", force: :cascade do |t|
+    t.string "comment_id"
+    t.string "comment"
+    t.string "replied_comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "settings", charset: "utf8mb3", force: :cascade do |t|
-    t.string "facebook_page_id"
-    t.string "facebook_page_access_token"
-    t.string "facebook_verify_token"
-    t.string "kind_of_bot"
-    t.string "bot_endpoint"
-    t.string "bot_token"
-    t.text "input"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table "seed_migration_data_migrations", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+    t.string "version"
+    t.integer "runtime"
+    t.datetime "migrated_on", precision: nil
   end
 
   create_table "social_accounts", charset: "utf8mb3", force: :cascade do |t|
@@ -67,8 +75,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_04_065800) do
     t.string "resource_name", null: false
     t.string "resource_platform", null: false
     t.string "resource_access_token"
-    t.text "search_terms"
-    t.boolean "active", default: false
+    t.text "search_terms", default: "Please help me write a creative/engaging message to reply to a comment on my Facebook, the comment content is \"#comment\".\\r\\n\\r\\nThe commenter's name is \"#fullName\".\\r\\n\\r\\nDepending on the emotion of the comment, please help me reply to them with appreciation, gratitude, or an empathetic comment.\\r\\n\\r\\nBe kind, energetic, and full of love.\\r\\n\\r\\nAnd if possible choose an icon for the comment you make, it should match the emotion of the comment, for example, the comment's emotion is positive, happy should not choose the sad symbol, and vice versa.\\r\\n\\r\\nMake it 10 to 30 words long.\\r\\n\\r\\nIf the message is blank or you can't understand the context, give the person a cute song.\\r\\n\\r\\nNote: My Facebook page represents Someone/Something, an online store dedicated to custom jewelry as gifts for various occasions and for a wide audience, mainly between family members and their friends."
+    t.boolean "status", default: false
     t.string "verify_token"
     t.string "secured_token"
     t.datetime "created_at", null: false

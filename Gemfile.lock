@@ -253,8 +253,6 @@ GEM
       faraday-multipart (>= 1)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
-    sass-rails (6.0.0)
-      sassc-rails (~> 2.1, >= 2.1.1)
     sassc (2.4.0)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
@@ -263,6 +261,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
+    seed_migration (1.2.3)
     selenium-webdriver (4.9.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
@@ -328,7 +327,8 @@ DEPENDENCIES
   rails (~> 7.0.4, >= 7.0.4.3)
   rails-erd
   ruby-openai
-  sass-rails
+  sassc-rails
+  seed_migration
   selenium-webdriver
   sidekiq
   sprockets-rails
