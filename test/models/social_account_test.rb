@@ -1,6 +1,6 @@
 require "test_helper"
 
-class SettingTest < ActiveSupport::TestCase
+class SocialAccountTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

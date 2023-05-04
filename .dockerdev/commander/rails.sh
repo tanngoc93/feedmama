@@ -4,6 +4,9 @@ set -e
 #
 bundle check || bundle install
 
+# Export ERD file (Optional)
+bundle exec erd 
+
 #
 if [ ! -d $APP_DIR/tmp/pids ]; then
   mkdir -p $APP_DIR/tmp/pids

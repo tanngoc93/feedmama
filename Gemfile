@@ -1,8 +1,6 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.1.2"
-
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.4", ">= 7.0.4.3"
 
@@ -46,6 +44,9 @@ gem "koala"
 gem "faraday"
 gem "sidekiq"
 gem "ruby-openai"
+gem "activeadmin"
+gem "devise"
+gem "sass-rails"
 
 # Use Sass to process CSS
 # gem "sassc-rails"
@@ -59,6 +60,8 @@ group :development, :test do
 end
 
 group :development do
+  gem "rails-erd"
+
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 
