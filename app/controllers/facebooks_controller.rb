@@ -75,7 +75,7 @@ class FacebooksController < ApplicationController
 
       return if blocker.present? && blocker.updated_at > 12.hours.ago
 
-      ReplyCommentJob.perform_at(
+      FbReplyCommentJob.perform_at(
         3.minutes.from_now,
         post_id,
         comment_id,
@@ -96,7 +96,7 @@ class FacebooksController < ApplicationController
     end
   end
 
-  def ins_reply_service
+  def ins_reply_service(data)
     media_id = data['media']['id']
     comment = data['text']
     comment_id = data['id']

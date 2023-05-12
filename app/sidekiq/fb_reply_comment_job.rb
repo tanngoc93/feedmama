@@ -1,4 +1,4 @@
-class ReplyCommentJob
+class FbReplyCommentJob
   include Sidekiq::Job
   sidekiq_options retry: 3, dead: false
 
@@ -9,13 +9,13 @@ class ReplyCommentJob
     return unless app_setting.present?
     return unless social_account.present?
 
-    content = ask_openai(app_setting, comment, commentator_name, social_account.search_terms)
+    message = ask_openai(app_setting, comment, commentator_name, social_account.search_terms)
 
     page = Koala::Facebook::API.new( social_account.resource_access_token )
-    page.put_comment(comment_id, content)
+    page.put_comment(comment_id, message)
     page.put_like(comment_id)
   rescue StandardError => e
-    Rails.logger.debug(">>>>> ReplyCommentJob:Perform #{e.message}")
+    Rails.logger.debug(">>>>> FbReplyCommentJob:Perform #{e.message}")
   end
 
   private
@@ -35,6 +35,6 @@ class ReplyCommentJob
 
     response.dig("choices", 0, "message", "content")
   rescue StandardError => e
-    Rails.logger.debug(">>>>> ask_openai: #{e.message}")
+    Rails.logger.debug(">>>>> FbReplyCommentJob:AskOpenAI: #{e.message}")
   end
 end

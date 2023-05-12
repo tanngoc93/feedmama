@@ -24,10 +24,8 @@ class InsReplyCommentJob
         access_token: social_account.resource_access_token
       }.to_json
     end
-
-    Rails.logger.debug(">>>>> ReplyCommentJob:Perform #{response.body}")
   rescue StandardError => e
-    Rails.logger.debug(">>>>> ReplyCommentJob:Perform #{e.message}")
+    Rails.logger.debug(">>>>> InsReplyCommentJob:Perform #{e.message}")
   end
 
   private
@@ -47,6 +45,6 @@ class InsReplyCommentJob
 
     response.dig("choices", 0, "message", "content")
   rescue StandardError => e
-    Rails.logger.debug(">>>>> ask_openai: #{e.message}")
+    Rails.logger.debug(">>>>> InsReplyCommentJob:AskOpenAI: #{e.message}")
   end
 end
