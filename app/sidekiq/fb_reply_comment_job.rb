@@ -9,7 +9,12 @@ class FbReplyCommentJob
     return unless app_setting.present?
     return unless social_account.present?
 
-    message = ask_openai(app_setting, comment, commentator_name, social_account.search_terms)
+    message =
+      if use_openai?(social_account, comment)
+        ask_openai(app_setting, comment, commentator_name, social_account.search_terms)
+      else
+        social_account.basic_comment
+      end
 
     page = Koala::Facebook::API.new( social_account.resource_access_token )
     page.put_comment(comment_id, message)
@@ -19,6 +24,10 @@ class FbReplyCommentJob
   end
 
   private
+
+  def use_openai?(social_account, comment)
+    social_account.use_openai && comment.split.size >= social_account.comment_length
+  end
 
   def ask_openai(app_setting, comment, commentator_name, content)
     client = OpenAI::Client.new( access_token: app_setting.openai_token )
