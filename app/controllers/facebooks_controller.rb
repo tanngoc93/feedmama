@@ -20,12 +20,12 @@ class FacebooksController < ApplicationController
       when "POST"
         data = params['entry'][0]['changes'][0]['value']
 
-        if @social_account.present? && @social_account.facebook?
+        return unless @social_account.present?
+
+        if @social_account.facebook?
           fb_reply_service(data)
-        elsif @social_account.present? && @social_account.facebook?
+        elsif @social_account.instagram?
           ins_reply_service(data)
-        else
-          Rails.logger.debug(">>>>> SocialAccount was not found.")
         end
 
         render :plain => 'Thanks for the update.'
