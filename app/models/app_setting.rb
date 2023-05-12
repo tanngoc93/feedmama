@@ -1,5 +1,4 @@
 class AppSetting < ApplicationRecord
-
   before_create :generate_tokens
 
   private
