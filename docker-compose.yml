@@ -1,10 +1,20 @@
 version: "3.8"
 
 services:
+  adminer:
+    image: adminer
+    ports:
+      - 8888:8080
+    labels:
+      - "traefik.enable=false"
+      - "traefik.docker.network=bridge-network"
+    networks:
+      - bridge-network
+
   db:
     image: mariadb:10.7.4-focal
     environment:
-      MYSQL_ROOT_PASSWORD: 1qazxsw2
+      MYSQL_ROOT_PASSWORD: YourPasswordHere
     volumes:
       - db:/var/lib/mysql
     labels:
@@ -42,10 +52,10 @@ services:
       # for staging environment & uncomment
       # - "--certificatesresolvers.myhttpchallenge.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
       # for production environment & uncomment
-      - "--certificatesresolvers.myhttpchallenge.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
+      # - "--certificatesresolvers.myhttpchallenge.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
       ########################################################################
       # change `email@example.com` to your email & uncomment
-      - "--certificatesresolvers.myhttpchallenge.acme.email=tanngoc93@gmail.com"
+      - "--certificatesresolvers.myhttpchallenge.acme.email=email@example.com"
       ########################################################################
       - "--certificatesresolvers.myhttpchallenge.acme.storage=/letsencrypt/acme.json"
       - "--entrypoints.websecured.address=:443"
@@ -91,26 +101,16 @@ services:
       DATABASE_HOST: db
       DATABASE_PORT: 3306
       DATABASE_USER: root
-      DATABASE_PASSWORD: 1qazxsw2
+      DATABASE_PASSWORD: YourPasswordHere
       REDIS_URL: redis://redis:6379/0
       BUNDLE_PATH: /bundle
       RAILS_ENV: development
-      NODE_ENV: development
       PORT: 3000
-      # 
+      #
       KOALA_ACCESS_TOKEN: ''
       KOALA_APP_ACCESS_TOKEN: ''
-      KOALA_APP_ID: ''
       KOALA_APP_SECRET: ''
-      KOALA_PAGE_ACCESS_TOKEN: ''
-      # 
-      KOALA_GPT_TOKEN: ''
-      # 
-      SECURE_TOKEN: ''
-      # 
-      VERIFY_TOKEN: ''
-      # 
-      PAGE_ID: ''
+      KOALA_APP_ID: ''
     command: /bin/sh ".dockerdev/commander/rails.sh"
     ports:
       - "3000:3000"
@@ -144,26 +144,16 @@ services:
       DATABASE_HOST: db
       DATABASE_PORT: 3306
       DATABASE_USER: root
-      DATABASE_PASSWORD: 1qazxsw2
+      DATABASE_PASSWORD: YourPasswordHere
       REDIS_URL: redis://redis:6379/0
       BUNDLE_PATH: /bundle
       RAILS_ENV: development
-      NODE_ENV: development
       PORT: 3000
-      # 
+      #
       KOALA_ACCESS_TOKEN: ''
       KOALA_APP_ACCESS_TOKEN: ''
-      KOALA_APP_ID: ''
       KOALA_APP_SECRET: ''
-      KOALA_PAGE_ACCESS_TOKEN: ''
-      # 
-      KOALA_GPT_TOKEN: ''
-      # 
-      SECURE_TOKEN: ''
-      # 
-      VERIFY_TOKEN: ''
-      # 
-      PAGE_ID: ''
+      KOALA_APP_ID: ''
     command: /bin/sh ".dockerdev/commander/sidekiq.sh"
     volumes:
       - .:/app

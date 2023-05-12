@@ -7,6 +7,3 @@ Koala.configure do |config|
   # See Koala::Configuration for more options, including details on how to send requests through
   # your own proxy servers.
 end
-
-# curl -i -X POST "https://graph.facebook.com/?/subscribed_apps?subscribed_fields=feed&access_token=?"
-# curl -i -X GET "https://graph.facebook.com/?/subscribed_apps?access_token=?"

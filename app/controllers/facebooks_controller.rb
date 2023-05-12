@@ -20,8 +20,10 @@ class FacebooksController < ApplicationController
       when "POST"
         data = params['entry'][0]['changes'][0]['value']
 
-        if @social_account.present?
-          reply_service(data)
+        if @social_account.present? && @social_account.facebook?
+          fb_reply_service(data)
+        elsif @social_account.present? && @social_account.facebook?
+          ins_reply_service(data)
         else
           Rails.logger.debug(">>>>> SocialAccount was not found.")
         end
@@ -56,7 +58,7 @@ class FacebooksController < ApplicationController
     data['item'] == 'comment' && data['verb'] == 'add'
   end
 
-  def reply_service(data)
+  def fb_reply_service(data)
     post_id = data['post_id']
     comment = data['message']
     comment_id = data['comment_id']
@@ -92,5 +94,39 @@ class FacebooksController < ApplicationController
     else
       Rails.logger.debug('>>>>> SKIP')
     end
+  end
+
+  def ins_reply_service
+    media_id = data['media']['id']
+    comment = data['text']
+    comment_id = data['id']
+    commentator_id = data['from']['id']
+    commentator_name = data['from']['username']
+
+    return if comment.nil? || commentator_id == @social_account&.resource_id
+
+    blocker = Blocker.where(
+      commentator_id: commentator_id,
+      social_account_id: @social_account.id
+    ).first
+
+    return if blocker.present? && blocker.updated_at > 12.hours.ago
+
+    InsReplyCommentJob.perform_at(
+      3.minutes.from_now,
+      media_id,
+      comment_id,
+      comment,
+      commentator_name,
+      @social_account.id,
+      @app_setting.id
+    )
+
+    blocker = Blocker.find_or_create_by(
+      commentator_id: commentator_id,
+      social_account_id: @social_account.id
+    )
+
+    blocker.update(post_id: post_id)
   end
 end
