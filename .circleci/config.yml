@@ -41,7 +41,7 @@ jobs:
           name: Deploy server 
           command: |
             ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
-            ssh $SSH_USER@$SSH_HOST "cd /root/docker/feedmama && ls -al"
+            ssh $SSH_USER@$SSH_HOST "docker pull $DOCKER_IMAGE:$DOCKER_TAG && docker compose -f $DOCKER_COMPOSE_PATH restart"
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
