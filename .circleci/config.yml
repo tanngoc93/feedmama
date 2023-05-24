@@ -12,9 +12,13 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - add_ssh_keys
+
       - setup_remote_docker:
           version: 20.10.18
+
+      - add_ssh_keys:
+          fingerprints:
+            - "85:b7:b1:f0:fa:cc:a5:2b:cf:08:d2:2a:5c:50:67:d1"
 
       - run:
           name: Login to Docker registry
