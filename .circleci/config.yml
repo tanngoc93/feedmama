@@ -21,7 +21,7 @@ jobs:
             - "a9:d7:06:ac:4f:96:df:55:d9:d4:d7:ab:c8:96:46:26"
 
       - run:
-          name: Login to Docker registry
+          name: Login to docker registry
           command: docker login -u $DOCKER_USER -p $DOCKER_PASS
 
       - run:
