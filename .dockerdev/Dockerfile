@@ -1,7 +1,7 @@
 FROM ruby:3.1.2
 
 ENV PORT=3000 \
-    NODE_ENV=production \
+    RAILS_MASTER_KEY=$ARG_RAILS_MASTER_KEY \
     RAILS_ENV=production \
     BUNDLE_PATH=/bundle \
     APP_DIR=/app
