@@ -8,17 +8,13 @@ defaults: &defaults
 version: 2.1
 
 jobs:
-  build:
+  build-docker-image:
     <<: *defaults
     steps:
       - checkout
 
       - setup_remote_docker:
           version: 20.10.18
-
-      - add_ssh_keys:
-          fingerprints:
-            - "a9:d7:06:ac:4f:96:df:55:d9:d4:d7:ab:c8:96:46:26"
 
       - run:
           name: Login to docker registry
@@ -31,19 +27,31 @@ jobs:
       - run:
           name: Push docker image to registry 
           command: docker push tanngoc93/feedmama:latest
-          
+
+  deploy-server:
+    machine:
+      enabled: true
+
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "a9:d7:06:ac:4f:96:df:55:d9:d4:d7:ab:c8:96:46:26"
+
       - run:
-          name: Deploy server 
-          command: |
-            ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
-            ssh $SSH_USER@$SSH_HOST "cd /root/docker/feedmama && ls -al"
+        name: Deploy server 
+        command: |
+          ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
+          ssh $SSH_USER@$SSH_HOST "cd /root/docker/feedmama && ls -al"
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
   build-production-image:
     jobs:
-      - build:
-          filters:
-            branches:
-              only: main
+      - build-docker-image
+      - deploy-server:
+        requires:
+          - build-docker-image
+        filters:
+          branches:
+            only: main
