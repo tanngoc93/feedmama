@@ -1,6 +1,6 @@
 ## Code Status
 
-[![CircleCI](https://circleci.com/gh/tanngoc93/feedmama.svg?style=shield)](https://circleci.com/gh/tanngoc93/feedmama/tree/master) [![codecov](https://codecov.io/gh/tanngoc93/feedmama/branch/master/graph/badge.svg)](https://codecov.io/gh/tanngoc93/feedmama)
+[![CircleCI](https://circleci.com/gh/tanngoc93/feedmama.svg?style=shield)](https://circleci.com/gh/tanngoc93/feedmama/tree/main) [![codecov](https://codecov.io/gh/tanngoc93/feedmama/branch/main/graph/badge.svg)](https://codecov.io/gh/tanngoc93/feedmama)
 
 ## Clone codebase into your computer & sync all of submodules
 
