@@ -31,7 +31,7 @@ jobs:
       - run:
           name: Deploy server 
           command: |
-            ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
+            ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
             ssh $SSH_USER@$SSH_HOST "touch ~/helloworld.txt"
 
 # Orchestrate jobs using workflows
