@@ -36,7 +36,7 @@ jobs:
           name: Deploy server 
           command: |
             ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
-            ssh $SSH_USER@$SSH_HOST "touch ~/helloworld.txt"
+            ssh $SSH_USER@$SSH_HOST "cd /root/docker/feedmama && ls -al"
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
