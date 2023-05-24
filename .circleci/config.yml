@@ -32,6 +32,9 @@ jobs:
           name: Deploy server 
           command: |
             ls ~/.ssh
+            cat ~/.ssh/config
+            cat ~/.ssh/id_rsa.pub
+            ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
             ssh $SSH_USER@$SSH_HOST "touch ~/helloworld.txt"
 
 # Orchestrate jobs using workflows
