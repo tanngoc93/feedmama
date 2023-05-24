@@ -26,6 +26,11 @@ jobs:
       - run:
           name: Push to Docker registry 
           command: docker push tanngoc93/feedmama:latest
+          
+      - run:
+          name: Deploy server 
+          command: |
+            ssh $SSH_USER@$SSH_HOST "touch ~/helloworld.txt"
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
