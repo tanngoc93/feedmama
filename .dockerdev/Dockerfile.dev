@@ -1,7 +1,6 @@
 FROM ruby:3.1.2
 
 ENV PORT=3000 \
-    NODE_ENV=development \
     RAILS_ENV=development \
     BUNDLE_PATH=/bundle \
     APP_DIR=/app
