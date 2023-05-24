@@ -21,7 +21,7 @@ jobs:
 
       - run:
           name: Build image
-          command: docker build --build-arg ARG_RAILS_MASTER_KEY=$ARG_RAILS_MASTER_KEY -t tanngoc93/feedmama:latest .
+          command: docker build --build-arg ARG_RAILS_MASTER_KEY=$ARG_RAILS_MASTER_KEY -t tanngoc93/feedmama:latest  -f .dockerdev/Dockerfile .
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
