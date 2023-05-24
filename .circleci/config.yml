@@ -21,17 +21,17 @@ jobs:
           command: docker login -u $DOCKER_USER -p $DOCKER_PASS
 
       - run:
-          name: Build image
+          name: Build docker image
           command: docker build --build-arg ARG_RAILS_MASTER_KEY=$ARG_RAILS_MASTER_KEY -t tanngoc93/feedmama:latest -f .dockerdev/Dockerfile .
           
       - run:
-          name: Push to Docker registry 
+          name: Push docker image to registry 
           command: docker push tanngoc93/feedmama:latest
           
       - run:
           name: Deploy server 
           command: |
-            ll ~/.ssh
+            ls ~/.ssh
             ssh $SSH_USER@$SSH_HOST "touch ~/helloworld.txt"
 
 # Orchestrate jobs using workflows
