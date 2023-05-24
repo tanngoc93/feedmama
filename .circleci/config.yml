@@ -38,20 +38,20 @@ jobs:
             - "a9:d7:06:ac:4f:96:df:55:d9:d4:d7:ab:c8:96:46:26"
 
       - run:
-        name: Deploy server 
-        command: |
-          ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
-          ssh $SSH_USER@$SSH_HOST "cd /root/docker/feedmama && ls -al"
+          name: Deploy server 
+          command: |
+            ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
+            ssh $SSH_USER@$SSH_HOST "cd /root/docker/feedmama && ls -al"
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
-  build-production-image:
+    build-and-deploy:
     jobs:
-      - build-docker-image
-      - deploy-server:
-        requires:
-          - build-docker-image
-        filters:
-          branches:
-            only: main
+        - build-docker-image
+        - deploy-server:
+            requires:
+            - build-docker-image # only deploy once build job has completed
+            filters:
+            branches:
+                only: main # only deploy on the main branch
