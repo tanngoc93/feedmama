@@ -4,7 +4,7 @@ class SocialAccount < ApplicationRecord
     instagram: 'instagram',
   }
 
-  after_save :refresh_access_token
+  after_commit :refresh_access_token
 
   private
 
