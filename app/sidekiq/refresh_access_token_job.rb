@@ -10,9 +10,9 @@ class RefreshAccessTokenJob
     if social_account.present? && social_account.facebook?
       access_token = refresh_token(social_account)
 
-      social_accounts = SocialAccount.where(resource_access_token: social_account.resource_access_token).all
+      social_accounts = SocialAccount.where(resource_access_token: social_account.resource_access_token)
 
-      social_accounts.each do |account|
+      social_accounts&.each do |account|
         account.update(resource_access_token: access_token)
       end
     else
