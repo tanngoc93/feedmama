@@ -7,8 +7,14 @@ class RefreshAccessTokenJob
   def perform(id)
     social_account = SocialAccount.find_by(id: id)
 
-    if social_account.present?
-      social_account.update!(resource_access_token: refresh_token(social_account))
+    if social_account.present? && social_account.facebook?
+      access_token = refresh_token(social_account)
+
+      social_accounts = SocialAccount.where(resource_access_token: social_account.resource_access_token).all
+
+      social_accounts.each do |account|
+        account.update(resource_access_token: access_token)
+      end
     else
       Rails.logger.debug(">>>>> RefreshAccessTokenJob:Perform AppSetting was not found!")
     end
