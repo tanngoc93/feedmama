@@ -20,7 +20,18 @@ git clone ...
 
 ## Note
 
+``` html
+pages_show_list
+pages_messaging
+instagram_basic
+instagram_manage_comments
+pages_read_engagement
+pages_manage_metadata
+pages_read_user_content
+pages_manage_engagement
 ```
+
+``` html
 curl -i -X POST "https://graph.facebook.com/[FacebookPageId]/subscribed_apps?subscribed_fields=feed&access_token=[AccessToken]"
 curl -i -X GET "https://graph.facebook.com/[FacebookPageId]/subscribed_apps?access_token=[AccessToken]"
 curl -i -X POST "https://graph.facebook.com/[InsCommentId]/replies?message=[Message]&access_token=[AccessToken]"
