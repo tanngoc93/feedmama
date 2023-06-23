@@ -73,7 +73,7 @@ class FacebooksController < ApplicationController
         social_account_id: @social_account.id
       ).first
 
-      return if blocker.present? && blocker.updated_at > 12.hours.ago
+      return if blocker.present? && blocker.updated_at > 3.hours.ago
 
       FbReplyCommentJob.perform_at(
         3.minutes.from_now,
@@ -110,7 +110,7 @@ class FacebooksController < ApplicationController
       social_account_id: @social_account.id
     ).first
 
-    return if blocker.present? && blocker.updated_at > 12.hours.ago
+    return if blocker.present? && blocker.updated_at > 3.hours.ago
 
     InsReplyCommentJob.perform_at(
       3.minutes.from_now,

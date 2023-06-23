@@ -13,7 +13,11 @@ class FbReplyCommentJob
       if use_openai?(social_account, comment)
         ask_openai(app_setting, comment, commentator_name, social_account.search_terms)
       else
-        social_account.basic_comment
+        if social_account.auto_comments.any?
+          social_account.auto_comments.sample.content
+        else
+          social_account.basic_comment
+        end
       end
 
     page = Koala::Facebook::API.new( social_account.resource_access_token )

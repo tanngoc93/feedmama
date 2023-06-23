@@ -1,4 +1,6 @@
 class SocialAccount < ApplicationRecord
+  has_many :auto_comments
+
   enum resource_platform: {
     facebook: 'facebook',
     instagram: 'instagram',

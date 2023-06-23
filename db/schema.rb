@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_15_060201) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_23_082844) do
   create_table "active_admin_comments", charset: "utf8mb4", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -45,6 +45,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_15_060201) do
     t.string "openai_model"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "auto_comments", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
+    t.text "content"
+    t.bigint "social_account_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["social_account_id"], name: "index_auto_comments_on_social_account_id"
   end
 
   create_table "blockers", charset: "utf8mb4", force: :cascade do |t|

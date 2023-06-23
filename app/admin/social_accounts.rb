@@ -12,6 +12,7 @@ ActiveAdmin.register SocialAccount do
 
   index do
     selectable_column
+    column :id
     column :resource_platform
     column :use_openai
     column :resource_id
