@@ -7,6 +7,8 @@ ActiveAdmin.register AppSetting do
     id_column
     column :verify_token
     column :secured_token
+    column :openai_model
+    column :openai_type
     column :status
     actions
   end
@@ -15,6 +17,9 @@ ActiveAdmin.register AppSetting do
     attributes_table do
       row :secured_token
       row :verify_token
+      row :openai_model
+      row :openai_type
+      row :openai_api_version
       row :status
     end
   end
@@ -25,6 +30,9 @@ ActiveAdmin.register AppSetting do
     f.inputs do
       f.input :openai_token
       f.input :openai_model
+      f.input :openai_uri
+      f.input :openai_type
+      f.input :openai_api_version
       f.input :status
     end
     f.actions

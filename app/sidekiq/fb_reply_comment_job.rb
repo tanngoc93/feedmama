@@ -34,7 +34,12 @@ class FbReplyCommentJob
   end
 
   def ask_openai(app_setting, comment, commentator_name, content)
-    client = OpenAI::Client.new( access_token: app_setting.openai_token )
+    client = OpenAI::Client.new(
+      access_token: app_setting.openai_token,
+      uri_base: app_setting.openai_uri,
+      api_type: app_setting.openai_type.to_sym,
+      api_version: openai_api_version
+    )
 
     content = content.sub('#comment', comment)
     content = content.sub('#fullName', commentator_name)
