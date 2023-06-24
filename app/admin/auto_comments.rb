@@ -1,5 +1,5 @@
 ActiveAdmin.register AutoComment do
-  menu priority: 2, label: 'Auto Comment'
+  menu priority: 4, label: 'AutoComments Property'
   permit_params :content
                 :social_account_id
 
