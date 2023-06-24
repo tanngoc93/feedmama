@@ -44,7 +44,7 @@ gem "bootsnap", require: false
 gem "activeadmin"
 
 #
-gem "ruby-openai"
+gem "ruby-openai", "~> 4.2.0"
 
 #
 gem "koala"
