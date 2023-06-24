@@ -53,7 +53,7 @@ class FbReplyCommentJob
         temperature: 0.7,
       })
 
-    result = response.dig("choices", 0, "message", "result")
+    result = response.dig("choices", 0, "message", "content")
 
     return false unless result.is_a? String
 
