@@ -49,11 +49,15 @@ class FbReplyCommentJob
     response = client.chat(
       parameters: {
         model: app_setting.openai_model,
-        messages: [{ role: "user", content: 'content' }],
+        messages: [{ role: "user", content: content }],
         temperature: 0.7,
       })
 
-    response.dig("choices", 0, "message", "content")
+    result = response.dig("choices", 0, "message", "result")
+
+    return false unless result.is_a? String
+
+    "#{result} (I'm a Bot, kindly overlook any mistakes I make. Come find me at www.AllLoveHere.com)"
   rescue StandardError => e
     Rails.logger.debug(">>>>> FbReplyCommentJob:AskOpenAI: #{e.message}")
   end

@@ -63,7 +63,11 @@ class InsReplyCommentJob
         temperature: 0.7,
       })
 
-    response.dig("choices", 0, "message", "content")
+    result = response.dig("choices", 0, "message", "result")
+
+    return false unless result.is_a? String
+
+    "#{result} (I'm a Bot, kindly overlook any mistakes I make. Come find me at www.AllLoveHere.com)"
   rescue StandardError => e
     Rails.logger.debug(">>>>> InsReplyCommentJob:AskOpenAI: #{e.message}")
   end
