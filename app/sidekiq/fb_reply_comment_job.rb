@@ -58,7 +58,7 @@ class FbReplyCommentJob
 
   def set_openai_config(app_setting)
     OpenAI.configure do |config|
-      config.api_type = app_setting.openai_type
+      config.api_type = app_setting.openai_type.to_sym
       config.api_version = app_setting.openai_api_version
     end
   end
