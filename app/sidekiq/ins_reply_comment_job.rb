@@ -20,6 +20,8 @@ class InsReplyCommentJob
         end
       end
 
+    return unless message.is_a? String
+
     conn = Faraday.new(
       url: "https://graph.facebook.com/#{comment_id}/replies",
       headers: {

@@ -20,6 +20,8 @@ class FbReplyCommentJob
         end
       end
 
+    return unless message.is_a? String
+
     page = Koala::Facebook::API.new( social_account.resource_access_token )
     page.put_comment(comment_id, message)
     page.put_like(comment_id)
@@ -47,7 +49,7 @@ class FbReplyCommentJob
     response = client.chat(
       parameters: {
         model: app_setting.openai_model,
-        messages: [{ role: "user", content: content }],
+        messages: [{ role: "user", content: 'content' }],
         temperature: 0.7,
       })
 
