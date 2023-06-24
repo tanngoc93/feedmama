@@ -38,7 +38,7 @@ class FbReplyCommentJob
       access_token: app_setting.openai_token,
       uri_base: app_setting.openai_uri,
       api_type: app_setting.openai_type.to_sym,
-      api_version: openai_api_version
+      api_version: app_setting.openai_api_version
     )
 
     content = content.sub('#comment', comment)
