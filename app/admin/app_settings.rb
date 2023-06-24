@@ -1,6 +1,11 @@
 ActiveAdmin.register AppSetting do
   menu priority: 2, label: 'AppSettings Property'
-  permit_params :status, :verify_token, :secured_token, :openai_token, :openai_model
+  permit_params :status,
+                :openai_token,
+                :openai_model,
+                :openai_uri,
+                :openai_type,
+                :openai_api_version
 
   index do
     selectable_column
