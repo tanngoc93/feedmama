@@ -44,11 +44,11 @@ class InsReplyCommentJob
   end
 
   def ask_openai(app_setting, comment, commentator_name, content)
+    set_openai_config(app_setting)
+
     client = OpenAI::Client.new(
       access_token: app_setting.openai_token,
-      uri_base: app_setting.openai_uri,
-      api_type: app_setting.openai_type.to_sym,
-      api_version: app_setting.openai_api_version
+      uri_base: app_setting.openai_uri
     )
 
     content = content.sub('#comment', comment)
@@ -64,5 +64,12 @@ class InsReplyCommentJob
     response.dig("choices", 0, "message", "content")
   rescue StandardError => e
     Rails.logger.debug(">>>>> InsReplyCommentJob:AskOpenAI: #{e.message}")
+  end
+
+  def set_openai_config(app_setting)
+    OpenAI.configure do |config|
+      config.api_type = app_setting.openai_type
+      config.api_version = app_setting.openai_api_version
+    end
   end
 end
