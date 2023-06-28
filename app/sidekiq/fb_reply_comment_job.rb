@@ -11,20 +11,14 @@ class FbReplyCommentJob
 
     message =
       if use_openai?(social_account, comment)
-        ask_openai(app_setting, comment, commentator_name, social_account.search_terms)
+        OpenaiCreator.call(app_setting, social_account, commentator_name, comment)
       else
-        if social_account.auto_comments.any?
-          social_account.auto_comments.sample.content
-        else
-          social_account.basic_comment
-        end
+        social_account&.auto_comments&.sample&.content || social_account&.basic_comment
       end
 
     return unless message.is_a? String
 
-    page = Koala::Facebook::API.new( social_account.resource_access_token )
-    page.put_comment(comment_id, message)
-    page.put_like(comment_id)
+    FacebookCommentator.call(social_account, comment_id, message)
   rescue StandardError => e
     Rails.logger.debug(">>>>> FbReplyCommentJob:Perform #{e.message}")
   end
@@ -33,39 +27,5 @@ class FbReplyCommentJob
 
   def use_openai?(social_account, comment)
     social_account.use_openai && comment.split.size >= social_account.comment_length
-  end
-
-  def ask_openai(app_setting, comment, commentator_name, content)
-    set_openai_config(app_setting)
-
-    client = OpenAI::Client.new(
-      access_token: app_setting.openai_token,
-      uri_base: app_setting.openai_uri
-    )
-
-    content = content.sub('#comment', comment)
-    content = content.sub('#fullName', commentator_name)
-
-    response = client.chat(
-      parameters: {
-        model: app_setting.openai_model,
-        messages: [{ role: "user", content: content }],
-        temperature: 0.7,
-      })
-
-    result = response.dig("choices", 0, "message", "content")
-
-    return false unless result.is_a? String
-
-    "#{result} (I'm a Bot, kindly overlook any mistakes I make. Come find me at www.AllLoveHere.com)"
-  rescue StandardError => e
-    Rails.logger.debug(">>>>> FbReplyCommentJob:AskOpenAI: #{e.message}")
-  end
-
-  def set_openai_config(app_setting)
-    OpenAI.configure do |config|
-      config.api_type = app_setting.openai_type.to_sym
-      config.api_version = app_setting.openai_api_version
-    end
   end
 end
