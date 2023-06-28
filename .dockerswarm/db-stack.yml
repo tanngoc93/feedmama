@@ -1,0 +1,59 @@
+version: "3.8"
+
+networks:
+  db-network:
+    driver: overlay
+    external: true
+
+services:
+  mariadb:
+    image: mariadb:10.7.4-focal
+    volumes:
+      - "db:/var/lib/mysql"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_PASSWORD:      "${MYSQL_PASSWORD}"
+      MYSQL_DATABASE:      "${MYSQL_DATABASE}"
+      MYSQL_USER:          "${MYSQL_USER}"
+    networks:
+      - db-network
+    deploy:
+      resources:
+        limits:
+          memory: 2048M
+        reservations:
+          memory: 512M
+      mode: replicated
+      replicas: 1
+      labels:
+        - "traefik.enable=true"
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: any
+
+  redis:
+    image: redis:7.0.11
+    command: redis-server --appendonly yes
+    volumes:
+      - "data:/data"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      - db-network
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 64M
+      mode: replicated
+      replicas: 1
+      labels:
+        - "traefik.enable=false"
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: any

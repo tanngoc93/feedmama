@@ -1,0 +1,34 @@
+version: "3.8"
+
+networks:
+  traefik-network:
+    driver: overlay
+    external: true
+
+services:
+  feedmama-sidekiq:
+    image: tanngoc93/feedmama:latest
+    working_dir: /app
+    environment:
+      RAILS_MASTER_KEY: "${FEED_MAMA_MASTER_KEY}"
+      #
+      DATABASE_POOL:     "${FEED_MAMA_DB_POOL}"
+      DATABASE_HOST:     "${FEED_MAMA_DB_HOST}"
+      DATABASE_PORT:     "${FEED_MAMA_DB_PORT}"
+      DATABASE_USER:     "${FEED_MAMA_DB_USER}"
+      DATABASE_PASSWORD: "${FEED_MAMA_DB_PASSWORD}"
+      REDIS_URL:         "${FEED_MAMA_REDIS_URL}"
+      RAILS_ENV:         "${FEED_MAMA_RAILS_ENV}"
+      PORT: 3000
+      #
+      KOALA_APP_ID:      "${FEED_MAMA_KOALA_APP_ID}"
+      KOALA_APP_SECRET:  "${FEED_MAMA_KOALA_KOALA_APP_SECRET}"
+    command: /bin/sh "/app/.dockerdev/commander/sidekiq.sh"
+    depends_on:
+      - db
+      - redis
+    labels:
+      - "traefik.enable=false"
+      - "traefik.docker.network=bridge-network"
+    networks:
+      - bridge-network
