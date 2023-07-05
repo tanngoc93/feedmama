@@ -58,10 +58,10 @@ workflows:
   build-and-deploy:
     jobs:
       - build-docker-image
-      - deploy-server:
-          requires:
-            - build-docker-image # only deploy once build job has completed
-          filters:
-            branches:
-              only: main
+      # - deploy-server:
+      #     requires:
+      #       - build-docker-image # only deploy once build job has completed
+      #     filters:
+      #       branches:
+      #         only: main
 
