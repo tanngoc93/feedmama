@@ -22,7 +22,7 @@ ActiveAdmin.register AutoComment do
   form do |f|
     f.inputs do
       f.input :content
-      f.input :social_account_id, as: :select, collection: SocialAccount.all.collect { |item| [set_resource_name(item), item.id] }
+      f.input :social_account_id, as: :select, collection: SocialAccount.all.collect { |item| ["#{item.resource_name} (#{item.resource_platform.capitalize})", item.id] }
     end
     f.actions
   end
@@ -30,14 +30,6 @@ ActiveAdmin.register AutoComment do
   controller do
     def permitted_params
       params.permit auto_comment: [:content, :social_account_id]
-    end
-
-    def set_resource_name(item)
-      if item.instagram?
-        "#{item.resource_name} (Instagram)"
-      else
-        item.resource_name
-      end
     end
   end
 end
