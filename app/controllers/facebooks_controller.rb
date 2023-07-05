@@ -127,6 +127,6 @@ class FacebooksController < ApplicationController
       social_account_id: @social_account.id
     )
 
-    blocker.update(post_id: post_id)
+    blocker.update(post_id: media_id)
   end
 end
