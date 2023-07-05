@@ -12,7 +12,14 @@ class SocialAccount < ApplicationRecord
 
   def refresh_access_token
     if facebook? && saved_change_to_resource_access_token?
-      RefreshAccessTokenJob.perform_at(45.days.from_now, id)
+      remove_scheduled && RefreshAccessTokenJob.perform_at(45.days.from_now, id)
     end
+  end
+
+  def remove_scheduled
+    scheduled_set = Sidekiq::ScheduledSet.new
+    scheduled_set.select do |scheduled|
+      scheduled.klass == 'RefreshAccessTokenJob' && scheduled.args[0] == id
+    end.map(&:delete)
   end
 end
