@@ -1,5 +1,7 @@
 class SocialAccount < ApplicationRecord
   has_many :auto_comments
+  has_one :social_account, class_name: 'SocialAccount', foreign_key: 'parent_social_account_id'
+  belongs_to :parent_social_account, class_name: 'SocialAccount', foreign_key: 'parent_social_account_id', optional: true
 
   enum resource_platform: {
     facebook: 'facebook',

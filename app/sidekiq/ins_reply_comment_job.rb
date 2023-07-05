@@ -13,7 +13,12 @@ class InsReplyCommentJob
       if use_openai?(social_account, comment)
         OpenaiCreator.call(app_setting, social_account, commentator_name, comment)
       else
-        social_account&.auto_comments&.sample&.content || social_account&.basic_comment
+        if social_account&.parent_social_account.present?
+          parent_social_account = social_account&.parent_social_account
+          parent_social_account&.auto_comments&.sample&.content || parent_social_account&.basic_comment
+        else
+          social_account&.auto_comments&.sample&.content || social_account&.basic_comment
+        end
       end
 
     return unless message.is_a? String

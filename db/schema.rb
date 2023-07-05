@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_24_135915) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_05_100423) do
   create_table "active_admin_comments", charset: "utf8mb4", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -95,6 +95,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_24_135915) do
     t.boolean "use_openai", default: false
     t.text "basic_comment"
     t.integer "comment_length", default: 0
+    t.bigint "parent_social_account_id"
+    t.index ["parent_social_account_id"], name: "index_social_accounts_on_parent_social_account_id"
   end
 
 end
