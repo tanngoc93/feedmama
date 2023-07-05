@@ -43,8 +43,8 @@ class OpenaiCreator < ApplicationService
     api_version = app_setting&.openai_api_version
 
     OpenAI.configure do |config|
-      config.api_type = type.present? type.to_sym : nil
-      config.api_version = api_version.present? api_version : nil
+      config.api_type = type.present? ? type.to_sym : nil
+      config.api_version = api_version.present? ? api_version : nil
     end
 
     OpenAI::Client.new(access_token: app_setting&.openai_token, uri_base: app_setting&.openai_uri)
