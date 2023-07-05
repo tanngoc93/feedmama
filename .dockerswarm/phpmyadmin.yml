@@ -1,0 +1,42 @@
+version: "3.8"
+
+networks:
+  traefik-network:
+    driver: overlay
+    external: true
+
+  db-network:
+    driver: overlay
+    external: true
+
+services:
+  phpmyadmin:
+    image: phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - UPLOAD_LIMIT=128M
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik-network"
+        - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+        #
+        - "traefik.http.routers.phpmyadmin-http.rule=Host(`domain.com`)"
+        - "traefik.http.routers.phpmyadmin-http.entrypoints=web"
+        - "traefik.http.routers.phpmyadmin-http.middlewares=redirect-to-https@docker"
+        #
+        - "traefik.http.services.phpmyadmin-service.loadbalancer.server.port=80"
+        #
+        - "traefik.http.routers.phpmyadmin-secured.rule=Host(`domain.com`)"
+        - "traefik.http.routers.phpmyadmin-secured.entrypoints=websecured"
+        - "traefik.http.routers.phpmyadmin-secured.tls.certresolver=myhttpchallenge"
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: any
+    networks:
+      - traefik-network
+      - db-network

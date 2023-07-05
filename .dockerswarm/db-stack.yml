@@ -12,7 +12,7 @@ services:
       - "db:/var/lib/mysql"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     environment:
-      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     networks:
       - db-network
     deploy:

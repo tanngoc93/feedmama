@@ -9,8 +9,8 @@ services:
   traefik:
     image: traefik:v2.6.6
     volumes:
-      - "/root/www/traefik/letsencrypt:/letsencrypt"
-      - "/root/www/traefik/traefik.toml:/etc/traefik/traefik.toml"
+      - "/www/traefik/letsencrypt:/letsencrypt"
+      - "/www/traefik/traefik.toml:/etc/traefik/traefik.toml"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     networks:
       - traefik-network
@@ -33,13 +33,13 @@ services:
         - "traefik.docker.network=traefik-network"
         - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
         #
-        - "traefik.http.routers.proxy.rule=Host(`traefik.${DOMAIN}`)"
+        - "traefik.http.routers.proxy.rule=Host(`domain.com`)"
         - "traefik.http.routers.proxy.entrypoints=web"
         - "traefik.http.routers.proxy.middlewares=redirect-to-https@docker"
-        # 
+        #
         - "traefik.http.services.proxy-svc.loadbalancer.server.port=8080"
-        # 
-        - "traefik.http.routers.proxy-secured.rule=Host(`traefik.${DOMAIN}`)"
+        #
+        - "traefik.http.routers.proxy-secured.rule=Host(`domain.com`)"
         - "traefik.http.routers.proxy-secured.entrypoints=websecured"
         - "traefik.http.routers.proxy-secured.service=api@internal"
         - "traefik.http.routers.proxy-secured.tls=true"

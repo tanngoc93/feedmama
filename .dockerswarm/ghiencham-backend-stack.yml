@@ -22,6 +22,7 @@ services:
     volumes:
       - /www/ghiencham/wp-content:/usr/src/wordpress/wp-content
       - /www/ghiencham/wp-config/wp-config.php:/usr/src/wordpress/wp-config.php
+      - /www/ghiencham/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     deploy:
       mode: replicated
       replicas: 1
@@ -29,14 +30,14 @@ services:
         - "traefik.enable=true"
         - "traefik.docker.network=traefik-network"
         - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-        # 
+        #
         - "traefik.http.routers.ghiencham-http.rule=Host(`domain.com`, `www.domain.com`)"
         - "traefik.http.routers.ghiencham-http.entrypoints=web"
         - "traefik.http.routers.ghiencham-http.middlewares=redirect-to-https@docker"
         #
         - "traefik.http.services.ghiencham-service.loadbalancer.server.port=80"
-        # 
-        - "traefik.http.routers.ghiencham-secured.rule=Host(`domain.com`, `www.domain.com`)"
+        #
+        - "traefik.http.routers.ghiencham-secured.rule=Host(`domain.com`)"
         - "traefik.http.routers.ghiencham-secured.entrypoints=websecured"
         - "traefik.http.routers.ghiencham-secured.tls.certresolver=myhttpchallenge"
       update_config:
