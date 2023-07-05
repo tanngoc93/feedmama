@@ -45,12 +45,12 @@ jobs:
       - run:
           name: Deploy sidekiq 
           command: |
-            ssh $SSH_USER@$SSH_HOST "docker stack deploy --with-registry-auth -c $DOCKER_COMPOSE_PATH/feedmama-sidekiq-stack.yml feedmama_"
+            ssh $SSH_USER@$SSH_HOST "docker stack deploy --with-registry-auth -c $DOCKER_COMPOSE_SIDEKIQ"
 
       - run:
           name: Deploy backend 
           command: |
-            ssh $SSH_USER@$SSH_HOST "docker stack deploy --with-registry-auth -c $DOCKER_COMPOSE_PATH/feedmama-backend-stack.yml feedmama_"
+            ssh $SSH_USER@$SSH_HOST "docker stack deploy --with-registry-auth -c $DOCKER_COMPOSE_RAILS"
 
       - run:
           name: Clean server 
