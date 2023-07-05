@@ -31,15 +31,13 @@ ActiveAdmin.register AutoComment do
     def permitted_params
       params.permit auto_comment: [:content, :social_account_id]
     end
-  end
 
-  private
-
-  def set_resource_name(item)
-    if item.instagram?
-      "#{item.resource_name} (Instagram)"
-    else
-      item.resource_name
+    def set_resource_name(item)
+      if item.instagram?
+        "#{item.resource_name} (Instagram)"
+      else
+        item.resource_name
+      end
     end
   end
 end
