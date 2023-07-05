@@ -14,7 +14,6 @@ git clone ...
 * MySQL
 * Redis server
 * Ruby version: 3.1.2
-
 * Rails version: 7.0.4
 * Docker/Docker Compose
 
@@ -29,10 +28,11 @@ pages_read_engagement
 pages_manage_metadata
 pages_read_user_content
 pages_manage_engagement
+pages_manage_engagement
+business_management
 ```
 
 ``` html
 curl -i -X POST "https://graph.facebook.com/[FacebookPageId]/subscribed_apps?subscribed_fields=feed&access_token=[AccessToken]"
 curl -i -X GET "https://graph.facebook.com/[FacebookPageId]/subscribed_apps?access_token=[AccessToken]"
-curl -i -X POST "https://graph.facebook.com/[InsCommentId]/replies?message=[Message]&access_token=[AccessToken]"
 ```
