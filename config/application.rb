@@ -19,10 +19,12 @@ module FeedMama
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
+    config.active_support.escape_html_entities_in_json = false
     config.session_store :cookie_store, key: '_interslice_session'
     config.middleware.use ActionDispatch::Cookies # Required for all session management
     config.middleware.use ActionDispatch::Session::CookieStore, config.session_options
 
     config.hosts << "feedmama.markiee.co"
+    config.hosts << "5e0e-116-100-44-186.ngrok-free.app"
   end
 end
