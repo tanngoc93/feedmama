@@ -12,15 +12,15 @@ Rails.application.routes.draw do
 
   # 
   devise_for :users,
-    path: '',
+    path: "",
     path_names: {
-      sign_in: 'login',
-      sign_out: 'logout',
-      sign_up: 'resgistration',
-      edit: 'profile'
+      sign_in: "login",
+      sign_out: "logout",
+      sign_up: "resgistration",
+      edit: "profile"
     },
     controllers: {
-      omniauth_callbacks: 'omniauth_callbacks'
+      omniauth_callbacks: "omniauth_callbacks"
     }
 
   #
@@ -29,7 +29,6 @@ Rails.application.routes.draw do
   post "webhooks/:secured_token", to: "facebooks#subscription"
 
   # 
-  get  "oauth", to: "omniauth2_callbacks#oauth"
-  get  "oauth_callback", to: "omniauth2_callbacks#oauth_callback"
-  get  "oauth_callback_2", to: "omniauth2_callbacks#oauth_callback_2"
+  get  "social_accounts/facebook/code", to: "social_accounts#facebook_oauth_code"
+  get  "social_accounts/facebook/callback", to: "social_accounts#facebook_oauth_callback"
 end

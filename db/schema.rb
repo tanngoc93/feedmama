@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_08_062214) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_11_050657) do
   create_table "active_admin_comments", charset: "utf8mb4", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -96,7 +96,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_08_062214) do
     t.text "basic_comment"
     t.integer "comment_length", default: 0
     t.bigint "parent_social_account_id"
+    t.integer "user_id"
     t.index ["parent_social_account_id"], name: "index_social_accounts_on_parent_social_account_id"
+    t.index ["user_id"], name: "index_social_accounts_on_user_id"
   end
 
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
