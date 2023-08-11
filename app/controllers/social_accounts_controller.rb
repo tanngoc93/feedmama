@@ -16,11 +16,13 @@ class SocialAccountsController < ApplicationController
       Rails.logger.debug(">>>>>> AccessToken = #{JSON.parse(request.body)['access_token']}")
 
       pages.each do |page|
-        current_user.social_accounts.find_or_create_by(
+        account = current_user.social_accounts.find_or_create_by(
           resource_id: page['id'],
           resource_name: page['name'],
           resource_platform: 'facebook'
         )
+
+        account&.update(resource_access_token: page['access_token'])
       end
 
       redirect_to root_path, notice: 'Successfully'
