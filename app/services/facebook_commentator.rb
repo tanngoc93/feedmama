@@ -10,10 +10,26 @@ class FacebookCommentator < ApplicationService
   end
 
   def call
-    return unless @social_account.present?
+    put_comment(@social_account, @comment_id, @message)
+  end
 
-    page = Koala::Facebook::API.new( @social_account.resource_access_token )
-    page.put_comment(@comment_id, @message)
-    page.put_like(@comment_id)
+  private
+
+  def put_comment(social_account, comment_id, message)
+    return unless social_account.present?
+
+    conn = Faraday.new(
+      url: "https://graph.facebook.com/#{ FB_VERSION }/#{ comment_id }/comments",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    )
+
+    response = conn.post do |req|
+      req.body = {
+        message: message,
+        access_token: social_account.resource_access_token
+      }.to_json
+    end
   end
 end

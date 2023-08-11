@@ -43,7 +43,7 @@ class FacebooksController < ApplicationController
   end
 
   def find_social_account
-    return if request.method != "POST"
+    return unless request.method == "POST"
 
     resource_id = params["entry"][0]["id"]
 
@@ -74,7 +74,7 @@ class FacebooksController < ApplicationController
         social_account_id: @social_account.id
       ).first
 
-      return if blocker.present? && blocker.updated_at > 3.hours.ago
+      # return if blocker.present? && blocker.updated_at > 3.hours.ago
 
       FbReplyCommentJob.perform_at(
         3.minutes.from_now,
@@ -102,7 +102,7 @@ class FacebooksController < ApplicationController
     comment = data["text"]
     comment_id = data["id"]
     commentator_id = data["from"]["id"]
-    commentator_name = data["from"]["username"]
+    commentator_name   = data["from"]["username"]
 
     return if comment.nil? || commentator_id == @social_account&.resource_id
 

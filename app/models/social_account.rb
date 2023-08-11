@@ -9,10 +9,9 @@ class SocialAccount < ApplicationRecord
     instagram: "instagram",
   }
 
-  after_save :refresh_access_token
-
   private
 
+  # not use at this time
   def refresh_access_token
     if facebook? && saved_change_to_resource_access_token?
       remove_scheduled && RefreshAccessTokenJob.perform_at(45.days.from_now, id)

@@ -26,7 +26,7 @@ class RefreshAccessTokenJob
 
   def refresh_token(social_account)
     conn = Faraday.new(
-      url: "https://graph.facebook.com/#{FB_VERSION}/oauth/access_token",
+      url: "https://graph.facebook.com/#{ FB_VERSION }/oauth/access_token",
       headers: {
         "Content-Type": "application/json"
       },

@@ -10,16 +10,16 @@ class InstagramCommentator < ApplicationService
   end
 
   def call
-    return unless @social_account.present?
-
     put_comment(@social_account, @comment_id, @message)
   end
 
   private
 
   def put_comment(social_account, comment_id, message)
+    return unless social_account.present?
+
     conn = Faraday.new(
-      url: "https://graph.facebook.com/#{comment_id}/replies",
+      url: "https://graph.facebook.com/#{ FB_VERSION }/#{ comment_id }/replies",
       headers: {
         "Content-Type": "application/json"
       }

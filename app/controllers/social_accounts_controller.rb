@@ -52,7 +52,7 @@ class SocialAccountsController < ApplicationController
 
   def get_facebook_access_token(code)
     conn = Faraday.new(
-      url: "https://graph.facebook.com/#{ ENV.fetch("FB_VERSION") {"v16.0"} }/oauth/access_token?redirect_uri=#{ callback_url }&client_id=#{ Koala.config.app_id }&client_secret=#{ Koala.config.app_secret }&code=#{ code }",
+      url: "https://graph.facebook.com/#{ FB_VERSION }/oauth/access_token?redirect_uri=#{ callback_url }&client_id=#{ Koala.config.app_id }&client_secret=#{ Koala.config.app_secret }&code=#{ code }",
       headers: {
         "Content-Type": "application/json"
       }
