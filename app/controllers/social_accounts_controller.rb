@@ -24,6 +24,8 @@ class SocialAccountsController < ApplicationController
           resource_platform: "facebook"
         )
 
+        set_subscribed_fields(page["id"], page["access_token"])
+
         account&.update(resource_access_token: page["access_token"])
       end
 
@@ -59,5 +61,16 @@ class SocialAccountsController < ApplicationController
     )
 
     conn.get
+  end
+
+  def set_subscribed_fields(page_id, access_token)
+    conn = Faraday.new(
+      url: "https://graph.facebook.com/#{ FB_VERSION }/#{ page_id }/subscribed_apps?subscribed_fields=feed&access_token=#{ access_token }",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    )
+
+    conn.post
   end
 end
