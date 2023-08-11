@@ -22,7 +22,7 @@ ActiveAdmin.register AutoComment do
   form do |f|
     f.inputs do
       f.input :content
-      f.input :social_account_id, as: :select, collection: SocialAccount.all.collect { |item| ["#{item.resource_name} (#{item.resource_platform.capitalize})", item.id] }
+      f.input :social_account_id, as: :select, collection: SocialAccount.where(status: true).collect { |item| ["#{item.resource_name} (#{item.resource_platform.capitalize})", item.id] }
     end
     f.actions
   end

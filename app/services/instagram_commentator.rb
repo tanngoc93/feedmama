@@ -21,7 +21,7 @@ class InstagramCommentator < ApplicationService
     conn = Faraday.new(
       url: "https://graph.facebook.com/#{comment_id}/replies",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       }
     )
 

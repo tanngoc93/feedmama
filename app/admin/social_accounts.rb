@@ -15,6 +15,7 @@ ActiveAdmin.register SocialAccount do
     selectable_column
     column :id
     column :resource_platform
+    column :status
     column :use_openai
     column :resource_id
     column :resource_name
@@ -40,7 +41,7 @@ ActiveAdmin.register SocialAccount do
   form do |f|
     f.inputs do
       f.input :resource_platform, as: :select, label: "Platform"
-      f.input :parent_social_account_id, as: :select, collection: SocialAccount.where(resource_platform: :facebook).collect { |item| ["#{item.resource_name} (#{item.resource_platform.capitalize})", item.id] }, label: "Facebook Page(If Instagram Platform)"
+      f.input :parent_social_account_id, as: :select, collection: SocialAccount.where(resource_platform: :facebook, status: true).collect { |item| ["#{item.resource_name} (#{item.resource_platform.capitalize})", item.id] }, label: "Facebook Page(If Instagram Platform)"
       f.input :resource_id, label: "Page/Connected Instagram ID"
       f.input :resource_name, label: "Page/Instagram Name"
       f.input :resource_access_token, label: "Access Token"

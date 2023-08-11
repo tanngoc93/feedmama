@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_11_050657) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_11_080546) do
   create_table "active_admin_comments", charset: "utf8mb4", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -48,6 +48,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_11_050657) do
     t.string "openai_uri"
     t.string "openai_type"
     t.string "openai_api_version"
+    t.string "facebook_permissions"
   end
 
   create_table "auto_comments", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|

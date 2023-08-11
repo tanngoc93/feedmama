@@ -20,7 +20,8 @@ class OpenaiCreator < ApplicationService
         model: app_setting.openai_model,
         messages: [{ role: "user", content: content_builder }],
         temperature: 0.7,
-      })
+      }
+    )
 
     content = response.dig("choices", 0, "message", "content")
 
@@ -33,8 +34,8 @@ class OpenaiCreator < ApplicationService
 
   def content_builder
     content = social_account.search_terms
-    content = content.sub('#comment', comment)
-    content = content.sub('#fullName', commentator_name)
+    content = content.sub("#comment", comment)
+    content = content.sub("#fullName", commentator_name)
     content
   end
 

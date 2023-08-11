@@ -1,12 +1,12 @@
 class SocialAccount < ApplicationRecord
   has_many :auto_comments
   has_one :user
-  has_one :social_account, class_name: 'SocialAccount', foreign_key: 'parent_social_account_id'
-  belongs_to :parent_social_account, class_name: 'SocialAccount', foreign_key: 'parent_social_account_id', optional: true
+  has_one :social_account, class_name: "SocialAccount", foreign_key: "parent_social_account_id"
+  belongs_to :parent_social_account, class_name: "SocialAccount", foreign_key: "parent_social_account_id", optional: true
 
   enum resource_platform: {
-    facebook: 'facebook',
-    instagram: 'instagram',
+    facebook: "facebook",
+    instagram: "instagram",
   }
 
   after_save :refresh_access_token
@@ -22,7 +22,7 @@ class SocialAccount < ApplicationRecord
   def remove_scheduled
     scheduled_set = Sidekiq::ScheduledSet.new
     scheduled_set.select do |scheduled|
-      scheduled.klass == 'RefreshAccessTokenJob' && scheduled.args[0] == id
+      scheduled.klass == "RefreshAccessTokenJob" && scheduled.args[0] == id
     end.map(&:delete)
   end
 end

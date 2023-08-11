@@ -16,10 +16,10 @@ class FacebooksController < ApplicationController
         if(challenge)
           render :plain => challenge
         else
-          render :plain => 'Failed to authorize facebook challenge request'
+          render :plain => "Failed to authorize facebook challenge request"
         end
       when "POST"
-        data = params['entry'][0]['changes'][0]['value']
+        data = params["entry"][0]["changes"][0]["value"]
 
         return unless @social_account.present?
 
@@ -29,7 +29,7 @@ class FacebooksController < ApplicationController
           ins_reply_service(data)
         end
 
-        render :plain => 'Thanks for the update.'
+        render :plain => "Thanks for the update."
       end
     end
   rescue StandardError => e
@@ -43,28 +43,28 @@ class FacebooksController < ApplicationController
   end
 
   def find_social_account
-    return if request.method != 'POST'
+    return if request.method != "POST"
 
-    resource_id = params['entry'][0]['id']
+    resource_id = params["entry"][0]["id"]
 
     @social_account = SocialAccount.where(resource_id: resource_id, status: true).first
   end
 
   def realtime_request?(request)
-    ((request.method == "GET" && params['hub.mode'].present?) ||
-       (request.method == "POST" && request.headers['X-Hub-Signature'].present?))
+    ((request.method == "GET" && params["hub.mode"].present?) ||
+       (request.method == "POST" && request.headers["X-Hub-Signature"].present?))
   end
 
   def new_comment?(data)
-    data['item'] == 'comment' && data['verb'] == 'add'
+    data["item"] == "comment" && data["verb"] == "add"
   end
 
   def fb_reply_service(data)
-    post_id = data['post_id']
-    comment = data['message']
-    comment_id = data['comment_id']
-    commentator_id = data['from']['id']
-    commentator_name = data['from']['name']
+    post_id = data["post_id"]
+    comment = data["message"]
+    comment_id = data["comment_id"]
+    commentator_id = data["from"]["id"]
+    commentator_name = data["from"]["name"]
 
     return if comment.nil? || commentator_id == @social_account&.resource_id
 
@@ -93,16 +93,16 @@ class FacebooksController < ApplicationController
 
       blocker.update(post_id: post_id)
     else
-      Rails.logger.debug('>>>>> SKIP')
+      Rails.logger.debug(">>>>> SKIP")
     end
   end
 
   def ins_reply_service(data)
-    media_id = data['media']['id']
-    comment = data['text']
-    comment_id = data['id']
-    commentator_id = data['from']['id']
-    commentator_name = data['from']['username']
+    media_id = data["media"]["id"]
+    comment = data["text"]
+    comment_id = data["id"]
+    commentator_id = data["from"]["id"]
+    commentator_name = data["from"]["username"]
 
     return if comment.nil? || commentator_id == @social_account&.resource_id
 
@@ -128,6 +128,6 @@ class FacebooksController < ApplicationController
       social_account_id: @social_account.id
     )
 
-    blocker.update(post_id: media_id)
+    blocker&.update(post_id: media_id)
   end
 end
