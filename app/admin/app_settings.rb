@@ -5,7 +5,8 @@ ActiveAdmin.register AppSetting do
                 :openai_model,
                 :openai_uri,
                 :openai_type,
-                :openai_api_version
+                :openai_api_version,
+                :facebook_permissions
 
   index do
     selectable_column
@@ -33,6 +34,7 @@ ActiveAdmin.register AppSetting do
 
   form do |f|
     f.inputs do
+      f.semantic_errors
       f.input :facebook_permissions
       f.input :openai_token
       f.input :openai_model

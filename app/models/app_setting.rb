@@ -1,13 +1,15 @@
 class AppSetting < ApplicationRecord
   before_create :generate_tokens
 
-  validate :cannot_active_more_than_one_setting, on: :update
+  validate :cannot_active_more_than_one_setting
 
   private
 
   def cannot_active_more_than_one_setting
-    if where(status: true).any?
-      errors.add(:base, "In order to prevent conflicts, please ensure that only one setting is active at a time. Kindly deactivate any currently active settings before enabling a new one.")
+    return unless self.status
+
+    if self.class.where(status: true).where.not(id: id).any?
+      self.errors.add(:base, "In order to prevent conflicts, please ensure that only one setting is active at a time. Kindly deactivate any currently active settings before enabling a new one.")
     end
   end
 
