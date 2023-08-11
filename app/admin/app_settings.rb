@@ -33,6 +33,7 @@ ActiveAdmin.register AppSetting do
 
   form do |f|
     f.inputs do
+      f.input :facebook_permissions
       f.input :openai_token
       f.input :openai_model
       f.input :openai_uri
