@@ -25,6 +25,5 @@ module FeedMama
     config.middleware.use ActionDispatch::Session::CookieStore, config.session_options
 
     config.hosts << "feedmama.markiee.co"
-    config.hosts << "5e0e-116-100-44-186.ngrok-free.app"
   end
 end
