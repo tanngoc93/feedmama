@@ -57,6 +57,11 @@ jobs:
           command: |
             ssh $SSH_USER@$SSH_HOST "docker system prune -f"
 
+      - run:
+          name: Exit
+          command: |
+            ssh $SSH_USER@$SSH_HOST "exit 0;"
+
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
