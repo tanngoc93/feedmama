@@ -8,7 +8,7 @@ class SocialAccountsController < ApplicationController
 
     setting = AppSetting.where(status: true).first
 
-    redirect_to @oauth.url_for_oauth_code(permissions: setting.permissions), allow_other_host: true
+    redirect_to @oauth.url_for_oauth_code(permissions: setting.facebook_permissions), allow_other_host: true
   end
 
   def facebook_oauth_callback
