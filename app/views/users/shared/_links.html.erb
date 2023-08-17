@@ -1,0 +1,87 @@
+<%- if controller_name != 'sessions' %>
+  <%#= link_to "Log in", new_session_path(resource_name) %>
+<% end %>
+
+<%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+  <%#= link_to "Sign up", new_registration_path(resource_name) %>
+<% end %>
+
+<%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+  <%#= link_to "Forgot your password?", new_password_path(resource_name) %>
+<% end %>
+
+<%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
+  <%= link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name) %><br />
+<% end %>
+
+<%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
+  <%= link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name) %><br />
+<% end %>
+
+<%- if devise_mapping.omniauthable? %>
+  <div class="text-center social-btn">
+  <%- resource_class.omniauth_providers.each do |provider| %>
+    <% if provider == :facebook %>
+      <%= button_to "Facebook", omniauth_authorize_path(resource_name, provider), data: { turbo: false }, class: "btn btn-secondary" %>
+    <% elsif provider == :google_oauth2 %>
+      <%#= button_to "Google", omniauth_authorize_path(resource_name, provider), data: { turbo: false }, class: "btn btn-secondary" %>
+    <% end %>
+  <% end %>
+  </div>
+<% end %>
+
+<style>
+  .login-form {
+    width: 400px;
+    margin: 30px auto;
+  }
+  .login-form form {        
+    margin-bottom: 15px;
+    background: #f7f7f7;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+  }
+  .login-form h2 {
+    margin: 0 0 15px;
+  }
+  .form-control, .login-btn {
+    border-radius: 2px;
+  }
+  .input-group-prepend .fa {
+    font-size: 18px;
+  }
+  .login-btn {
+    font-size: 15px;
+    font-weight: bold;
+    min-height: 40px;
+  }
+  .social-btn .btn {
+    border: none;
+    margin: 10px 3px 0;
+    opacity: 1;
+  }
+  .social-btn .btn:hover {
+    opacity: 0.9;
+  }
+  .social-btn .btn-secondary, .social-btn .btn-secondary:active {
+    background: #507cc0 !important;
+  }
+  .social-btn .btn-info, .social-btn .btn-info:active {
+    background: #64ccf1 !important;
+  }
+  .social-btn .btn-danger, .social-btn .btn-danger:active {
+    background: #df4930 !important;
+  }
+  .or-seperator {
+    margin-top: 20px;
+    text-align: center;
+    border-top: 1px solid #ccc;
+  }
+  .or-seperator i {
+    padding: 0 10px;
+    background: #f7f7f7;
+    position: relative;
+    top: -11px;
+    z-index: 1;
+  }
+</style>
