@@ -22,9 +22,13 @@
   <div class="text-center social-btn">
   <%- resource_class.omniauth_providers.each do |provider| %>
     <% if provider == :facebook %>
-      <%= button_to "Facebook", omniauth_authorize_path(resource_name, provider), data: { turbo: false }, class: "btn btn-secondary" %>
+      <%= link_to omniauth_authorize_path(resource_name, provider), data: { turbo: false } do %>
+        <button type="button" class="btn btn-secondary">Facebook</button>
+      <% end %>
     <% elsif provider == :google_oauth2 %>
-      <%#= button_to "Google", omniauth_authorize_path(resource_name, provider), data: { turbo: false }, class: "btn btn-secondary" %>
+      <!-- <%= link_to omniauth_authorize_path(resource_name, provider), data: { turbo: false } do %>
+        <button type="button" class="btn btn-danger">Google</button>
+      <% end %> -->
     <% end %>
   <% end %>
   </div>
