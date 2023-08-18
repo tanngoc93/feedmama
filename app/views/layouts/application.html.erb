@@ -17,10 +17,103 @@
   </head>
 
   <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <% if notice.present? %>
+    <div class="info">
+      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+      <%= notice %>
+    </div>
+    <% end %>
+
+    <% if alert.present? %>
+    <div class="alert">
+      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+      <%= alert %>
+    </div>
+    <% end %>
+
+    <!--    Made by Erik Terwan    -->
+    <!--   24th of November 2015   -->
+    <!--        MIT License        -->
+    <nav role="navigation">
+      <div id="menuToggle">
+        <!--
+        A fake / hidden checkbox is used as click reciever,
+        so you can use the :checked selector on it.
+        -->
+        <input type="checkbox" />
+        
+        <!--
+        Some spans to act as a hamburger.
+        
+        They are acting like a real hamburger,
+        not that McDonalds stuff.
+        -->
+        <span></span>
+        <span></span>
+        <span></span>
+        
+        <!--
+        Too bad the menu has to be inside of the button
+        but hey, it's pure CSS magic.
+        -->
+        <% if current_user.present? %>
+          <ul id="menu">
+            <a href="/"><li>Home</li></a>
+            <a href="/profile"><li>My Profile</li></a>
+            <%= link_to destroy_user_session_path, 'data-turbo-method': :delete do %>
+              <li>Sign Out</li>
+            <% end %>
+            <a href="https://markiee.co/" target="_blank"><li>About Us</li></a>
+          </ul>
+        <% else %>
+          <ul id="menu">
+            <a href="/"><li>Home</li></a>
+            <%= link_to new_user_session_path do %>
+              <li>Sign In</li>
+            <% end %>
+            <a href="https://markiee.co/" target="_blank"><li>About Us</li></a>
+          </ul>
+        <% end %>
+      </div>
+    </nav>
+
     <div class="container">
-    <%= yield %>
+      <%= yield %>
     </div>
   </body>
 </html>
+
+<style>
+  .info {
+    padding: 20px;
+    font-size: 16px;
+    background-color: #2196F3;
+    border-radius: 0px;
+    text-align: center;
+    color: white;
+  }
+
+  .alert {
+    padding: 20px;
+    font-size: 16px;
+    background-color: #f44336;
+    border-radius: 0px;
+    text-align: center;
+    color: white;
+  }
+
+  .closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 24px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .closebtn:hover {
+    color: black;
+  }
+</style>
