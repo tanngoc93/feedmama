@@ -6,7 +6,7 @@ class SocialAccountsController < ApplicationController
   def update
     @social_account = SocialAccount.find_by(id: params[:id])
 
-    if @social_account.save
+    if @social_account.update(social_account_params)
       redirect_to root_path, notice: "Update successfully"
     else
       render :show
@@ -55,6 +55,17 @@ class SocialAccountsController < ApplicationController
   end
 
   private
+
+  def social_account_params
+    params.require(:social_account)
+      .permit(
+        :status,
+        :use_openai,
+        :search_terms,
+        :basic_comment,
+        auto_comments_attributes: [:id, :content, :_destroy]
+      )
+  end
 
   def callback_url
      @callback_url ||= "#{ request.base_url }/social_accounts/facebook/callback".freeze

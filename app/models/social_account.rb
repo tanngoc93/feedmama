@@ -9,6 +9,8 @@ class SocialAccount < ApplicationRecord
     instagram: "instagram",
   }
 
+  accepts_nested_attributes_for :auto_comments, reject_if: :all_blank, allow_destroy: true
+
   private
 
   # not use at this time

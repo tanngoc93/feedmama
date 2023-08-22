@@ -1,0 +1,8 @@
+<div class="nested-fields form-group">
+  <div class="input-group mb-3">
+    <%= f.text_field :content, label: false, class: "form-control", placeholder: "Comment's content" %>
+    <div class="input-group-append">
+      <%= link_to_remove_association button_tag('Remove', type: "button", class: "btn btn-primary"), f %>
+    </div>
+  </div>
+</div>

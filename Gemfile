@@ -65,6 +65,12 @@ gem "sidekiq"
 #
 gem "seed_migration"
 
+#
+gem "cocoon"
+
+#
+gem "jquery-rails"
+
 # Use Sass to process CSS
 gem "sassc-rails"
 

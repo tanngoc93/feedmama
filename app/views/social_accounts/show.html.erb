@@ -1,5 +1,5 @@
 <div class="devise-form">
-  <%= form_for(@social_account, html: { method: :put }) do |f| %>
+  <%= form_for @social_account, method: :put do |f| %>
   <h2 class="text-center">Edit <%= @social_account.resource_name.humanize %></h2>
   <div class="form-group">
     <%= f.label :resource_name, class: "label" %>
@@ -42,6 +42,20 @@
       <%= f.check_box :status, class: "form-control", disabled: false %>
     </div>
   </div>
+
+  <div class='auto_comments'>
+    <h3>Random comments(if not use Open AI)</h3>
+    <%= f.fields_for :auto_comments do |builder| %>
+      <%= render 'social_accounts/form/auto_comment_fields', f: builder %>
+    <% end %>
+    <div class="links">
+      <%=
+        link_to_add_association 'add comment',
+        f, :auto_comments, partial: 'social_accounts/form/auto_comment_fields' %>
+    </div>
+  </div>
+
+  <br>
 
   <div class="form-group">
     <%= f.submit "Update", class: "btn btn-primary login-btn btn-block" %>
