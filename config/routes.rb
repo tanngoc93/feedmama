@@ -27,6 +27,8 @@ Rails.application.routes.draw do
 
   #
   root "homepage#index"
+
+  # 
   get  "webhooks/:secured_token", to: "facebooks#subscription"
   post "webhooks/:secured_token", to: "facebooks#subscription"
 
