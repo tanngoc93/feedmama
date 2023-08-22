@@ -1,6 +1,6 @@
 <% if current_user.present? %>
   <h1 style="text-align: center; margin-top: 30px;">
-    <%= link_to "Add Facebook Page", social_accounts_facebook_code_path %><br/>
+    <%= button_to "Add Facebook Page", social_accounts_facebook_code_path, class: "btn btn-primary" %><br/>
   </h1>
   <br>
   <% if @social_accounts.any? %>
@@ -17,12 +17,12 @@
       <tbody>
       <% @social_accounts.each do |social_account| %>
         <tr>
-          <th scope="row"><%= social_account.resource_id %></th>
-          <td><%= social_account.resource_name %></td>
-          <td><%= social_account.resource_platform.capitalize %></td>
-          <td>
-            <a href="https://facebook.com/<%= social_account.resource_id %>" target="_blank">
-              View
+          <th scope="row"><%= social_account.id %></th>
+          <td style="text-align: left;"><%= social_account.resource_name %></td>
+          <td style="text-align: left;"><%= social_account.resource_platform.capitalize %></td>
+          <td style="text-align: left;">
+            <a href="/social_accounts/<%= social_account.id %>">
+              Edit
             </a>
           </td>
         </tr>

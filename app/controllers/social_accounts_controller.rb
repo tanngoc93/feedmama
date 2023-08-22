@@ -1,4 +1,18 @@
 class SocialAccountsController < ApplicationController
+  def show
+    @social_account = SocialAccount.find_by(id: params[:id])
+  end
+
+  def update
+    @social_account = SocialAccount.find_by(id: params[:id])
+
+    if @social_account.save
+      redirect_to root_path, notice: "Update successfully"
+    else
+      render :show
+    end
+  end
+
   def facebook_oauth_code
     @oauth = Koala::Facebook::OAuth.new(
       Koala.config.app_id,

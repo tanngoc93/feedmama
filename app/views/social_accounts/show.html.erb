@@ -1,0 +1,58 @@
+<div class="devise-form">
+  <%= form_for(@social_account, html: { method: :put }) do |f| %>
+  <h2 class="text-center">Edit <%= @social_account.resource_name.humanize %></h2>
+  <div class="form-group">
+    <%= f.label :resource_name, class: "label" %>
+    <div class="input-group">
+      <%= f.text_field :resource_name, class: "form-control", disabled: true %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :resource_platform, class: "label" %>
+    <div class="input-group">
+      <%= f.text_field :resource_platform, class: "form-control", disabled: true %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label "Content Query", class: "label" %>
+    <div class="input-group">
+      <%= f.text_area :search_terms, size: "30x10", class: "form-control", disabled: false %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label "Default Reply", class: "label" %>
+    <div class="input-group">
+      <%= f.text_area :basic_comment, size: "15x10", class: "form-control", disabled: false %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label "Using Open AI?", class: "label" %>
+    <div class="input-group">
+      <%= f.check_box :use_openai, class: "form-control", disabled: false %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label "Active?", class: "label" %>
+    <div class="input-group">
+      <%= f.check_box :status, class: "form-control", disabled: false %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.submit "Update", class: "btn btn-primary login-btn btn-block" %>
+  </div>
+  <% end %>
+  <%= link_to "Back", :back %>
+</div>
+
+<style type="text/css">
+  .devise-form {
+    width: 720px;
+    margin: 30px auto;
+  }
+</style>
