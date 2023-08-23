@@ -1,6 +1,12 @@
 <% if current_user.present? %>
   <h1 style="text-align: center; margin-top: 30px;">
-    <%= button_to "Add Facebook Page", social_accounts_facebook_code_path, class: "btn btn-primary" %><br/>
+    <%= button_to "Add Facebook Page",
+      social_accounts_facebook_code_path,
+      method: :get,
+      data: {
+        turbo: false
+      },
+      class: "btn btn-primary" %>
   </h1>
   <br>
   <% if @social_accounts.any? %>
@@ -11,7 +17,7 @@
           <th scope="col">#</th>
           <th scope="col">Name</th>
           <th scope="col">Platform</th>
-          <th scope="col">Actions</th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>

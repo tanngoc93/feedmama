@@ -1,6 +1,6 @@
 class FacebooksController < ApplicationController
   skip_before_action :authenticate_user!
-  skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token, only: [:subscription]
 
   before_action :find_app_setting
   before_action :find_social_account

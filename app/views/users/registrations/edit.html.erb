@@ -2,42 +2,42 @@
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= render "users/shared/error_messages", resource: resource %>
   <h2 class="text-center">Edit <%= resource_name.to_s.humanize %></h2>   
-  <div class="form-group">
+  <div class="form-group mb-3">
     <%= f.label :email, class: "label" %>
     <div class="input-group">
       <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "Email", disabled: true %>
     </div>
   </div>
-  <div class="form-group">
+  <div class="form-group mb-3">
     <%= f.label "Full name", class: "label" %>
     <div class="input-group">
       <%= f.text_field :name, class: "form-control", placeholder: "Full name" %>
     </div>
   </div>
-  <div class="form-group">
+  <div class="form-group mb-3">
     <%= f.label "Password (leave blank if you don't want to change it)", class: "label" %>
     <div class="input-group">
       <%= f.password_field :password, autocomplete: "new-password", class: "form-control", placeholder: "Password" %>
     </div>
   </div>
-  <div class="form-group">
+  <div class="form-group mb-3">
     <%= f.label "Password confirmation", class: "label" %>
     <div class="input-group">
       <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", placeholder: "Password confirmation" %>
     </div>
   </div>
-  <div class="form-group">
+  <div class="form-group mb-3">
     <%= f.label "Current password", class: "label" %>
     <div class="input-group">
       <%= f.password_field :current_password, autocomplete: "current-password", class: "form-control", placeholder: "Current password" %>
     </div>
   </div>
 
-  <div class="form-group">
+  <div class="form-group mb-3">
     <%= f.submit "Update", class: "btn btn-primary login-btn btn-block" %>
   </div>
 
-  <div class="form-group">
+  <div class="form-group mb-3">
     <%= f.label "Unhappy?", class: "label" %><br>
     <%= button_to "Cancel my account", user_registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %>
   </div>
