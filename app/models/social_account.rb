@@ -1,15 +1,16 @@
 class SocialAccount < ApplicationRecord
-  has_many :auto_comments
   has_one :user
+
   has_one :social_account, class_name: "SocialAccount", foreign_key: "parent_social_account_id"
   belongs_to :parent_social_account, class_name: "SocialAccount", foreign_key: "parent_social_account_id", optional: true
+
+  has_many :auto_comments
+  accepts_nested_attributes_for :auto_comments, allow_destroy: true
 
   enum resource_platform: {
     facebook: "facebook",
     instagram: "instagram",
   }
-
-  accepts_nested_attributes_for :auto_comments, reject_if: :all_blank, allow_destroy: true
 
   private
 
@@ -19,7 +20,7 @@ class SocialAccount < ApplicationRecord
       remove_scheduled && RefreshAccessTokenJob.perform_at(45.days.from_now, id)
     end
   end
-
+ 
   def remove_scheduled
     scheduled_set = Sidekiq::ScheduledSet.new
     scheduled_set.select do |scheduled|

@@ -1,4 +1,6 @@
 class SocialAccountsController < ApplicationController
+  before_action :find_social_account, only: [:show, :update]
+
   def show
     @social_account = SocialAccount.find_by(id: params[:id])
   end
@@ -9,7 +11,7 @@ class SocialAccountsController < ApplicationController
     if @social_account.update(social_account_params)
       redirect_to root_path, notice: "Update successfully"
     else
-      render :show
+      render :show, notice: "Update failed"
     end
   end
 
@@ -55,6 +57,10 @@ class SocialAccountsController < ApplicationController
   end
 
   private
+
+  def find_social_account
+    @social_account = SocialAccount.find_by(id: params[:id])
+  end
 
   def social_account_params
     params.require(:social_account)
