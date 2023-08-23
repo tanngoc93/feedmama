@@ -1,63 +1,63 @@
 <div class="devise-form">
   <%= form_for @social_account, method: :put do |f| %>
   <h2 class="text-center">Edit <%= @social_account.resource_name.humanize %></h2>
-  <div class="form-group">
-    <%= f.label :resource_name, class: "label" %>
+
+  <div class="form-group mb-3">
+    <%= f.label "Name", class: "form-label" %>
     <div class="input-group">
       <%= f.text_field :resource_name, class: "form-control", disabled: true %>
     </div>
   </div>
 
-  <div class="form-group">
-    <%= f.label :resource_platform, class: "label" %>
+  <div class="form-group mb-3">
+    <%= f.label "Platform", class: "form-label" %>
     <div class="input-group">
-      <%= f.text_field :resource_platform, class: "form-control", disabled: true %>
+      <%= f.text_field :resource_platform,
+        value: @social_account&.resource_platform&.humanize,
+        class: "form-control", disabled: true%>
     </div>
   </div>
 
-  <div class="form-group">
-    <%= f.label "Content Query", class: "label" %>
+  <div class="form-group mb-3">
+    <%= f.label "Content Query", class: "form-label" %>
     <div class="input-group">
       <%= f.text_area :search_terms, size: "30x10", class: "form-control", disabled: false %>
     </div>
   </div>
 
-  <div class="form-group">
-    <%= f.label "Default Reply", class: "label" %>
+  <div class="form-group mb-3">
+    <%= f.label "Default Reply", class: "form-label" %>
     <div class="input-group">
       <%= f.text_area :basic_comment, size: "15x10", class: "form-control", disabled: false %>
     </div>
   </div>
 
-  <div class="form-group">
-    <%= f.label "Using Open AI?", class: "label" %>
-    <div class="input-group">
-      <%= f.check_box :use_openai, class: "form-control", disabled: false %>
+  <div class="form-group mb-3">
+    <div class="form-check">
+      <%= f.check_box :use_openai, class: "form-check-input", id: "flexCheckUseOpenAI", disabled: false %>
+      <%= f.label "Using Open AI?", class: "form-check-label", for: "flexCheckUseOpenAI" %>
+    </div>
+
+    <div class="form-check">
+      <%= f.check_box :status, class: "form-check-input", id: "flexCheckStatus", disabled: false %>
+      <%= f.label "Active?", class: "form-check-label", for: "flexCheckStatus" %>
     </div>
   </div>
 
-  <div class="form-group">
-    <%= f.label "Active?", class: "label" %>
-    <div class="input-group">
-      <%= f.check_box :status, class: "form-control", disabled: false %>
-    </div>
-  </div>
-
-  <div class='auto_comments'>
-    <h3>Random comments(if not use Open AI)</h3>
+  <div class="auto_comments mt-3">
+    <h5>Random comments(if not use Open AI)</h5>
     <%= f.fields_for :auto_comments do |builder| %>
-      <%= render 'social_accounts/form/auto_comment_fields', f: builder %>
+      <%= render "social_accounts/form/auto_comment_fields", f: builder %>
     <% end %>
     <div class="links">
       <%=
-        link_to_add_association 'add comment',
-        f, :auto_comments, partial: 'social_accounts/form/auto_comment_fields' %>
+        link_to_add_association "add comment",
+        f, :auto_comments, partial: "social_accounts/form/auto_comment_fields" %>
     </div>
   </div>
-
   <br>
 
-  <div class="form-group">
+  <div class="form-group mb-3">
     <%= f.submit "Update", class: "btn btn-primary login-btn btn-block" %>
   </div>
   <% end %>

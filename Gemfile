@@ -71,6 +71,12 @@ gem "cocoon"
 #
 gem "jquery-rails"
 
+# Use jquery-ui for pretty UI
+gem "jquery-ui-rails"
+
+#
+gem "bootstrap"
+
 # Use Sass to process CSS
 gem "sassc-rails"
 

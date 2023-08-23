@@ -68,14 +68,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_11_080546) do
     t.integer "social_account_id"
   end
 
-  create_table "comments", charset: "utf8mb4", force: :cascade do |t|
-    t.string "comment_id"
-    t.string "comment"
-    t.string "replied_comment"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "seed_migration_data_migrations", id: :integer, charset: "utf8mb4", force: :cascade do |t|
     t.string "version"
     t.integer "runtime"
