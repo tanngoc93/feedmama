@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
-  # 
+  #
   authenticate :admin_user do
     mount Sidekiq::Web => "/sidekiq"
   end
@@ -23,18 +23,17 @@ Rails.application.routes.draw do
       omniauth_callbacks: "omniauth_callbacks"
     }
 
-  resources :orders do
-    collection do
-      get "callback", to: "orders#callback"
-    end
-  end
-
+  resources :orders
   resources :social_accounts
 
   #
   root "homepage#index"
 
-  # 
+  #
+  get  "stripe/callback", to: "stripes#callback"
+  post  "stripe/webhook", to: "stripes#webhook"
+
+  #
   get  "webhooks/:secured_token", to: "facebooks#subscription"
   post "webhooks/:secured_token", to: "facebooks#subscription"
 

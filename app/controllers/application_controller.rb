@@ -1,8 +1,10 @@
 class ApplicationController < ActionController::Base
   FACEBOOK_VERSION = ENV.fetch("FACEBOOK_VERSION") { "v16.0" }
 
-  before_action :configure_permitted_parameters, if: :devise_controller?
+  protect_from_forgery with: :null_session
+
   before_action :authenticate_user!
+  before_action :configure_permitted_parameters, if: :devise_controller?
 
   private
 
