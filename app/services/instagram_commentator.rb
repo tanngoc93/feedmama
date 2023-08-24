@@ -19,7 +19,7 @@ class InstagramCommentator < ApplicationService
     return unless social_account.present?
 
     conn = Faraday.new(
-      url: "https://graph.facebook.com/#{ FB_VERSION }/#{ comment_id }/replies",
+      url: "https://graph.facebook.com/#{ FACEBOOK_VERSION }/#{ comment_id }/replies",
       headers: {
         "Content-Type": "application/json"
       }

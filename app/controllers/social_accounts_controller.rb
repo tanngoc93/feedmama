@@ -71,8 +71,7 @@ class SocialAccountsController < ApplicationController
       .permit(
         :status,
         :use_openai,
-        :search_terms,
-        :basic_comment,
+        :openai_prompt,
         auto_comments_attributes: [:id, :content, :_destroy]
       )
   end
@@ -89,7 +88,7 @@ class SocialAccountsController < ApplicationController
 
   def get_facebook_access_token(code)
     conn = Faraday.new(
-      url: "https://graph.facebook.com/#{ FB_VERSION }/oauth/access_token?redirect_uri=#{ callback_url }&client_id=#{ Koala.config.app_id }&client_secret=#{ Koala.config.app_secret }&code=#{ code }",
+      url: "https://graph.facebook.com/#{ FACEBOOK_VERSION }/oauth/access_token?redirect_uri=#{ callback_url }&client_id=#{ Koala.config.app_id }&client_secret=#{ Koala.config.app_secret }&code=#{ code }",
       headers: {
         "Content-Type": "application/json"
       }
@@ -100,7 +99,7 @@ class SocialAccountsController < ApplicationController
 
   def set_subscribed_fields(page_id, access_token)
     conn = Faraday.new(
-      url: "https://graph.facebook.com/#{ FB_VERSION }/#{ page_id }/subscribed_apps?subscribed_fields=feed&access_token=#{ access_token }",
+      url: "https://graph.facebook.com/#{ FACEBOOK_VERSION }/#{ page_id }/subscribed_apps?subscribed_fields=feed&access_token=#{ access_token }",
       headers: {
         "Content-Type": "application/json"
       }

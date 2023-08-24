@@ -273,15 +273,16 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
   config.omniauth :facebook,
-    ENV["KOALA_APP_ID"],
-    ENV["KOALA_APP_SECRET"],
+    ENV["FACEBOOK_APP_ID"],
+    ENV["FACEBOOK_APP_SECRET"],
     scope: "email",
     info_fields: "name",
     client_options: {
-      site: "https://graph.facebook.com/#{ ENV.fetch("FB_VERSION") { "v16.0" } }",
-      authorize_url: "https://www.facebook.com/#{ ENV.fetch("FB_VERSION") { "v16.0" } }/dialog/oauth"
+      site: "https://graph.facebook.com/#{ ENV.fetch("FACEBOOK_VERSION") { "v16.0" } }",
+      authorize_url: "https://www.facebook.com/#{ ENV.fetch("FACEBOOK_VERSION") { "v16.0" } }/dialog/oauth"
     }
 
+  OmniAuth.config.allowed_request_methods = [:get]
   OmniAuth.config.logger = Rails.logger if Rails.env.development?
 
   # ==> Warden configuration

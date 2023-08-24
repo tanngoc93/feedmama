@@ -2,7 +2,7 @@ class RefreshAccessTokenJob
   include Sidekiq::Job
   sidekiq_options retry: 1, dead: false
 
-  FB_VERSION = ENV.fetch("FB_VERSION") { "v16.0" }
+  FACEBOOK_VERSION = ENV.fetch("FACEBOOK_VERSION") { "v16.0" }
 
   def perform(id)
     social_account = SocialAccount.where(id: id).first
@@ -26,7 +26,7 @@ class RefreshAccessTokenJob
 
   def refresh_token(social_account)
     conn = Faraday.new(
-      url: "https://graph.facebook.com/#{ FB_VERSION }/oauth/access_token",
+      url: "https://graph.facebook.com/#{ FACEBOOK_VERSION }/oauth/access_token",
       headers: {
         "Content-Type": "application/json"
       },

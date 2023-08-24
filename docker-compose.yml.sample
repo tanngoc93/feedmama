@@ -53,8 +53,9 @@ services:
       RAILS_ENV: development
       PORT: 3000
       #
-      KOALA_APP_SECRET: ''
-      KOALA_APP_ID: ''
+      FACEBOOK_VERSION: ''
+      FACEBOOK_APP_SECRET: ''
+      FACEBOOK_APP_ID: ''
       # 
       STRIPE_PUBLISHABLE_KEY: ''
       STRIPE_SECRET_KEY: ''
@@ -97,9 +98,9 @@ services:
       RAILS_ENV: development
       PORT: 3000
       #
-      #
-      KOALA_APP_SECRET: ''
-      KOALA_APP_ID: ''
+      FACEBOOK_VERSION: ''
+      FACEBOOK_APP_SECRET: ''
+      FACEBOOK_APP_ID: ''
       # 
       STRIPE_PUBLISHABLE_KEY: ''
       STRIPE_SECRET_KEY: ''

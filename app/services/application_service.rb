@@ -1,5 +1,5 @@
 class ApplicationService
-  FB_VERSION = ENV.fetch("FB_VERSION") {"v16.0"}
+  FACEBOOK_VERSION = ENV.fetch("FACEBOOK_VERSION") {"v16.0"}
 
   def self.call(*args, &block)
     new(*args, &block).call

@@ -12,7 +12,7 @@ class User < ApplicationRecord
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.provider = auth["provider"]
       user.uid = auth["uid"]
-      user.name = auth["info"]["name"]
+      user.first_name = auth["info"]["name"]
       user.email = auth["info"]["email"] || "#{auth["provider"]}#{auth["uid"]}@#{auth["provider"]}.com"
       user.password = Devise.friendly_token[0,20]
 

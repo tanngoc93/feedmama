@@ -17,6 +17,7 @@
           <th scope="col">#</th>
           <th scope="col">Name</th>
           <th scope="col">Platform</th>
+          <th scope="col">Status</th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -26,6 +27,7 @@
           <th scope="row"><%= social_account.id %></th>
           <td style="text-align: left;"><%= social_account.resource_name %></td>
           <td style="text-align: left;"><%= social_account.resource_platform.capitalize %></td>
+          <td style="text-align: left;"><%= social_account.status ? "Active" : "Deactive" %></td>
           <td style="text-align: left;">
             <a href="/social_accounts/<%= social_account.id %>">
               Edit

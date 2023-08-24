@@ -56,7 +56,7 @@ class OrdersController < ApplicationController
     redirect_to new_charge_path
   end
 
-  def order_callback
+  def callback
     Rails.logger.debug ">>>>>>>>>>>>>>"
   end
 
