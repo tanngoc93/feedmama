@@ -1,19 +1,17 @@
 <div class="devise-form">
   <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
   <%= render "users/shared/error_messages", resource: resource %>
-  <h2 class="text-center">Forgot your password?</h2>   
+  <h2 class="text-center">Forgot your password?</h2>
+
   <div class="form-group">
-    <div class="input-group">
-      <div class="input-group-prepend">
-        <span class="input-group-text">
-          <span class="fa fa-user"></span>
-        </span>
-      </div>
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "Username" %>
+    <div class="input-group mb-3">
+      <span class="input-group-text">@</span>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "Email or Username" %>
     </div>
   </div>
+  
   <div class="form-group">
-    <%= f.submit "Send me reset password instructions", class: "btn btn-primary login-btn btn-block" %>
+    <%= f.submit "Send me reset password instructions", class: "form-control btn btn-primary login-btn btn-block" %>
   </div>
   <% end %>
   <p class="text-center text-muted small">Don't have an account?

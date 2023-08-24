@@ -39,7 +39,7 @@
 
   <div class="form-group mb-3">
     <%= f.label "Unhappy?", class: "label" %><br>
-    <%= button_to "Cancel my account", user_registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %>
+    <%= link_to "Cancel my account", user_registration_path(resource_name), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
   </div>
   <% end %>
   <%= link_to "Back", :back %>

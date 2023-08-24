@@ -26,9 +26,9 @@
         <button type="button" class="btn btn-secondary">Facebook</button>
       <% end %>
     <% elsif provider == :google_oauth2 %>
-      <!-- <%= link_to omniauth_authorize_path(resource_name, provider), data: { turbo: false } do %>
+      <%= link_to omniauth_authorize_path(resource_name, provider), data: { turbo: false } do %>
         <button type="button" class="btn btn-danger">Google</button>
-      <% end %> -->
+      <% end %>
     <% end %>
   <% end %>
   </div>

@@ -1,17 +1,21 @@
 class SocialAccountsController < ApplicationController
-  before_action :find_social_account, only: [:show, :update]
+  before_action :find_social_account, only: [:show, :update, :destroy]
 
-  def show
-    @social_account = SocialAccount.find_by(id: params[:id])
-  end
+  def show; end
 
   def update
-    @social_account = SocialAccount.find_by(id: params[:id])
-
-    if @social_account.update(social_account_params)
-      redirect_to root_path, notice: "Update successfully"
+    if @social_account&.update(social_account_params)
+      redirect_to root_path, notice: "Successfully updated"
     else
-      render :show, notice: "Update failed"
+      render :show, notice: @social_account&.errors&.full_messages&.to_sentence
+    end
+  end
+
+  def destroy
+    if @social_account&.destroy
+      redirect_to root_path, notice: "Successfully deleted"
+    else
+      render :show, notice: @social_account&.errors&.full_messages&.to_sentence
     end
   end
 
