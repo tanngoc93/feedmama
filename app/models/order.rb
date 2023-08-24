@@ -6,6 +6,6 @@ class Order < ApplicationRecord
   private
 
   def destroy_abandoned_order
-    DestroyOrderJob.perform_at(24.hours.from_now, id)
+    DestroyAbandonedOrderJob.perform_at(24.hours.from_now, id)
   end
 end

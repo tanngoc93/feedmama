@@ -1,4 +1,4 @@
-class DestroyOrderJob
+class DestroyAbandonedOrderJob
   include Sidekiq::Job
   sidekiq_options retry: 3, dead: false
 
