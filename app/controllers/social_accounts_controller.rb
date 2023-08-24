@@ -78,7 +78,7 @@ class SocialAccountsController < ApplicationController
   end
 
   def callback_url
-     @callback_url ||= "#{ request.base_url }/social_accounts/facebook/callback".freeze
+    @callback_url ||= "#{ request.base_url }/social_accounts/facebook/callback".freeze
   end
 
   def get_facebook_pages(access_token)

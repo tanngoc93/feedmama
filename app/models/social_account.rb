@@ -4,6 +4,8 @@ class SocialAccount < ApplicationRecord
   has_one :social_account, class_name: "SocialAccount", foreign_key: "parent_social_account_id"
   belongs_to :parent_social_account, class_name: "SocialAccount", foreign_key: "parent_social_account_id", optional: true
 
+  has_many :blockers, dependent: :destroy
+
   has_many :auto_comments, dependent: :destroy
   accepts_nested_attributes_for :auto_comments, allow_destroy: true
 

@@ -1,0 +1,9 @@
+<div class="devise-form">
+  <%= form_with model: Order.new do |f| %>
+    <div class="form-group">
+      <% @products.each do |product| %>
+        <%= f.submit "Buy #{number_to_currency(product.default_price.fdiv(100))} Credit", data: { turbo: false }, class: "form-control btn btn-primary login-btn btn-block mb-3" %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_11_050657) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_24_080414) do
   create_table "active_admin_comments", charset: "utf8mb4", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -78,10 +78,36 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_11_050657) do
     t.string "post_id"
     t.string "comment_id"
     t.string "commentator_id"
-    t.bigint "social_accounts_id"
+    t.bigint "social_account_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["social_accounts_id"], name: "index_blockers_on_social_accounts_id"
+    t.index ["social_account_id"], name: "index_blockers_on_social_account_id"
+  end
+
+  create_table "orders", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "city_id"
+    t.string "zip_code"
+    t.string "delivery_address"
+    t.boolean "status", default: false
+    t.text "order_parameters", size: :long, collation: "utf8mb4_bin"
+    t.bigint "user_id"
+    t.bigint "product_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_orders_on_product_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
+    t.check_constraint "json_valid(`order_parameters`)", name: "order_parameters"
+  end
+
+  create_table "products", charset: "utf8mb4", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "stripe_product_id"
+    t.decimal "default_price", precision: 10, default: "0"
+    t.boolean "status"
+    t.text "product_details", size: :long, collation: "utf8mb4_bin"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.check_constraint "json_valid(`product_details`)", name: "product_details"
   end
 
   create_table "seed_migration_data_migrations", id: :integer, charset: "utf8mb4", force: :cascade do |t|
@@ -141,5 +167,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_11_050657) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
-  add_foreign_key "blockers", "social_accounts", column: "social_accounts_id"
+  add_foreign_key "blockers", "social_accounts"
+  add_foreign_key "orders", "products"
+  add_foreign_key "orders", "users"
 end

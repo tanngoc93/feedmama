@@ -1,5 +1,5 @@
 ActiveAdmin.register SocialAccount do
-  menu priority: 3, label: 'SocialAccounts Property'
+  menu priority: 3, label: 'Social Account'
   permit_params :resource_id,
                 :resource_name,
                 :resource_platform,

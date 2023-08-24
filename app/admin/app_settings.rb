@@ -1,5 +1,5 @@
 ActiveAdmin.register AppSetting do
-  menu priority: 2, label: 'AppSettings Property'
+  menu priority: 2, label: 'General Setting'
   permit_params :status,
                 :openai_token,
                 :openai_model,

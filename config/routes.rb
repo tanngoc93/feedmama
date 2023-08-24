@@ -23,10 +23,14 @@ Rails.application.routes.draw do
       omniauth_callbacks: "omniauth_callbacks"
     }
 
+  resources :orders
   resources :social_accounts
 
   #
   root "homepage#index"
+
+  # 
+  get "/orders/callback", to: "orders#callback"
 
   # 
   get  "webhooks/:secured_token", to: "facebooks#subscription"
