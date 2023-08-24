@@ -32,13 +32,6 @@ class OpenaiCreator < ApplicationService
 
   private
 
-  def content_builder
-    content = social_account.search_terms
-    content = content.sub("#comment", comment)
-    content = content.sub("#fullName", commentator_name)
-    content
-  end
-
   def openai_client
     type = app_setting&.openai_type
     api_version = app_setting&.openai_api_version
@@ -49,5 +42,12 @@ class OpenaiCreator < ApplicationService
     end
 
     OpenAI::Client.new(access_token: app_setting&.openai_token, uri_base: app_setting&.openai_uri)
+  end
+
+  def content_builder
+    content = social_account.openai_prompt
+    content = content.sub("#comment", comment)
+    content = content.sub("#fullName", commentator_name)
+    content
   end
 end

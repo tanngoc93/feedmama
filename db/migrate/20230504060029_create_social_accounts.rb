@@ -1,14 +1,19 @@
 class CreateSocialAccounts < ActiveRecord::Migration[7.0]
   def change
     create_table :social_accounts do |t|
+      t.string  :verify_token
+      t.string  :secured_token
+      t.boolean :status, default: false
+
       t.string  :resource_id, null: false
       t.string  :resource_name, null: false
       t.string  :resource_platform, null: false
       t.string  :resource_access_token, null: true
-      t.text    :search_terms, default: "Please help me write a creative/engaging message to reply to a comment on my Facebook, the comment content is \"#comment\".\r\n\r\nThe commenter's name is \"#fullName\".\r\n\r\nDepending on the emotion of the comment, please help me reply to them with appreciation, gratitude, or an empathetic comment.\r\n\r\nBe kind, energetic, and full of love.\r\n\r\nAnd if possible choose an icon for the comment you make, it should match the emotion of the comment, for example, the comment's emotion is positive, happy should not choose the sad symbol, and vice versa.\r\n\r\nMake it 10 to 30 words long.\r\n\r\nIf the message is blank or you can't understand the context, give the person a cute song.\r\n\r\nNote: My Facebook page represents Someone/Something, an online store dedicated to custom jewelry as gifts for various occasions and for a wide audience, mainly between family members and their friends."
-      t.boolean :status, default: false
-      t.string  :verify_token
-      t.string  :secured_token
+
+      t.boolean :use_openai, default: false
+      t.text    :openai_prompt, default: "Please help me reply to this comment on Facebook, the comment content is \"#comment\". The commenter's name is \"#fullName\". Reply to them with appreciation, gratitude, or an empathetic comment. If someone says they miss someone, it's related to the content, not me. Comment length should not exceed 30 words. If the message is blank or you can't understand the context, give the person a cute song. Note: My Facebook page represents www.website.com, an online store dedicated to something..."
+      t.integer :use_openai_when_comment_is_longer_in_length, default: 0
+      t.integer :blocked_time, default: 3
 
       t.timestamps
     end

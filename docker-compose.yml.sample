@@ -32,60 +32,6 @@ services:
     networks:
       - bridge-network
 
-  proxy:  
-    image: traefik:v2.6.6
-    restart: always
-    command:
-      # By default, the level is set to ERROR.
-      # Alternative logging levels are DEBUG, PANIC, FATAL, ERROR, WARN, and INFO.
-      - "--log.level=DEBUG"
-      - "--api.insecure=false"
-      - "--api.dashboard=false"
-      - "--providers.docker=true"
-      - "--providers.docker.watch=true"
-      - "--log.filePath=/var/log/traefik/debug.log"
-      - "--providers.docker.network=bridge-network"
-      - "--providers.docker.exposedbydefault=false"
-      - "--certificatesresolvers.myhttpchallenge.acme.httpchallenge=true"
-      - "--certificatesresolvers.myhttpchallenge.acme.httpchallenge.entrypoint=web"
-      ########################################################################
-      # for staging environment & uncomment
-      # - "--certificatesresolvers.myhttpchallenge.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
-      # for production environment & uncomment
-      # - "--certificatesresolvers.myhttpchallenge.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
-      ########################################################################
-      # change `email@example.com` to your email & uncomment
-      - "--certificatesresolvers.myhttpchallenge.acme.email=email@example.com"
-      ########################################################################
-      - "--certificatesresolvers.myhttpchallenge.acme.storage=/letsencrypt/acme.json"
-      - "--entrypoints.websecured.address=:443"
-      - "--entrypoints.web.address=:80"
-    ports:
-      - "80:80"
-      - "443:443"
-      - "8080:8080" # for local test only, delete it on production
-    volumes:
-      # So that Traefik can listen to the Docker events
-      - ./traefik/log:/var/log/traefik
-      - ./traefik/letsencrypt:/letsencrypt
-      -  /var/run/docker.sock:/var/run/docker.sock:ro
-    labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=bridge-network"
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      # 
-      - "traefik.http.routers.traefik-http.rule=Host(`dashboard.${DOMAIN}`)"
-      - "traefik.http.routers.traefik-http.entrypoints=web"
-      - "traefik.http.routers.traefik-http.middlewares=redirect-to-https@docker"
-      #
-      - "traefik.http.services.traefik-service.loadbalancer.server.port=8080"
-      # 
-      - "traefik.http.routers.traefik-secured.rule=Host(`dashboard.${DOMAIN}`)"
-      - "traefik.http.routers.traefik-secured.entrypoints=websecured"
-      - "traefik.http.routers.traefik-secured.tls.certresolver=myhttpchallenge"
-    networks:
-      - bridge-network
-
   backend:
     tty: true
     stdin_open: true
@@ -107,10 +53,11 @@ services:
       RAILS_ENV: development
       PORT: 3000
       #
-      KOALA_ACCESS_TOKEN: ''
-      KOALA_APP_ACCESS_TOKEN: ''
       KOALA_APP_SECRET: ''
       KOALA_APP_ID: ''
+      # 
+      STRIPE_PUBLISHABLE_KEY: ''
+      STRIPE_SECRET_KEY: ''
     command: /bin/sh ".dockerdev/commander/rails.sh"
     ports:
       - "3000:3000"
@@ -150,10 +97,12 @@ services:
       RAILS_ENV: development
       PORT: 3000
       #
-      KOALA_ACCESS_TOKEN: ''
-      KOALA_APP_ACCESS_TOKEN: ''
+      #
       KOALA_APP_SECRET: ''
       KOALA_APP_ID: ''
+      # 
+      STRIPE_PUBLISHABLE_KEY: ''
+      STRIPE_SECRET_KEY: ''
     command: /bin/sh ".dockerdev/commander/sidekiq.sh"
     volumes:
       - .:/app

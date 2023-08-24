@@ -2,9 +2,9 @@ class InsReplyCommentJob
   include Sidekiq::Job
   sidekiq_options retry: 3, dead: false
 
-  def perform(media_id, comment_id, comment, commentator_name, social_account_id, app_setting_id)
-    app_setting = AppSetting.where(id: app_setting_id).first
-    social_account = SocialAccount.where(id: social_account_id).first
+  def perform(post_id, comment_id, comment, commentator_name, social_account_id, app_setting_id)
+    app_setting = AppSetting.find_by(id: app_setting_id)
+    social_account = SocialAccount.find_by(id: social_account_id)
 
     return unless app_setting.present?
     return unless social_account.present?
@@ -14,10 +14,9 @@ class InsReplyCommentJob
         OpenaiCreator.call(app_setting, social_account, commentator_name, comment)
       else
         if social_account&.parent_social_account.present?
-          parent_social_account = social_account&.parent_social_account
-          parent_social_account&.auto_comments&.sample&.content || parent_social_account&.basic_comment
+          social_account&.parent_social_account&.auto_comments&.sample&.content
         else
-          social_account&.auto_comments&.sample&.content || social_account&.basic_comment
+          social_account&.auto_comments&.sample&.content
         end
       end
 
@@ -31,6 +30,7 @@ class InsReplyCommentJob
   private
 
   def use_openai?(social_account, comment)
-    social_account.use_openai && comment.split.size >= social_account.comment_length
+    social_account.use_openai &&
+      comment.split.size > social_account.use_openai_when_comment_is_longer_in_length
   end
 end

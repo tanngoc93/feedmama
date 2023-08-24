@@ -7,6 +7,7 @@ ActiveAdmin.register AppSetting do
                 :openai_type,
                 :openai_api_version,
                 :facebook_permissions
+                :instagram_permissions
 
   index do
     selectable_column

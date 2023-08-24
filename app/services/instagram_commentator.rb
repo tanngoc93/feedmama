@@ -10,12 +10,12 @@ class InstagramCommentator < ApplicationService
   end
 
   def call
-    put_comment(@social_account, @comment_id, @message)
+    put_comment(@social_account, @message)
   end
 
   private
 
-  def put_comment(social_account, comment_id, message)
+  def put_comment(social_account, message)
     return unless social_account.present?
 
     conn = Faraday.new(
