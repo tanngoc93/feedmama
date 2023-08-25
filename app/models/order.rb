@@ -20,6 +20,6 @@ class Order < ApplicationRecord
   end
 
   def update_tokens_for_user
-    Token.find_or_initialize_by(user: user).increment!(:amount, token_exchange)
+    Token.find_or_create_by(user: user)&.increment!(:amount, token_exchange)
   end
 end
