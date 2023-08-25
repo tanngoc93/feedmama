@@ -3,6 +3,7 @@
 :queues:
   - default
   - mailers
+  - abandoned_order_check
 
 development:
   :concurrency: 10

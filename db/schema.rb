@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_24_080414) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_25_055202) do
   create_table "active_admin_comments", charset: "utf8mb4", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -89,14 +89,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_24_080414) do
     t.string "zip_code"
     t.string "delivery_address"
     t.boolean "status", default: false
-    t.text "order_parameters", size: :long, collation: "utf8mb4_bin"
+    t.text "order_details", size: :long, collation: "utf8mb4_bin"
     t.bigint "user_id"
     t.bigint "product_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["product_id"], name: "index_orders_on_product_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
-    t.check_constraint "json_valid(`order_parameters`)", name: "order_parameters"
+    t.check_constraint "json_valid(`order_details`)", name: "order_details"
   end
 
   create_table "products", charset: "utf8mb4", force: :cascade do |t|
@@ -136,6 +136,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_24_080414) do
     t.index ["user_id"], name: "index_social_accounts_on_user_id"
   end
 
+  create_table "tokens", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "amount"
+    t.text "token_details", size: :long, collation: "utf8mb4_bin"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_tokens_on_user_id"
+    t.check_constraint "json_valid(`token_details`)", name: "token_details"
+  end
+
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -170,4 +180,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_24_080414) do
   add_foreign_key "blockers", "social_accounts"
   add_foreign_key "orders", "products"
   add_foreign_key "orders", "users"
+  add_foreign_key "tokens", "users"
 end

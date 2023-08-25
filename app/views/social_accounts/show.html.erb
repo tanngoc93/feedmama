@@ -19,16 +19,16 @@
     </div>
 
     <div class="form-group mb-3">
-      <%= f.label "Use AI when comment is longer in length", class: "form-label" %>
+      <%= f.label "Content Query", class: "form-label" %>
       <div class="input-group">
-        <%= f.text_field :use_openai_when_comment_is_longer_in_length, class: "form-control", disabled: false %>
+        <%= f.text_area :openai_prompt, size: "30x10", class: "form-control", disabled: false %>
       </div>
     </div>
 
     <div class="form-group mb-3">
-      <%= f.label "Content Query", class: "form-label" %>
+      <%= f.label "Use AI when comment is longer in length", class: "form-label" %>
       <div class="input-group">
-        <%= f.text_area :openai_prompt, size: "30x10", class: "form-control", disabled: false %>
+        <%= f.text_field :use_openai_when_comment_is_longer_in_length, class: "form-control", disabled: false %>
       </div>
     </div>
 

@@ -1,7 +1,10 @@
 class OrdersController < ApplicationController
+  def index
+    @orders = current_user.orders.where(status: true).order(created_at: :desc)
+  end
+
   def new
-    @products = Product.where(status: true)
-                       .order(default_price: :asc).all
+    @products = Product.where(status: true).order(default_price: :asc)
   end
 
   def create
@@ -38,6 +41,7 @@ class OrdersController < ApplicationController
 
     order =
       current_user.orders.new(
+        product_id: product&.id,
         order_details: stripe_attributes.to_json
       )
 

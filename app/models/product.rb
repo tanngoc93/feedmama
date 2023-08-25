@@ -1,4 +1,6 @@
 class Product < ApplicationRecord
+  has_many :orders
+
   after_create :create_stripe_product
   after_destroy :destroy_stripe_product
 

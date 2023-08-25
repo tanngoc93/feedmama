@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_many :social_accounts, dependent: :destroy
   has_many :orders, dependent: :destroy
+  has_one  :token, dependent: :destroy
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -20,5 +21,9 @@ class User < ApplicationRecord
       # uncomment the line below to skip the confirmation emails.
       # user.skip_confirmation!
     end
+  end
+
+  def token_amount
+    self&.token&.amount || 0
   end
 end

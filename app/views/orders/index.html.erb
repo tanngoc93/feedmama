@@ -1,0 +1,28 @@
+<div style="text-align: center;">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#Id</th>
+        <th scope="col">Paid amount</th>
+        <th scope="col">Token exchange</th>
+        <th scope="col">Status</th>
+        <th scope="col">Paid date</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @orders.each do |order| %>
+      <tr>
+        <th scope="row"><%= order.id %></th>
+        <td style="text-align: left;">
+          <%= number_to_currency(order.amount) || 0 %>
+        </td>
+        <td style="text-align: left;">
+          <%= order.token_exchange %>
+        </td>
+        <td style="text-align: left;"><%= order.status ? "Paid" : "Unpaid" %></td>
+        <td style="text-align: left;"><%= order.updated_at %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
