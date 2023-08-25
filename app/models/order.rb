@@ -6,11 +6,11 @@ class Order < ApplicationRecord
   after_update :update_tokens_for_user, if: -> { status }
 
   def amount
-    product&.price * product_quantity
+    product.price * product_quantity
   end
 
   def token_exchange
-    amount * product_quantity * 1000
+    product.price * product_quantity * 1000
   end
 
   private
