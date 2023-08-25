@@ -4,29 +4,23 @@ class OrdersController < ApplicationController
   end
 
   def new
-    @products = Product.where(status: true).order(default_price: :asc)
+    @products = Product.where(status: true).order(price: :asc)
   end
 
   def create
-    stripe_attributes = {}
+    product = Product.where(status: true, id: order_params[:product_id]).first
 
-    product = Product.where(status: true).first
+    return redirect_to root_path,
+      alert: "Oops, please try again later." unless product.present?
 
-    price =
-      Stripe::Price.create({
-        currency: 'usd',
-        unit_amount: product.default_price,
-        product: product.stripe_product_id,
-      })
-
-    stripe_attributes[:price] = price.to_json
+    price = Stripe::Price.retrieve(product.stripe_price_id)
 
     payment_link =
       Stripe::PaymentLink.create({
         line_items: [
           {
             price: price.id,
-            quantity: 1,
+            quantity: order_params[:product_quantity] || 1,
           }, 
         ],
         after_completion: {
@@ -37,12 +31,12 @@ class OrdersController < ApplicationController
         },
       })
 
-    stripe_attributes[:payment_link] = payment_link.to_json
-
     order =
       current_user.orders.new(
-        product_id: product&.id,
-        order_details: stripe_attributes.to_json
+        stripe_payment_link_id: payment_link.id,
+        product_id: order_params[:product_id],
+        product_quantity: order_params[:product_quantity] || 1,
+        order_details: { payment_link: payment_link }.to_json
       )
 
     if order.save
@@ -51,11 +45,14 @@ class OrdersController < ApplicationController
       render :new, alert: order&.errors&.full_messages&.to_sentence
     end
   rescue Stripe::CardError => e
-    flash[:error] = e.message
-    redirect_to new_charge_path
+    redirect_to new_charge_path, alert: e.message
   end
 
   private
+
+  def order_params
+    params.require(:order).permit(:product_id, :product_quantity)
+  end
 
   def callback_url
     @callback_url ||= "#{ request.base_url }/stripe/callback".freeze

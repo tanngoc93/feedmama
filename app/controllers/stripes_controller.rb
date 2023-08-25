@@ -22,11 +22,11 @@ class StripesController < ApplicationController
       # Retrieve the session. If you require line items in the response, you may include them by expanding line_items.
       session = Stripe::Checkout::Session.retrieve({
         id: event['data']['object']['id'],
-        expand: ['line_items'],
+        expand: ['line_items', 'payment_link'],
       })
 
-      line_items = session.line_items
-      fulfill_order(line_items)
+      payment_link = session.payment_link
+      fulfill_order(payment_link.id)
     end
   end
 
@@ -36,14 +36,9 @@ class StripesController < ApplicationController
 
   private
 
-  def fulfill_order(line_items)
-    line_item = line_items.data.first
-
-    order = Order.where(
-      "JSON_EXTRACT(order_details, '$.price', '$.id') LIKE '%#{line_item.price.id}%'").first
-
+  def fulfill_order(payment_link_id)
+    order = Order.where(stripe_payment_link_id: payment_link_id).first
     return unless order.present?
-
     order&.update(status: true)
   end
 end

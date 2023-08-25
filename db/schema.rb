@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_25_055202) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_25_084563) do
   create_table "active_admin_comments", charset: "utf8mb4", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -94,6 +94,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_25_055202) do
     t.bigint "product_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "stripe_payment_link_id"
+    t.integer "product_quantity", default: 1
     t.index ["product_id"], name: "index_orders_on_product_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
     t.check_constraint "json_valid(`order_details`)", name: "order_details"
@@ -102,11 +104,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_25_055202) do
   create_table "products", charset: "utf8mb4", force: :cascade do |t|
     t.string "name", null: false
     t.string "stripe_product_id"
-    t.decimal "default_price", precision: 10, default: "0"
+    t.decimal "price", precision: 10, default: "0"
     t.boolean "status"
     t.text "product_details", size: :long, collation: "utf8mb4_bin"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "stripe_price_id"
     t.check_constraint "json_valid(`product_details`)", name: "product_details"
   end
 
@@ -137,7 +140,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_25_055202) do
   end
 
   create_table "tokens", charset: "utf8mb4", force: :cascade do |t|
-    t.bigint "amount"
+    t.bigint "amount", default: 0
     t.text "token_details", size: :long, collation: "utf8mb4_bin"
     t.bigint "user_id"
     t.datetime "created_at", null: false

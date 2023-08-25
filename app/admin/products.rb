@@ -1,13 +1,13 @@
 ActiveAdmin.register Product do
   menu priority: 4, label: 'Product'
   permit_params :name,
-                :default_price,
+                :price,
                 :status
 
   index do
     selectable_column
     column :name
-    column :default_price
+    column :price
     column :status
     actions
   end
@@ -15,7 +15,7 @@ ActiveAdmin.register Product do
   show do
     attributes_table do
       row :name
-      row :default_price
+      row :price
       row :status, label: 'Active?'
     end
   end
@@ -25,7 +25,7 @@ ActiveAdmin.register Product do
   form do |f|
     f.inputs do
       f.input :name
-      f.input :default_price
+      f.input :price
       f.input :status
     end
     f.actions

@@ -4,6 +4,7 @@
       <tr>
         <th scope="col">#Id</th>
         <th scope="col">Paid amount</th>
+        <th scope="col">Qty</th>
         <th scope="col">Token exchange</th>
         <th scope="col">Status</th>
         <th scope="col">Paid date</th>
@@ -17,7 +18,10 @@
           <%= number_to_currency(order.amount) || 0 %>
         </td>
         <td style="text-align: left;">
-          <%= order.token_exchange %>
+          <%= order.product_quantity || 0 %>
+        </td>
+        <td style="text-align: left;">
+          <%= set_number_to_delimited(order.token_exchange, delimiter: ',') %>
         </td>
         <td style="text-align: left;"><%= order.status ? "Paid" : "Unpaid" %></td>
         <td style="text-align: left;"><%= order.updated_at %></td>
