@@ -1,71 +1,79 @@
-<div class="devise-form">
-  <%= form_for @social_account, method: :put do |f| %>
-    <h2 class="text-center">Edit <%= @social_account.resource_name.humanize %></h2>
-
-    <div class="form-group mb-3">
-      <%= f.label "Name", class: "form-label" %>
-      <div class="input-group">
-        <%= f.text_field :resource_name, class: "form-control", disabled: true %>
+<section class="section-container">
+  <div class="div-container">
+    <div class="form-container">
+      <%= form_for @social_account, method: :put do |f| %>
+      <h2 class="text-center">Edit <%= @social_account.resource_name.humanize %></h2>
+      <div class="form-group mb-3">
+        <%= f.label "Name", class: "form-label" %>
+        <div class="input-group">
+          <%= f.text_field :resource_name, class: "form-control", disabled: true %>
+        </div>
       </div>
-    </div>
-
-    <div class="form-group mb-3">
-      <%= f.label "Platform", class: "form-label" %>
-      <div class="input-group">
-        <%= f.text_field :resource_platform,
-          value: @social_account&.resource_platform&.humanize,
-          class: "form-control", disabled: true %>
+      <div class="form-group mb-3">
+        <%= f.label "Platform", class: "form-label" %>
+        <div class="input-group">
+          <%= f.text_field :resource_platform,
+            value: @social_account&.resource_platform&.humanize,
+            class: "form-control", disabled: true %>
+        </div>
       </div>
-    </div>
-
-    <div class="form-group mb-3">
-      <%= f.label "Content Query", class: "form-label" %>
-      <div class="input-group">
-        <%= f.text_area :openai_prompt, size: "30x10", class: "form-control", disabled: false %>
+      <div class="form-group mb-3">
+        <%= f.label "Content Query", class: "form-label" %>
+        <div class="input-group">
+          <%= f.text_area :openai_prompt, size: "30x12", class: "form-control", disabled: false %>
+        </div>
       </div>
-    </div>
-
-    <div class="form-group mb-3">
-      <%= f.label "Use AI when comment is longer in length", class: "form-label" %>
-      <div class="input-group">
-        <%= f.text_field :use_openai_when_comment_is_longer_in_length, class: "form-control", disabled: false %>
+      <div class="form-group mb-3">
+        <%= f.label "Use AI when comment is longer in length", class: "form-label" %>
+        <div class="input-group">
+          <%= f.number_field :use_openai_when_comment_is_longer_in_length, class: "form-control", disabled: false %>
+        </div>
       </div>
-    </div>
-
-    <div class="form-group mb-3">
-      <div class="form-check">
-        <%= f.check_box :use_openai, class: "form-check-input", id: "flexCheckUseOpenAI", disabled: false %>
-        <%= f.label "Using Open AI?", class: "form-check-label", for: "flexCheckUseOpenAI" %>
+      <h5><%= f.label "Using Open AI?", for: "checkboxUseOpenAI" %></h5>
+      <div class="checkbox-wrapper-5">
+        <div class="check">
+          <%= f.check_box :use_openai, id: "checkboxUseOpenAI", disabled: false %>
+          <label for="checkboxUseOpenAI"></label>
+        </div>
+      </div>
+      <h5><%= f.label "Active?", for: "checkboxStatus" %></h5>
+      <div class="checkbox-wrapper-5">
+        <div class="check">
+          <%= f.check_box :status, id: "checkboxStatus", disabled: false %>
+          <label for="checkboxStatus"></label>
+        </div>
       </div>
 
-      <div class="form-check">
-        <%= f.check_box :status, class: "form-check-input", id: "flexCheckStatus", disabled: false %>
-        <%= f.label "Active?", class: "form-check-label", for: "flexCheckStatus" %>
-      </div>
-    </div>
+      <br>
 
-    <div class="auto_comments mt-3">
-      <h5>Random comments(if not use Open AI)</h5>
-      <%= f.fields_for :auto_comments do |builder| %>
+      <div class="auto_comments mt-3">
+        <h6>Random content if not use AI</h6>
+        <%= f.fields_for :auto_comments do |builder| %>
         <%= render "social_accounts/form/auto_comment_fields", f: builder %>
-      <% end %>
-      <div class="links">
-        <%= link_to_add_association "add comment",
-          f, :auto_comments, partial: "social_accounts/form/auto_comment_fields" %>
+        <% end %>
+        <div class="links" style="font-weight: bold; text-decoration: none;">
+          <%= link_to_add_association "New Content",
+            f, :auto_comments, href: "javascript:void(0);", partial: "social_accounts/form/auto_comment_fields" %>
+        </div>
       </div>
+      <br>
+      <div class="form-group mb-3">
+        <%= f.submit "Update", class: "btn btn-primary login-btn btn-block" %>
+      </div>
+      <% end %>
+      <%= link_to "Delete", social_account_path(@social_account), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
     </div>
-    <br>
-
-    <div class="form-group mb-3">
-      <%= f.submit "Update", class: "btn btn-primary login-btn btn-block" %>
-    </div>
-  <% end %>
-  <%= link_to "Delete", social_account_path(@social_account), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
-</div>
+  </div>
+</section>
 
 <style type="text/css">
-  .devise-form {
-    width: 720px;
-    margin: 30px auto;
+  div.div-container {
+    max-width: 720px;
+    width: 100vw;
+  }
+
+  .form-container form input,
+  .form-container form textarea {
+    margin: 0.3rem 0 2rem 0;
   }
 </style>

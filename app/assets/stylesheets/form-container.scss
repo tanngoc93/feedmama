@@ -20,7 +20,8 @@ div.div-container {
   -o-border-radius: 10px;
 }
 
-.form-container form input {
+.form-container form input,
+.form-container form textarea {
   display: block;
   padding: 14.5px;
   width: 100%;
@@ -40,7 +41,8 @@ div.div-container {
   -o-border-radius: 5px;
 }
 
-.form-container form input:focus {
+.form-container form input:focus,
+.form-container form textarea:focus {
   box-shadow: 0 0 16px 1px rgba(0, 0, 0, 0.2);
   animation: wobble 0.3s ease-in;
   -webkit-animation: wobble 0.3s ease-in;

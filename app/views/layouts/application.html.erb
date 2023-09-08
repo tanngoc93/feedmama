@@ -16,14 +16,14 @@
 
   <body class="crumina-grid">
     <% if notice.present? %>
-      <div class="info">
+      <div class="info" style="text-align: center; font-size: 2rem;">
         <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
         <%= notice %>
       </div>
     <% end %>
 
     <% if alert.present? %>
-      <div class="alert">
+      <div class="alert" style="text-align: center; font-size: 2rem;">
         <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
         <%= alert %>
       </div>
