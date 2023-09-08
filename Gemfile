@@ -75,7 +75,7 @@ gem "jquery-rails"
 gem "jquery-ui-rails"
 
 #
-gem "bootstrap", "~> 5.3.1"
+# gem "bootstrap", "~> 5.3.1"
 
 # Use Sass to process CSS
 gem "sassc-rails"

@@ -1,41 +1,44 @@
-<div class="devise-form">
-  <%= form_with model: Order.new do |f| %>
-    <div class="form-group">
-      <%= f.select :product_quantity,
-        options_for_select([
-          ['Quantity 1', 1],
-          ['Quantity 2', 2],
-          ['Quantity 3', 3],
-          ['Quantity 4', 4],
-          ['Quantity 5', 5],
-        ]),
-        {
-        },
-        {
-          class: "form-select form-select-lg mb-3",
-          style: "border-radius: 0px;"
-        }
-      %>
+<section class="section-container">
+  <div class="div-container">
+    <div class="form-container">
+      <br>
+      <%= form_with model: Order.new do |f| %>
+        <%= f.select :product_quantity,
+          options_for_select([
+            ['Quantity 1', 1],
+            ['Quantity 2', 2],
+            ['Quantity 3', 3],
+            ['Quantity 4', 4],
+            ['Quantity 5', 5],
+          ]),
+          {
+          },
+          {
+            class: "form-select form-select-lg mb-3",
+            style: "border-radius: 0px;"
+          }
+        %>
 
-      <%= f.select :product_id,
-        options_for_select(
-          @products.map{ |product| [product.name, product.id] },
-          @products&.first&.id
-        ),
-        {
-        },
-        {
-          class: "form-select form-select-lg mb-3",
-          style: "border-radius: 0px;"
-        }
-      %>
+        <%= f.select :product_id,
+          options_for_select(
+            @products.map{ |product| [product.name, product.id] },
+            @products&.first&.id
+          ),
+          {
+          },
+          {
+            class: "form-select form-select-lg mb-3",
+            style: "border-radius: 0px;"
+          }
+        %>
 
-      <%= f.submit "Buy now",
-        data: {
-          turbo: false
-        },
-        class: "form-control btn btn-primary login-btn btn-block mb-3"
-      %>
+        <%= f.submit "Buy now",
+          data: {
+            turbo: false
+          },
+          class: "form-control btn btn-primary login-btn btn-block mb-3"
+        %>
+      <% end %>
     </div>
-  <% end %>
-</div>
+  </div>
+</section>

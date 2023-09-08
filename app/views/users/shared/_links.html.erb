@@ -19,17 +19,23 @@
 <% end %>
 
 <%- if devise_mapping.omniauthable? %>
-  <div class="text-center social-btn">
+  <div class="social-btn">
   <%- resource_class.omniauth_providers.each do |provider| %>
     <% if provider == :facebook %>
       <%= link_to omniauth_authorize_path(resource_name, provider), data: { turbo: false } do %>
-        <button type="button" class="btn btn-secondary">Facebook</button>
+        <button type="button" class="btn form-control btn-secondary">FACEBOOK</button>
       <% end %>
     <% elsif provider == :google_oauth2 %>
       <%= link_to omniauth_authorize_path(resource_name, provider), data: { turbo: false } do %>
-        <button type="button" class="btn btn-danger">Google</button>
+        <button type="button" class="btn form-control btn-secondary">GOOGLE</button>
       <% end %>
     <% end %>
   <% end %>
   </div>
 <% end %>
+
+<style type="text/css">
+  .social-btn button.btn {
+    padding: px;
+  }
+</style>

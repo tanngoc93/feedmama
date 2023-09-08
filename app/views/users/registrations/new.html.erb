@@ -1,39 +1,23 @@
-<div class="devise-form">
-  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-
-  <h2 class="text-center">Sign up</h2>
-
-  <div class="form-group">
-    <div class="input-group mb-3">
-      <span class="input-group-text">@</span>
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "Email or Username" %>
+<section class="section-container">
+  <div class="div-container">
+    <div class="form-container">
+      <h5 class="opacity">REGISTRATION</h5>
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "EMAIL" %>
+      <%= f.password_field :password, placeholder: "PASSWORD" %>
+      <%= f.password_field :password_confirmation, placeholder: "PASSWORD CONFIRMATION" %>
+      <%= f.submit "SUBMIT", class: "btn opacity" %>
+      <% end %>
+      <div class="register-forget opacity">HAVE AN ACCOUNT 👉 
+        <%= link_to "SIGN IN", new_session_path(resource_name), class: "text-light" %>
+      </div>
+      <br>
+      <div class="opacity" style="text-align: center;">
+        <h5>Sign in with</h5>
+        <%= render "users/shared/links" %>
+      </div>
+      <br>
     </div>
   </div>
-
-  <div class="form-group">
-    <div class="input-group mb-3">
-      <span class="input-group-text">%</span>
-      <%= f.password_field :password, autocomplete: "new-password", class: "form-control", placeholder: "Password" %>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <div class="input-group mb-3">
-      <span class="input-group-text">%</span>
-      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", placeholder: "Password confirmation" %>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <%= f.submit "Sign up", class: "form-control btn btn-primary login-btn btn-block" %>
-  </div>
-
-  <div class="or-seperator"><i>or</i></div>
-    <p class="text-center">Sign up with your social media account</p>
-    <%= render "users/shared/links" %>
-  <% end %>
-  <p class="text-center text-muted small">Have an account?
-    <%= link_to "Sign in here!", new_session_path(resource_name) %>
-  </p>
-</div>
+</section>
