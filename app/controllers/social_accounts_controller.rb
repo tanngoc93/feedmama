@@ -26,19 +26,17 @@ class SocialAccountsController < ApplicationController
       callback_url
     )
 
-    setting = AppSetting.where(status: true).first
+    permissions = "public_profile,business_management,instagram_basic,pages_manage_metadata,pages_show_list,pages_messaging,pages_read_user_content,pages_manage_engagement,pages_read_engagement"
 
-    redirect_to @oauth.url_for_oauth_code(permissions: setting.facebook_permissions), allow_other_host: true
+    redirect_to @oauth.url_for_oauth_code(permissions: permissions, options: { type: :facebook }), allow_other_host: true
   end
-
   def facebook_oauth_callback
-    request = get_facebook_access_token( params[:code] )
+    request = get_page_access_token( params[:code] )
 
     if request.status == 200
-      pages = get_facebook_pages( JSON.parse(request.body)["access_token"] )
-
-      pages.each do |page|
-        account = current_user.social_accounts.find_or_create_by(
+      pages = get_list_pages( JSON.parse(request.body)["access_token"] )
+      pages&.each do |page|
+        facebook = current_user.social_accounts.find_or_create_by(
           resource_id: page["id"],
           resource_name: page["name"],
           resource_platform: "facebook"
@@ -46,7 +44,21 @@ class SocialAccountsController < ApplicationController
 
         set_subscribed_fields(page["id"], page["access_token"])
 
-        account&.update(resource_access_token: page["access_token"])
+        facebook&.update(resource_access_token: page["access_token"])
+
+        request = get_instagram(page["id"], page["access_token"])
+
+        instagrams = JSON.parse(request.body)["data"]
+        instagrams&.each do |_instagram|
+          instagram = current_user.social_accounts.find_or_create_by(
+            resource_id: _instagram["id"],
+            resource_name: _instagram["username"],
+            parent_social_account_id: facebook.id,
+            resource_platform: "instagram"
+          )
+
+          instagram&.update(resource_access_token: page["access_token"])
+        end
       end
 
       redirect_to root_path, notice: "Successfully"
@@ -81,13 +93,24 @@ class SocialAccountsController < ApplicationController
     @callback_url ||= "#{ request.base_url }/social_accounts/facebook/callback".freeze
   end
 
-  def get_facebook_pages(access_token)
+  def get_list_pages(access_token)
     koala = Koala::Facebook::API.new(access_token)
     pages = koala.get_connections("me", "accounts")
     pages
   end
 
-  def get_facebook_access_token(code)
+  def get_instagram(page_id, access_token)
+    conn = Faraday.new(
+      url: "https://graph.facebook.com/#{ FACEBOOK_VERSION }/#{page_id}/instagram_accounts?fields=id,username&access_token=#{access_token}",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    )
+
+    conn.get
+  end
+
+  def get_page_access_token(code)
     conn = Faraday.new(
       url: "https://graph.facebook.com/#{ FACEBOOK_VERSION }/oauth/access_token?redirect_uri=#{ callback_url }&client_id=#{ Koala.config.app_id }&client_secret=#{ Koala.config.app_secret }&code=#{ code }",
       headers: {

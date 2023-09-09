@@ -31,7 +31,7 @@ Rails.application.routes.draw do
 
   #
   get  "stripe/callback", to: "stripes#callback"
-  post  "stripe/webhook", to: "stripes#webhook"
+  post "stripe/webhook", to: "stripes#webhook"
 
   #
   get  "webhooks/:secured_token", to: "facebooks#subscription"

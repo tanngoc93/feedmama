@@ -29,6 +29,13 @@
           <%= f.number_field :use_openai_when_comment_is_longer_in_length, class: "form-control", disabled: false %>
         </div>
       </div>
+      <h5><%= f.label "On/Off", for: "checkboxStatus" %></h5>
+      <div class="checkbox-wrapper-5">
+        <div class="check">
+          <%= f.check_box :status, id: "checkboxStatus", disabled: false %>
+          <label for="checkboxStatus"></label>
+        </div>
+      </div>
       <h5><%= f.label "Using Open AI?", for: "checkboxUseOpenAI" %></h5>
       <div class="checkbox-wrapper-5">
         <div class="check">
@@ -36,16 +43,7 @@
           <label for="checkboxUseOpenAI"></label>
         </div>
       </div>
-      <h5><%= f.label "Active?", for: "checkboxStatus" %></h5>
-      <div class="checkbox-wrapper-5">
-        <div class="check">
-          <%= f.check_box :status, id: "checkboxStatus", disabled: false %>
-          <label for="checkboxStatus"></label>
-        </div>
-      </div>
-
       <br>
-
       <div class="auto_comments mt-3">
         <h6>Random content if not use AI</h6>
         <%= f.fields_for :auto_comments do |builder| %>
