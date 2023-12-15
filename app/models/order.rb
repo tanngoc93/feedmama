@@ -2,7 +2,7 @@ class Order < ApplicationRecord
   belongs_to :product
   belongs_to :user
 
-  after_create :destroy_abandoned_order
+  after_create :destroy_abandoned_order_schedule
   after_update :update_tokens_for_user, if: -> { status }
 
   def amount
@@ -15,7 +15,7 @@ class Order < ApplicationRecord
 
   private
 
-  def destroy_abandoned_order
+  def destroy_abandoned_order_schedule
     DestroyAbandonedOrderJob.perform_at(24.hours.from_now, id)
   end
 
