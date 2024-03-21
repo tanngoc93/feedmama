@@ -40,4 +40,8 @@ Rails.application.routes.draw do
   # 
   get "social_accounts/facebook/code", to: "social_accounts#facebook_oauth_code"
   get "social_accounts/facebook/callback", to: "social_accounts#facebook_oauth_callback"
+
+  #
+  get "/privacy_policy", to: "pages#privacy_policy"
+  get "/terms_of_service", to: "pages#terms_of_service"
 end
