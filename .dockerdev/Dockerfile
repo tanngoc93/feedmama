@@ -26,7 +26,7 @@ RUN mkdir -p $APP_DIR $APP_DIR/log $APP_DIR/tmp/pids
 RUN apt-get update -qq && apt-get install -y postgresql-client
 
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - &&\
- && apt-get update && apt-get install -y nodejs
+ apt-get update && apt-get install -y nodejs
 
 RUN apt-get install -y shared-mime-info
 
