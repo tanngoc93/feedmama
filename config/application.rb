@@ -24,6 +24,8 @@ module FeedMama
     config.middleware.use ActionDispatch::Cookies # Required for all session management
     config.middleware.use ActionDispatch::Session::CookieStore, config.session_options
 
-    config.hosts << "feedmama.markiee.co"
+    config.active_job.queue_adapter = :sidekiq
+
+    config.hosts.clear
   end
 end

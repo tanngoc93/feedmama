@@ -1,0 +1,1 @@
+Resend.api_key = ENV.fetch("RESEND_KEY") { SecureRandom.hex }
