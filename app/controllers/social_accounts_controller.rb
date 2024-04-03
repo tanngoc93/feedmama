@@ -5,7 +5,7 @@ class SocialAccountsController < ApplicationController
 
   def update
     if @social_account&.update(social_account_params)
-      redirect_to root_path, notice: "Successfully updated"
+      redirect_to root_path, notice: "Updated successfully"
     else
       render :show, notice: @social_account&.errors&.full_messages&.to_sentence
     end
@@ -13,28 +13,25 @@ class SocialAccountsController < ApplicationController
 
   def destroy
     if @social_account&.destroy
-      redirect_to root_path, notice: "Successfully deleted"
+      redirect_to root_path, notice: "Deleted successfully"
     else
       render :show, notice: @social_account&.errors&.full_messages&.to_sentence
     end
   end
 
   def facebook_oauth_code
-    @oauth = Koala::Facebook::OAuth.new(
-      Koala.config.app_id,
-      Koala.config.app_secret,
-      callback_url
-    )
+    @oauth = Koala::Facebook::OAuth.new(Koala.config.app_id, Koala.config.app_secret, callback_url)
 
-    permissions = "public_profile,business_management,instagram_basic,pages_manage_metadata,pages_show_list,pages_messaging,pages_read_user_content,pages_manage_engagement,pages_read_engagement"
+    permissions = "public_profile,business_management,pages_manage_metadata,pages_show_list,pages_messaging,pages_read_user_content,pages_manage_engagement,pages_read_engagement"
 
     redirect_to @oauth.url_for_oauth_code(permissions: permissions, options: { type: :facebook }), allow_other_host: true
   end
+
   def facebook_oauth_callback
-    request = get_page_access_token( params[:code] )
+    request = oauth_access_token( params[:code] )
 
     if request.status == 200
-      pages = get_list_pages( JSON.parse(request.body)["access_token"] )
+      pages = list_facebook_pages( JSON.parse(request.body)["access_token"] )
       pages&.each do |page|
         facebook = current_user.social_accounts.find_or_create_by(
           resource_id: page["id"],
@@ -46,7 +43,7 @@ class SocialAccountsController < ApplicationController
 
         facebook&.update(resource_access_token: page["access_token"])
 
-        request = get_instagram(page["id"], page["access_token"])
+        request = instagram(page["id"], page["access_token"])
 
         instagrams = JSON.parse(request.body)["data"]
         instagrams&.each do |_instagram|
@@ -61,7 +58,7 @@ class SocialAccountsController < ApplicationController
         end
       end
 
-      redirect_to root_path, notice: "Successfully"
+      redirect_to root_path, notice: "Updated successfully"
     else
       error = request.status == 400 ? JSON.parse(request.body)["error"] : nil
 
@@ -93,42 +90,42 @@ class SocialAccountsController < ApplicationController
     @callback_url ||= "#{ request.base_url }/social_accounts/facebook/callback".freeze
   end
 
-  def get_list_pages(access_token)
+  def list_facebook_pages(access_token)
     koala = Koala::Facebook::API.new(access_token)
     pages = koala.get_connections("me", "accounts")
     pages
   end
 
-  def get_instagram(page_id, access_token)
-    conn = Faraday.new(
+  def instagram(page_id, access_token)
+    connect = Faraday.new(
       url: "https://graph.facebook.com/#{ FACEBOOK_VERSION }/#{page_id}/instagram_accounts?fields=id,username&access_token=#{access_token}",
       headers: {
         "Content-Type": "application/json"
       }
     )
 
-    conn.get
+    connect.get
   end
 
-  def get_page_access_token(code)
-    conn = Faraday.new(
+  def oauth_access_token(code)
+    connect = Faraday.new(
       url: "https://graph.facebook.com/#{ FACEBOOK_VERSION }/oauth/access_token?redirect_uri=#{ callback_url }&client_id=#{ Koala.config.app_id }&client_secret=#{ Koala.config.app_secret }&code=#{ code }",
       headers: {
         "Content-Type": "application/json"
       }
     )
 
-    conn.get
+    connect.get
   end
 
   def set_subscribed_fields(page_id, access_token)
-    conn = Faraday.new(
+    connect = Faraday.new(
       url: "https://graph.facebook.com/#{ FACEBOOK_VERSION }/#{ page_id }/subscribed_apps?subscribed_fields=feed&access_token=#{ access_token }",
       headers: {
         "Content-Type": "application/json"
       }
     )
 
-    conn.post
+    connect.post
   end
 end
