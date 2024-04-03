@@ -22,7 +22,7 @@ class SocialAccountsController < ApplicationController
   def facebook_oauth_code
     @oauth = Koala::Facebook::OAuth.new(Koala.config.app_id, Koala.config.app_secret, callback_url)
 
-    permissions = "public_profile,business_management,pages_manage_metadata,pages_show_list,pages_messaging,pages_read_user_content,pages_manage_engagement,pages_read_engagement"
+    permissions = "public_profile,business_management,instagram_basic,instagram_manage_comments,pages_manage_metadata,pages_show_list,pages_messaging,pages_read_user_content,pages_manage_engagement,pages_read_engagement"
 
     redirect_to @oauth.url_for_oauth_code(permissions: permissions, options: { type: :facebook }), allow_other_host: true
   end
