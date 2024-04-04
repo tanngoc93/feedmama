@@ -1,8 +1,4 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
-  def facebook
-    generic_callback("facebook")
-  end
-
   def google_oauth2
     generic_callback( "google_oauth2" )
   end
