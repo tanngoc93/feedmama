@@ -1,13 +1,13 @@
 <% if current_user.present? %>
-  <h1 style="text-align: center; margin-top: 30px;">
+  <div style="width: 100%; text-align: center; margin-top: 30px;">
     <%= button_to "Add Facebook Page",
       social_accounts_facebook_code_path,
       method: :get,
       data: {
         turbo: false
       },
-      class: "btn btn-primary" %>
-  </h1>
+      class: "btn btn-primary", style: "max-width: 300px;" %>
+  </div>
   <% if @social_accounts&.any? %>
   <div
     class="container"
