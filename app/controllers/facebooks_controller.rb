@@ -63,7 +63,7 @@ class FacebooksController < ApplicationController
 
     if add_comment?(data)
       FbReplyCommentJob.perform_at(
-        @social_account.perform_at.minutes.from_now,
+        @social_account.perform_at.seconds.from_now,
         post_id,
         comment_id,
         comment,
@@ -87,7 +87,7 @@ class FacebooksController < ApplicationController
     return if blocked_commentator.present?
 
     InsReplyCommentJob.perform_at(
-      @social_account.perform_at.from_now,
+      @social_account.perform_at.seconds.from_now,
       media_id,
       comment_id,
       comment,
