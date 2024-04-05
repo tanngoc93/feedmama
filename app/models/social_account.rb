@@ -13,21 +13,21 @@ class SocialAccount < ApplicationRecord
     instagram: 'instagram',
   }
 
+  after_create :refresh_meta_access_token, if: -> { facebook? || instagram? }
   after_create :facebook_subscribed_fields, if: -> { facebook? }
 
   private
 
-  # not use at this time
-  def refresh_access_token
-    if facebook? && saved_change_to_resource_access_token?
-      remove_scheduled && RefreshAccessTokenJob.perform_at(45.days.from_now, id)
+  def refresh_meta_access_token
+    if saved_change_to_resource_access_token?
+      remove_old_scheduled && RefreshMetaAccessTokenJob.perform_at(15.days.from_now, id)
     end
   end
  
-  def remove_scheduled
+  def remove_old_scheduled
     scheduled_set = Sidekiq::ScheduledSet.new
     scheduled_set.select do |scheduled|
-      scheduled.klass == 'RefreshAccessTokenJob' && scheduled.args[0] == id
+      scheduled.klass == 'RefreshMetaAccessTokenJob' && scheduled.args[0] == id
     end.map(&:delete)
   end
 
