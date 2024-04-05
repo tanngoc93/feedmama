@@ -18,25 +18,53 @@
         </div>
       </div>
       <div class="form-group mb-3">
-        <%= f.label "Content Query", class: "form-label" %>
+        <label class="form-label">
+          Content Builder
+        </label>
         <div class="input-group">
           <%= f.text_area :openai_prompt, size: "30x12", class: "form-control", disabled: false %>
         </div>
       </div>
       <div class="form-group mb-3">
-        <%= f.label "Use AI when comment is longer in length", class: "form-label" %>
+        <label>
+          Don't reply to user's comment after (?) hours from the last reply
+        </label>
+        <div class="input-group">
+          <%= f.number_field :time_blocking, class: "form-control", disabled: false %>
+        </div>
+      </div>
+      <div class="form-group mb-3">
+        <label>
+          Reply to user's comment after (?) seconds
+        </label>
+        <div class="input-group">
+          <%= f.number_field :time_blocking, class: "form-control", disabled: false %>
+        </div>
+      </div>
+      <div class="form-group mb-3">
+        <label>
+          Only use OpenAI for comments longer than (?) words
+        </label>
         <div class="input-group">
           <%= f.number_field :use_openai_when_comment_is_longer_in_length, class: "form-control", disabled: false %>
         </div>
       </div>
-      <h5><%= f.label "On/Off", for: "checkboxStatus" %></h5>
+      <h5>
+        <label for="checkboxStatus">
+          Status
+        </label>
+      </h5>
       <div class="checkbox-wrapper-5">
         <div class="check">
           <%= f.check_box :status, id: "checkboxStatus", disabled: false %>
           <label for="checkboxStatus"></label>
         </div>
       </div>
-      <h5><%= f.label "Using Open AI?", for: "checkboxUseOpenAI" %></h5>
+      <h5>
+        <label for="checkboxUseOpenAI">
+          Using OpenAI
+        </label>
+      </h5>
       <div class="checkbox-wrapper-5">
         <div class="check">
           <%= f.check_box :use_openai, id: "checkboxUseOpenAI", disabled: false %>
@@ -45,7 +73,7 @@
       </div>
       <br>
       <div class="auto_comments mt-3">
-        <h6>Random content if not use AI</h6>
+        <h6>Random Comments (In case you don't use OpenAI)</h6>
         <%= f.fields_for :auto_comments do |builder| %>
         <%= render "social_accounts/form/auto_comment_fields", f: builder %>
         <% end %>

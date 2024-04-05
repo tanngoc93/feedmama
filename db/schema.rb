@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_04_05_095123) do
+ActiveRecord::Schema[7.0].define(version: 2024_04_05_123521) do
   create_table "active_admin_comments", charset: "utf8mb4", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -146,6 +146,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_05_095123) do
     t.bigint "parent_social_account_id"
     t.bigint "user_id"
     t.string "resource_username"
+    t.boolean "resource_access_token_error", default: false
+    t.integer "time_blocking", default: 0
+    t.integer "perform_at", default: 0
     t.index ["parent_social_account_id"], name: "index_social_accounts_on_parent_social_account_id"
     t.index ["user_id"], name: "index_social_accounts_on_user_id"
   end
@@ -158,6 +161,20 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_05_095123) do
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_tokens_on_user_id"
     t.check_constraint "json_valid(`token_details`)", name: "token_details"
+  end
+
+  create_table "user_settings", charset: "utf8mb4", force: :cascade do |t|
+    t.boolean "status", default: true
+    t.boolean "use_app_setting", default: false
+    t.string "provider"
+    t.string "endpoint"
+    t.string "model"
+    t.string "access_token"
+    t.string "api_version"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_settings_on_user_id"
   end
 
   create_table "users", charset: "utf8mb4", force: :cascade do |t|

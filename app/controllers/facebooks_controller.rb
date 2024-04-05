@@ -59,15 +59,11 @@ class FacebooksController < ApplicationController
     commentator_name = data['from']['name']
 
     return if comment.nil? || commentator_id == @social_account&.resource_id
+    return if blocked_commentator.present?
 
     if add_comment?(data)
-      blocked_user =
-        BlockedCommentator.where(commentator_id: commentator_id, social_account_id: @social_account.id).first
-
-      return if blocked_user.present?
-
       FbReplyCommentJob.perform_at(
-        3.minutes.from_now,
+        @social_account.perform_at.minutes.from_now,
         post_id,
         comment_id,
         comment,
@@ -76,12 +72,7 @@ class FacebooksController < ApplicationController
         @app_setting.id
       )
 
-      blocked_user = BlockedCommentator.find_or_create_by(
-        commentator_id: commentator_id,
-        social_account_id: @social_account.id
-      )
-
-      blocked_user.update(post_id: post_id)
+      create_blocked_commentator(commentator_id, social_account_id, post_id)
     end
   end
 
@@ -93,14 +84,10 @@ class FacebooksController < ApplicationController
     commentator_name   = data['from']['username']
 
     return if comment.nil? || commentator_id == @social_account&.resource_id
-
-    blocked_commentator =
-      BlockedCommentator.where(commentator_id: commentator_id, social_account_id: @social_account.id).first
-
     return if blocked_commentator.present?
 
     InsReplyCommentJob.perform_at(
-      3.minutes.from_now,
+      @social_account.perform_at.from_now,
       media_id,
       comment_id,
       comment,
@@ -109,12 +96,20 @@ class FacebooksController < ApplicationController
       @app_setting.id
     )
 
+    create_blocked_commentator(commentator_id, social_account_id, media_id)
+  end
+
+  def create_blocked_commentator(commentator_id, social_account_id, post_id)
     blocked_commentator = BlockedCommentator.find_or_create_by(
       commentator_id: commentator_id,
-      social_account_id: @social_account.id
+      social_account_id: social_account_id
     )
 
     blocked_commentator&.update(post_id: media_id)
+  end
+
+  def blocked_commentator(commentator_id, social_account_id)
+    @blocked_commentator ||= BlockedCommentator.where(commentator_id: commentator_id, social_account_id: social_account_id).first
   end
 
   def add_comment?(data)

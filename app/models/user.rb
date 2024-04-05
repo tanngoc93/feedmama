@@ -1,13 +1,15 @@
 class User < ApplicationRecord
-  has_many :social_accounts, dependent: :destroy
-  has_many :orders, dependent: :destroy
-  has_one  :token, dependent: :destroy
-
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :confirmable, :registerable,
          :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: []
+
+  has_many :social_accounts, dependent: :destroy
+  has_many :orders, dependent: :destroy
+
+  has_one  :user_setting, dependent: :destroy
+  has_one  :token, dependent: :destroy
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|

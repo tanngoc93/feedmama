@@ -4,6 +4,6 @@ class BlockedCommentator < ApplicationRecord
   after_create :destroy_blocked_commentator_job
 
   def destroy_blocked_commentator_job
-    DestroyBlockedCommentatorJob.perform_at(6.hours.from_now, id)
+    DestroyBlockedCommentatorJob.perform_at(social_account.time_blocking.hours.from_now, id)
   end
 end
