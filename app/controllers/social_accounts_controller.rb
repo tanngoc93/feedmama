@@ -5,7 +5,7 @@ class SocialAccountsController < ApplicationController
 
   def update
     if @social_account&.update(social_account_params)
-      redirect_to root_path, notice: 'Updated successfully'
+      redirect_to root_path, notice: 'Your data was updated successfully'
     else
       render :show, notice: @social_account&.errors&.full_messages&.to_sentence
     end
@@ -13,7 +13,7 @@ class SocialAccountsController < ApplicationController
 
   def destroy
     if @social_account&.destroy
-      redirect_to root_path, notice: 'Updated successfully'
+      redirect_to root_path, notice: 'Your data was deleted successfully'
     else
       render :show, notice: @social_account&.errors&.full_messages&.to_sentence
     end
