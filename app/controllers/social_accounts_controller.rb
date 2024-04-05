@@ -104,7 +104,13 @@ class SocialAccountsController < ApplicationController
         :use_openai,
         :openai_prompt,
         :use_openai_when_comment_is_longer_in_length,
-        auto_comments_attributes: [:id, :content, :_destroy]
+        :time_blocking,
+        :perform_at,
+        auto_comments_attributes: [
+          :id,
+          :content,
+          :_destroy
+        ],
       )
   end
 
