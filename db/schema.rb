@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_25_084563) do
+ActiveRecord::Schema[7.0].define(version: 2024_04_05_095123) do
   create_table "active_admin_comments", charset: "utf8mb4", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -74,6 +74,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_25_084563) do
     t.index ["social_account_id"], name: "index_auto_comments_on_social_account_id"
   end
 
+  create_table "blocked_commentators", charset: "utf8mb4", force: :cascade do |t|
+    t.string "post_id"
+    t.string "comment_id"
+    t.string "commentator_id"
+    t.bigint "social_account_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["social_account_id"], name: "index_blocked_commentators_on_social_account_id"
+  end
+
   create_table "blockers", charset: "utf8mb4", force: :cascade do |t|
     t.string "post_id"
     t.string "comment_id"
@@ -135,6 +145,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_25_084563) do
     t.datetime "updated_at", null: false
     t.bigint "parent_social_account_id"
     t.bigint "user_id"
+    t.string "resource_username"
     t.index ["parent_social_account_id"], name: "index_social_accounts_on_parent_social_account_id"
     t.index ["user_id"], name: "index_social_accounts_on_user_id"
   end
@@ -180,6 +191,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_25_084563) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  add_foreign_key "blocked_commentators", "social_accounts"
   add_foreign_key "blockers", "social_accounts"
   add_foreign_key "orders", "products"
   add_foreign_key "orders", "users"

@@ -20,7 +20,6 @@ class FbReplyCommentJob
 
     FacebookCommentator.call(social_account, comment_id, message)
   rescue StandardError => e
-    Rails.logger.debug(">>>>> FbReplyCommentJob:Perform #{e.message}")
   end
 
   private

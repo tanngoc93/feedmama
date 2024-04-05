@@ -18,16 +18,16 @@ class OpenaiCreator < ApplicationService
     response = openai_client.chat(
       parameters: {
         model: app_setting.openai_model,
-        messages: [{ role: "user", content: content_builder }],
+        messages: [{ role: 'user', content: content_builder }],
         temperature: 0.7,
       }
     )
 
-    content = response.dig("choices", 0, "message", "content")
+    content = response.dig('choices', 0, 'message', 'content')
 
     return false unless content.is_a? String
 
-    "#{content}"
+    content
   end
 
   private

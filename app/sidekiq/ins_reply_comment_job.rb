@@ -24,7 +24,6 @@ class InsReplyCommentJob
 
     InstagramCommentator.call(social_account, comment_id, message)
   rescue StandardError => e
-    Rails.logger.debug(">>>>> InsReplyCommentJob:Perform #{e.message}")
   end
 
   private

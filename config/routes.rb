@@ -41,8 +41,11 @@ Rails.application.routes.draw do
   post "webhooks/:secured_token", to: "facebooks#subscription"
 
   # 
-  get "social_accounts/facebook/code", to: "social_accounts#facebook_oauth_code"
+  get "social_accounts/facebook/code", to: "social_accounts#facebook_oauth"
   get "social_accounts/facebook/callback", to: "social_accounts#facebook_oauth_callback"
+
+  get "social_accounts/instagram/code", to: "social_accounts#instagram_oauth"
+  get "social_accounts/instagram/callback", to: "social_accounts#instagram_oauth_callback"
 
   #
   get "/privacy_policy", to: "pages#privacy_policy"

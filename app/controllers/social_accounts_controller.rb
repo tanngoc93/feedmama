@@ -5,7 +5,7 @@ class SocialAccountsController < ApplicationController
 
   def update
     if @social_account&.update(social_account_params)
-      redirect_to root_path, notice: "Updated successfully"
+      redirect_to root_path, notice: 'Updated successfully'
     else
       render :show, notice: @social_account&.errors&.full_messages&.to_sentence
     end
@@ -13,60 +13,82 @@ class SocialAccountsController < ApplicationController
 
   def destroy
     if @social_account&.destroy
-      redirect_to root_path, notice: "Deleted successfully"
+      redirect_to root_path, notice: 'Updated successfully'
     else
       render :show, notice: @social_account&.errors&.full_messages&.to_sentence
     end
   end
 
-  def facebook_oauth_code
-    @oauth = Koala::Facebook::OAuth.new(Koala.config.app_id, Koala.config.app_secret, callback_url)
+  def facebook_oauth
+    @oauth = Koala::Facebook::OAuth.new(Koala.config.app_id, Koala.config.app_secret, callback_url('facebook'))
 
-    permissions = "public_profile,business_management,instagram_basic,instagram_manage_comments,pages_manage_metadata,pages_show_list,pages_messaging,pages_read_user_content,pages_manage_engagement,pages_read_engagement"
+    permissions = 'public_profile,business_management,pages_manage_metadata,pages_show_list,pages_messaging,pages_read_user_content,pages_manage_engagement,pages_read_engagement'
 
-    redirect_to @oauth.url_for_oauth_code(permissions: permissions, options: { type: :facebook }), allow_other_host: true
+    redirect_to @oauth.url_for_oauth_code(
+      permissions: permissions,
+      options: {
+        type: :facebook
+      }),
+    allow_other_host: true
   end
 
   def facebook_oauth_callback
-    request = oauth_access_token( params[:code] )
+    request = oauth_access_token( params[:code], 'facebook' )
 
     if request.status == 200
-      pages = list_facebook_pages( JSON.parse(request.body)["access_token"] )
+      pages = list_facebook_pages( JSON.parse(request.body)['access_token'] )
       pages&.each do |page|
-        facebook = current_user.social_accounts.find_or_create_by(
-          resource_id: page["id"],
-          resource_name: page["name"],
-          resource_platform: "facebook"
-        )
-
-        set_subscribed_fields(page["id"], page["access_token"])
-
-        facebook&.update(resource_access_token: page["access_token"])
-
-        request = instagram(page["id"], page["access_token"])
-
-        instagrams = JSON.parse(request.body)["data"]
-        instagrams&.each do |_instagram|
-          instagram = current_user.social_accounts.find_or_create_by(
-            resource_id: _instagram["id"],
-            resource_name: _instagram["username"],
-            parent_social_account_id: facebook.id,
-            resource_platform: "instagram"
+        social_account =
+          current_user.social_accounts.find_or_create_by(
+            resource_id: page['id'],
+            resource_name: page['name'],
+            resource_platform: :facebook
           )
 
-          instagram&.update(resource_access_token: page["access_token"])
-        end
+        social_account&.update(resource_access_token: page['access_token'])
       end
-
-      redirect_to root_path, notice: "Updated successfully"
-    else
-      error = request.status == 400 ? JSON.parse(request.body)["error"] : nil
-
-      render json: {
-        status: request.status,
-        error: error
-      }
     end
+
+    redirect_to root_path, notice: 'Updated successfully'
+  end
+
+  def instagram_oauth
+    @oauth = Koala::Facebook::OAuth.new(Koala.config.app_id, Koala.config.app_secret, callback_url('instagram'))
+
+    permissions = 'public_profile,business_management,instagram_basic,instagram_manage_comments,pages_manage_metadata,pages_show_list,pages_messaging,pages_read_user_content,pages_manage_engagement,pages_read_engagement'
+
+    redirect_to @oauth.url_for_oauth_code(
+      permissions: permissions,
+      options: {
+        type: :facebook
+      }),
+    allow_other_host: true
+  end
+
+  def instagram_oauth_callback
+    request = oauth_access_token( params[:code], 'instagram' )
+
+    if request.status == 200
+      pages = list_facebook_pages( JSON.parse(request.body)['access_token'] )
+
+      pages&.each do |page|
+        next unless page['connected_instagram_account'].present?
+
+        request = instagram_api(page['connected_instagram_account']['id'], page['access_token'])
+        response = JSON.parse(request.body)
+
+        social_account = current_user.social_accounts.find_or_create_by(
+          resource_id: response['id'],
+          resource_name: response['name'],
+          resource_username: response['username'],
+          resource_platform: :instagram
+        )
+
+        social_account&.update(resource_access_token: page['access_token'])
+      end
+    end
+
+    redirect_to root_path, notice: 'Updated successfully'
   end
 
   private
@@ -86,46 +108,37 @@ class SocialAccountsController < ApplicationController
       )
   end
 
-  def callback_url
-    @callback_url ||= "#{ request.base_url }/social_accounts/facebook/callback".freeze
+  def callback_url(prefix)
+    "#{ request.base_url }/social_accounts/#{ prefix }/callback".freeze
   end
 
   def list_facebook_pages(access_token)
     koala = Koala::Facebook::API.new(access_token)
-    pages = koala.get_connections("me", "accounts")
+    pages = koala.get_connections('me', 'accounts?fields=id,name,access_token,connected_instagram_account,instagram_business_account,website')
     pages
   end
 
-  def instagram(page_id, access_token)
+  def instagram_api(id, access_token)
     connect = Faraday.new(
-      url: "https://graph.facebook.com/#{ FACEBOOK_VERSION }/#{page_id}/instagram_accounts?fields=id,username&access_token=#{access_token}",
-      headers: {
-        "Content-Type": "application/json"
-      }
+      url: "https://graph.facebook.com/#{ FACEBOOK_VERSION }/#{id}?fields=id,name,username&access_token=#{access_token}",
+      headers: headers
     )
 
     connect.get
   end
 
-  def oauth_access_token(code)
+  def oauth_access_token(code, prefix)
     connect = Faraday.new(
-      url: "https://graph.facebook.com/#{ FACEBOOK_VERSION }/oauth/access_token?redirect_uri=#{ callback_url }&client_id=#{ Koala.config.app_id }&client_secret=#{ Koala.config.app_secret }&code=#{ code }",
-      headers: {
-        "Content-Type": "application/json"
-      }
+      url: "https://graph.facebook.com/#{ FACEBOOK_VERSION }/oauth/access_token?redirect_uri=#{ callback_url(prefix) }&client_id=#{ Koala.config.app_id }&client_secret=#{ Koala.config.app_secret }&code=#{ code }",
+      headers: headers
     )
 
     connect.get
   end
 
-  def set_subscribed_fields(page_id, access_token)
-    connect = Faraday.new(
-      url: "https://graph.facebook.com/#{ FACEBOOK_VERSION }/#{ page_id }/subscribed_apps?subscribed_fields=feed&access_token=#{ access_token }",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    )
-
-    connect.post
+  def headers
+    {
+      'Content-Type': 'application/json'
+    }
   end
 end

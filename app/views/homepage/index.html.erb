@@ -1,13 +1,20 @@
+
 <% if current_user.present? %>
-  <div style="width: 100%; text-align: center; margin-top: 30px;">
-    <%= button_to "Add Facebook Page",
+  <div class="container flex items-center" style="display: flex; margin-top: 50px;">
+    <%= link_to "Facebook",
       social_accounts_facebook_code_path,
       method: :get,
-      data: {
-        turbo: false
-      },
+      data: { turbo: false },
       class: "btn btn-primary", style: "max-width: 300px;" %>
+    <%= link_to "Instagram",
+        social_accounts_instagram_code_path,
+        method: :get,
+        data: {
+          turbo: false
+        },
+        class: "btn btn-primary", style: "max-width: 300px;" %>
   </div>
+
   <% if @social_accounts&.any? %>
   <div
     class="container"
@@ -19,7 +26,7 @@
           <th scope="col">#</th>
           <th scope="col">Name</th>
           <th scope="col">Platform</th>
-          <th scope="col">On/Off</th>
+          <th scope="col">Status</th>
           <th scope="col">Belong to?</th>
           <th scope="col"></th>
         </tr>
@@ -27,7 +34,7 @@
       <tbody>
         <% @social_accounts.each do |social_account| %>
         <tr>
-          <th scope="row"><%= social_account.id %></th>
+          <th scope="row"></th>
           <td style="text-align: left;"><%= social_account.resource_name %></td>
           <td style="text-align: left;"><%= social_account.resource_platform.capitalize %></td>
           <td style="text-align: left;"><%= social_account.status ? "Active" : "Deactive" %></td>
