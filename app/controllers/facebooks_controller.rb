@@ -22,7 +22,7 @@ class FacebooksController < ApplicationController
         data = params['entry'][0]['changes'][0]['value']
 
         return unless @social_account.present?
-        
+
         facebook_reply_service(data) if @social_account.facebook?
         instagram_reply_service(data) if @social_account.instagram?
 
@@ -59,7 +59,7 @@ class FacebooksController < ApplicationController
     commentator_name = data['from']['name']
 
     return if comment.nil? || commentator_id == @social_account&.resource_id
-    return if blocked_commentator.present?
+    return if blocked_commentator(commentator_id, @social_account.id).present?
 
     if add_comment?(data)
       FbReplyCommentJob.perform_at(
@@ -72,7 +72,7 @@ class FacebooksController < ApplicationController
         @app_setting.id
       )
 
-      create_blocked_commentator(commentator_id, social_account_id, post_id)
+      create_blocked_commentator(commentator_id, @social_account.id, post_id)
     end
   end
 
@@ -84,7 +84,7 @@ class FacebooksController < ApplicationController
     commentator_name   = data['from']['username']
 
     return if comment.nil? || commentator_id == @social_account&.resource_id
-    return if blocked_commentator.present?
+    return if blocked_commentator(commentator_id, @social_account.id).present?
 
     InsReplyCommentJob.perform_at(
       @social_account.perform_at.seconds.from_now,
@@ -96,7 +96,7 @@ class FacebooksController < ApplicationController
       @app_setting.id
     )
 
-    create_blocked_commentator(commentator_id, social_account_id, media_id)
+    create_blocked_commentator(commentator_id, @social_account.id, media_id)
   end
 
   def create_blocked_commentator(commentator_id, social_account_id, post_id)
