@@ -15,6 +15,10 @@ class SocialAccount < ApplicationRecord
 
   after_create :facebook_subscribed_fields, if: -> { facebook? }
 
+  def user_setting
+    user.user_setting
+  end
+
   private
 
   # not use at this time

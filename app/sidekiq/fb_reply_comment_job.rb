@@ -3,15 +3,16 @@ class FbReplyCommentJob
   sidekiq_options retry: 3, dead: false
 
   def perform(post_id, comment_id, comment, commentator_name, social_account_id, app_setting_id)
-    app_setting = AppSetting.find_by(id: app_setting_id)
+    user_setting = UserSetting.find_by(id: user_setting_id)
     social_account = SocialAccount.find_by(id: social_account_id)
 
-    return unless app_setting.present?
+    return unless user_setting.present?
     return unless social_account.present?
 
     message =
       if use_openai?(social_account, comment)
-        OpenaiCreator.call(app_setting, social_account, commentator_name, comment)
+        OpenaiCreator.call(
+          user_setting, social_account, commentator_name, comment)
       else
         social_account&.auto_comments&.sample&.content
       end
