@@ -28,11 +28,6 @@ Rails.application.routes.draw do
 
   resources :orders
   resources :social_accounts
-  
-  get "/settings", to: "user_settings#edit"
-
-  #
-  root "homepage#index"
 
   #
   get  "stripe/callback", to: "stripes#callback"
@@ -41,6 +36,10 @@ Rails.application.routes.draw do
   #
   get  "webhooks/:secured_token", to: "facebooks#subscription"
   post "webhooks/:secured_token", to: "facebooks#subscription"
+
+  # 
+  get "/settings", to: "user_settings#show", as: :user_settings
+  put "/settings", to: "user_settings#update"
 
   # 
   get "social_accounts/facebook/code", to: "social_accounts#facebook_oauth"
@@ -52,4 +51,7 @@ Rails.application.routes.draw do
   #
   get "/privacy_policy", to: "pages#privacy_policy"
   get "/terms_of_service", to: "pages#terms_of_service"
+
+  # 
+  root "homepage#index"
 end

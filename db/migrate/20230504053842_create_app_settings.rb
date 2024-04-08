@@ -5,14 +5,11 @@ class CreateAppSettings < ActiveRecord::Migration[7.0]
       t.string  :secured_token
       t.boolean :status, default: false
 
-      t.string  :openai_type
-      t.string  :openai_uri
-      t.string  :openai_model
-      t.string  :openai_token
-      t.string  :openai_api_version
-
-      t.string  :instagram_permissions
-      t.string  :facebook_permissions
+      t.integer :api_provider, default: 0, null: false
+      t.string :api_endpoint
+      t.string :api_model
+      t.string :api_access_token
+      t.string :api_version
 
       t.timestamps
     end

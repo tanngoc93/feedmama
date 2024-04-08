@@ -2,22 +2,20 @@ class InsReplyCommentJob
   include Sidekiq::Job
   sidekiq_options retry: 3, dead: false
 
-  def perform(post_id, comment_id, comment, commentator_name, social_account_id, app_setting_id)
-    app_setting = AppSetting.find_by(id: app_setting_id)
+  def perform(post_id, comment_id, comment, commentator_name, social_account_id, user_setting_id)
+    user_setting = AppSetting.find_by(id: user_setting_id)
     social_account = SocialAccount.find_by(id: social_account_id)
 
-    return unless app_setting.present?
+    return unless user_setting.present?
+    return unless user_setting.active?
     return unless social_account.present?
 
     message =
       if use_openai?(social_account, comment)
-        OpenaiCreator.call(app_setting, social_account, commentator_name, comment)
+        OpenaiCreator.call(
+          user_setting, social_account, commentator_name, comment)
       else
-        if social_account&.parent_social_account.present?
-          social_account&.parent_social_account&.auto_comments&.sample&.content
-        else
-          social_account&.auto_comments&.sample&.content
-        end
+        social_account&.random_contents&.sample&.content
       end
 
     return unless message.is_a? String
@@ -29,7 +27,7 @@ class InsReplyCommentJob
   private
 
   def use_openai?(social_account, comment)
-    social_account.use_openai &&
-      comment.split.size > social_account.use_openai_when_comment_is_longer_in_length
+    social_account.processing_with_openai &&
+      comment.split.size > social_account.minimum_words_required_to_processing_with_openai
   end
 end

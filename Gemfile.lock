@@ -202,7 +202,6 @@ GEM
     msgpack (1.7.0)
     multi_xml (0.6.0)
     multipart-post (2.3.0)
-    mysql2 (0.5.5)
     net-imap (0.3.4)
       date
       net-protocol
@@ -240,6 +239,7 @@ GEM
       actionpack (>= 4.2)
       omniauth (~> 2.0)
     orm_adapter (0.5.0)
+    pg (1.5.6)
     public_suffix (5.0.1)
     puma (5.6.5)
       nio4r (~> 2.0)
@@ -386,11 +386,11 @@ DEPENDENCIES
   koala
   letter_opener
   letter_opener_web
-  mysql2
   omniauth
   omniauth-facebook
   omniauth-google-oauth2
   omniauth-rails_csrf_protection
+  pg
   puma (~> 5.0)
   rails (~> 7.0.4, >= 7.0.4.3)
   rails-erd

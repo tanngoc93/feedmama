@@ -22,7 +22,7 @@
           Content Builder
         </label>
         <div class="input-group">
-          <%= f.text_area :openai_prompt, size: "30x12", class: "form-control", disabled: false %>
+          <%= f.text_area :openai_prompt_prebuild, size: "30x12", class: "form-control", disabled: false %>
         </div>
       </div>
       <div class="form-group mb-3">
@@ -46,7 +46,7 @@
           Only use OpenAI for comments longer than (?) words
         </label>
         <div class="input-group">
-          <%= f.number_field :use_openai_when_comment_is_longer_in_length, class: "form-control", disabled: false %>
+          <%= f.number_field :minimum_words_required_to_processing_with_openai, class: "form-control", disabled: false %>
         </div>
       </div>
       <h5>
@@ -67,19 +67,19 @@
       </h5>
       <div class="checkbox-wrapper-5">
         <div class="check">
-          <%= f.check_box :use_openai, id: "checkboxUseOpenAI", disabled: false %>
+          <%= f.check_box :processing_with_openai, id: "checkboxUseOpenAI", disabled: false %>
           <label for="checkboxUseOpenAI"></label>
         </div>
       </div>
       <br>
-      <div class="auto_comments mt-3">
+      <div class="random_contents mt-3">
         <h6>Random Comments (In case you don't use OpenAI)</h6>
-        <%= f.fields_for :auto_comments do |builder| %>
-        <%= render "social_accounts/form/auto_comment_fields", f: builder %>
+        <%= f.fields_for :random_contents do |builder| %>
+        <%= render "social_accounts/form/random_content_fields", f: builder %>
         <% end %>
         <div class="links" style="font-weight: bold; text-decoration: none;">
           <%= link_to_add_association "New Content",
-            f, :auto_comments, href: "javascript:void(0);", partial: "social_accounts/form/auto_comment_fields" %>
+            f, :random_contents, href: "javascript:void(0);", partial: "social_accounts/form/random_content_fields" %>
         </div>
       </div>
       <br>

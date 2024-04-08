@@ -4,6 +4,7 @@ class FacebooksController < ApplicationController
 
   before_action :find_app_setting, only: [:subscription]
   before_action :find_social_account, only: [:subscription]
+  before_action :find_user_setting, only: [:subscription]
 
   def subscription
     return unless @app_setting.present?
@@ -22,9 +23,10 @@ class FacebooksController < ApplicationController
         data = params['entry'][0]['changes'][0]['value']
 
         return unless @social_account.present?
-
-        facebook_reply_service(data) if @social_account.facebook?
-        instagram_reply_service(data) if @social_account.instagram?
+        return unless @user_setting.present?
+        
+        facebook_comment(data) if @social_account.facebook?
+        instagram_comment(data) if @social_account.instagram?
 
         render :plain => 'Thanks for the update.'
       end
@@ -41,17 +43,24 @@ class FacebooksController < ApplicationController
 
   def find_app_setting
     @app_setting =
-      AppSetting.where(secured_token: params[:secured_token], status: true).first
+      AppSetting.where(secured_token: params[:secured_token], status: true)&.first
   end
 
   def find_social_account
     return unless request.method == 'POST'
 
     @social_account =
-      SocialAccount.where(resource_id: params['entry'][0]['id'], status: true).first
+      SocialAccount.where(resource_id: params['entry'][0]['id'], status: true)&.first
   end
 
-  def facebook_reply_service(data)
+  def find_user_setting
+    return unless @social_account.present?
+
+    @user_setting =
+      UserSetting.where(user_id: @social_account.user_id, status: true)&.first
+  end
+
+  def facebook_comment(data)
     post_id = data['post_id']
     comment = data['message']
     comment_id = data['comment_id']
@@ -69,14 +78,14 @@ class FacebooksController < ApplicationController
         comment,
         commentator_name,
         @social_account.id,
-        @app_setting.id
+        @user_setting.id
       )
 
       create_blocked_commentator(commentator_id, @social_account.id, post_id)
     end
   end
 
-  def instagram_reply_service(data)
+  def instagram_comment(data)
     media_id = data['media']['id']
     comment = data['text']
     comment_id = data['id']
@@ -93,7 +102,7 @@ class FacebooksController < ApplicationController
       comment,
       commentator_name,
       @social_account.id,
-      @app_setting.id
+      @user_setting.id
     )
 
     create_blocked_commentator(commentator_id, @social_account.id, media_id)

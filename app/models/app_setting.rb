@@ -1,15 +1,17 @@
 class AppSetting < ApplicationRecord
   before_create :generate_tokens
 
-  validate :cannot_active_more_than_one_setting
+  validate :only_one_setting_can_be_active_at_once
+
+  enum :api_provider, %i[openai_service azure_openai_service]
 
   private
 
-  def cannot_active_more_than_one_setting
+  def only_one_setting_can_be_active_at_once
     return unless self.status
 
     if self.class.where(status: true).where.not(id: id).any?
-      self.errors.add(:base, "In order to prevent conflicts, please ensure that only one setting is active at a time. Kindly deactivate any currently active settings before enabling a new one.")
+      self.errors.add(:base, "Sorry, please ensure that only one setting can be active at once. Please disable the currently active setting first, then you can enable this one.")
     end
   end
 

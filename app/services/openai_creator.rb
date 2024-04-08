@@ -1,23 +1,23 @@
 class OpenaiCreator < ApplicationService
-  attr_reader :app_setting,
+  attr_reader :user_setting,
               :social_account,
               :commentator_name,
               :comment
 
-  def initialize(app_setting, social_account, commentator_name, comment)
-    @app_setting = app_setting
+  def initialize(user_setting, social_account, commentator_name, comment)
+    @user_setting = user_setting
     @social_account = social_account
     @commentator_name = commentator_name
     @comment = comment
   end
 
   def call
-    return unless @app_setting.present?
+    return unless @user_setting.present?
     return unless @social_account.present?
 
     response = openai_client.chat(
       parameters: {
-        model: app_setting.openai_model,
+        model: user_setting&.model,
         messages: [{ role: 'user', content: content_builder }],
         temperature: 0.7,
       }
@@ -33,15 +33,15 @@ class OpenaiCreator < ApplicationService
   private
 
   def openai_client
-    type = app_setting&.openai_type
-    api_version = app_setting&.openai_api_version
+    provider = user_setting&.provider
+    api_version = user_setting&.api_version
 
     OpenAI.configure do |config|
-      config.api_type = type.present? ? type.to_sym : nil
+      config.api_type = provider.present? ? provider.to_sym : nil
       config.api_version = api_version.present? ? api_version : nil
     end
 
-    OpenAI::Client.new(access_token: app_setting&.openai_token, uri_base: app_setting&.openai_uri)
+    OpenAI::Client.new(access_token: user_setting&.access_token, uri_base: user_setting&.endpoint)
   end
 
   def content_builder

@@ -1,21 +1,20 @@
 ActiveAdmin.register AppSetting do
   menu priority: 2, label: 'General Setting'
   permit_params :status,
-                :openai_token,
-                :openai_model,
-                :openai_uri,
-                :openai_type,
-                :openai_api_version,
-                :facebook_permissions
-                :instagram_permissions
+                :api_provider,
+                :api_endpoint,
+                :api_model,
+                :api_access_token,
+                :api_endpoint,
+                :api_version
 
   index do
     selectable_column
     id_column
     column :verify_token
     column :secured_token
-    column :openai_model
-    column :openai_type
+    column :api_model
+    column :api_type
     column :status
     actions
   end
@@ -24,9 +23,9 @@ ActiveAdmin.register AppSetting do
     attributes_table do
       row :secured_token
       row :verify_token
-      row :openai_model
-      row :openai_type
-      row :openai_api_version
+      row :api_model
+      row :api_provider
+      row :api_version
       row :status
     end
   end
@@ -36,12 +35,11 @@ ActiveAdmin.register AppSetting do
   form do |f|
     f.inputs do
       f.semantic_errors
-      f.input :facebook_permissions
-      f.input :openai_token
-      f.input :openai_model
-      f.input :openai_uri
-      f.input :openai_type
-      f.input :openai_api_version
+      f.input :api_access_token
+      f.input :api_model
+      f.input :api_endpoint
+      f.input :api_provider
+      f.input :api_version
       f.input :status
     end
     f.actions

@@ -101,12 +101,12 @@ class SocialAccountsController < ApplicationController
     params.require(:social_account)
       .permit(
         :status,
-        :use_openai,
-        :openai_prompt,
-        :use_openai_when_comment_is_longer_in_length,
+        :processing_with_openai,
+        :openai_prompt_prebuild,
+        :minimum_words_required_to_processing_with_openai,
         :time_blocking,
         :perform_at,
-        auto_comments_attributes: [
+        random_contents_attributes: [
           :id,
           :content,
           :_destroy
