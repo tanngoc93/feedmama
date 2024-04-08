@@ -1,6 +1,6 @@
 class UserSettingsController < ApplicationController
 
-  before_action :find_user_setting, only: [:edit, :update]
+  before_action :find_user_setting, only: [:show, :update]
 
   def show; end
 

@@ -49,7 +49,7 @@ class SocialAccountsController < ApplicationController
       end
     end
 
-    redirect_to root_path, notice: 'Updated successfully'
+    redirect_to root_path, notice: 'Your data has been updated successfully'
   end
 
   def instagram_oauth
@@ -88,7 +88,7 @@ class SocialAccountsController < ApplicationController
       end
     end
 
-    redirect_to root_path, notice: 'Updated successfully'
+    redirect_to root_path, notice: 'Your data has been updated successfully'
   end
 
   private
