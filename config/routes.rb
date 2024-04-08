@@ -28,6 +28,8 @@ Rails.application.routes.draw do
 
   resources :orders
   resources :social_accounts
+  
+  get "/settings", to: "user_settings#edit"
 
   #
   root "homepage#index"

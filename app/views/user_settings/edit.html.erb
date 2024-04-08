@@ -1,0 +1,31 @@
+<section class="section-container">
+  <div class="div-container">
+    <div class="form-container">
+      <%= form_for(resource, as: resource_name, url: "#", html: { method: :put }) do |f| %>
+      <%= render "users/shared/error_messages", resource: resource %>
+      <div class="form-group mb-3">
+        <%= f.label :email, class: "label" %>
+        <div class="input-group">
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "Email", disabled: true %>
+        </div>
+      </div>
+      
+
+
+      
+      <%= link_to "Back", :back %>
+    </div>
+  </div>
+</section>
+
+<style type="text/css">
+  div.div-container {
+    max-width: 720px;
+    width: 100vw;
+  }
+
+  .form-container form input,
+  .form-container form textarea {
+    margin: 0.3rem 0 2rem 0;
+  }
+</style>
