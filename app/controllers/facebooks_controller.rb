@@ -57,7 +57,7 @@ class FacebooksController < ApplicationController
     return unless @social_account.present?
 
     @user_setting =
-      UserSetting.where(user_id: @social_account.user_id, status: true)&.first
+      UserSetting.where(user_id: @social_account.user_id, setting_status: :active)&.first
   end
 
   def facebook_comment(data)
