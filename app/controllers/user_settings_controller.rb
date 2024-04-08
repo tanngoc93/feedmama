@@ -1,16 +1,12 @@
 class UserSettingsController < ApplicationController
 
-  before_action :find_user_setting, only: [:update]
+  before_action :find_user_setting, only: [:edit, :update]
 
-  def show
-    @user_setting = UserSetting.find_or_create_by(user_id: current_user.id)
-  end
+  def show; end
 
   def update
-    @user_setting = UserSetting.find_or_create_by(user_id: current_user.id)
-
     if @user_setting&.update!(user_setting_params)
-      redirect_to root_path, notice: 'Your data was updated successfully'
+      redirect_to root_path, notice: 'Your data has been updated successfully'
     else
       render :show, notice: @user_setting&.errors&.full_messages&.to_sentence
     end
@@ -19,7 +15,7 @@ class UserSettingsController < ApplicationController
   private
 
   def find_user_setting
-    @user_setting = UserSetting.where(user_id: current_user.id)
+    @user_setting = UserSetting.find_or_create_by(user_id: current_user.id)
   end
 
   def user_setting_params
