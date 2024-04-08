@@ -1,30 +1,22 @@
 <section class="section-container">
   <div class="div-container">
     <div class="form-container">
-      <%= form_for @user_setting, url: '/settings', method: :put do |f| %>
-        <h5>
-          <label for="checkboxStatus">
-            Status (Inactive / Active)
-          </label>
-        </h5>
-        <div class="checkbox-wrapper-5">
-          <div class="check">
-            <%= f.check_box :setting_status, { checked: @user_setting.active?, id: 'checkboxStatus' }, :active, :inactive  %>
-            <label for="checkboxStatus"></label>
+      <%= form_for @user_setting, url: :user_settings, method: :put do |f| %>
+        <div>
+          <h5>
+            <label for="checkboxStatus">
+              Status (Inactive / Active)
+            </label>
+          </h5>
+          <div class="checkbox-wrapper-5">
+            <div class="check">
+              <%= f.check_box :setting_status, { checked: @user_setting.active?, id: 'checkboxStatus' }, :active, :inactive  %>
+              <label for="checkboxStatus"></label>
+            </div>
           </div>
         </div>
 
         <br/>
-
-        <div class="form-group mb-3">
-          <label>
-            Managed By
-          </label>
-          <div class="input-group">
-            <%= f.select :setting_type, options_for_select(user_setting_types, @user_setting.setting_type) %>
-          </div>
-        </div>
-        
 
         <div class="form-group mb-3">
           <label>

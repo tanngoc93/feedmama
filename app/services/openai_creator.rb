@@ -12,9 +12,9 @@ class OpenaiCreator < ApplicationService
   end
 
   def call
-    return unless @user_setting.present?
-    return unless @user_setting.active?
-    return unless @social_account.present?
+    return unless user_setting.present?
+    return unless social_account.present?
+    return unless openai_client.present?
 
     response = openai_client.chat(
       parameters: {
@@ -34,15 +34,15 @@ class OpenaiCreator < ApplicationService
   private
 
   def openai_client
-    api_provider = user_setting&.api_provider
-    api_version = user_setting&.api_version
-
-    OpenAI.configure do |config|
-      config.api_type = api_provider&.to_sym
-      config.api_version = api_version
+    if user_setting&.azure_openai_service?
+      OpenAI.configure do |config|
+        config.api_type = :azure
+        config.uri_base = user_setting&.api_endpoint
+        config.api_version = user_setting&.api_version
+      end
     end
 
-    OpenAI::Client.new(access_token: user_setting&.api_access_token, uri_base: user_setting&.api_endpoint)
+    OpenAI::Client.new(access_token: user_setting&.api_access_token)
   end
 
   def content_builder
