@@ -28,7 +28,7 @@
         </div>
         <div class="form-group mb-3">
           <label>
-            API Model
+            API Model (Required)
           </label>
           <div class="input-group">
             <%= f.text_field :api_model, class: "form-control", disabled: false %>
@@ -36,7 +36,7 @@
         </div>
         <div class="form-group mb-3">
           <label>
-            API Version
+            API Version (Azure only)
           </label>
           <div class="input-group">
             <%= f.text_field :api_version, class: "form-control", disabled: false %>
@@ -44,7 +44,7 @@
         </div>
         <div class="form-group mb-3">
           <label>
-            API Endpoint
+            API Endpoint  (Azure only)
           </label>
           <div class="input-group">
             <%= f.text_field :api_endpoint, class: "form-control", disabled: false %>
@@ -52,7 +52,7 @@
         </div>
         <div class="form-group mb-3">
           <label>
-            API Access Token
+            API Access Token (Required)
           </label>
           <div class="input-group">
             <%= f.text_field :api_access_token, class: "form-control", disabled: false %>

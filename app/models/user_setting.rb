@@ -9,8 +9,9 @@ class UserSetting < ApplicationRecord
 
   private
 
-  def set_setting_type
+  def set_setting_type_and_provider
     self.setting_type = :self_service
+    self.api_provider = :openai_service
     self
   end
 end
