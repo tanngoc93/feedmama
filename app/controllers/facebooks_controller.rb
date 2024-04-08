@@ -42,21 +42,21 @@ class FacebooksController < ApplicationController
   end
 
   def find_app_setting
-    @app_setting =
+    @app_setting ||=
       AppSetting.where(secured_token: params[:secured_token], status: true)&.first
   end
 
   def find_social_account
     return unless request.method == 'POST'
 
-    @social_account =
+    @social_account ||=
       SocialAccount.where(resource_id: params['entry'][0]['id'], status: true)&.first
   end
 
   def find_user_setting
     return unless @social_account.present?
 
-    @user_setting =
+    @user_setting ||=
       UserSetting.where(user_id: @social_account.user_id, setting_status: :active)&.first
   end
 

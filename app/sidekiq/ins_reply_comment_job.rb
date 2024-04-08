@@ -3,7 +3,7 @@ class InsReplyCommentJob
   sidekiq_options retry: 3, dead: false
 
   def perform(post_id, comment_id, comment, commentator_name, social_account_id, user_setting_id)
-    user_setting = AppSetting.find_by(id: user_setting_id)
+    user_setting = UserSetting.find_by(id: user_setting_id)
     social_account = SocialAccount.find_by(id: social_account_id)
 
     return unless user_setting.present?
