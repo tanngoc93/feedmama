@@ -1,18 +1,17 @@
-
 <% if current_user.present? %>
   <div class="container flex items-center" style="display: flex; margin-top: 50px;">
     <%= link_to "Facebook",
       social_accounts_facebook_code_path,
       method: :get,
       data: { turbo: false },
-      class: "btn btn-primary", style: "max-width: 300px;" %>
+      class: "btn btn-primary", style: "max-width: 200px;" %>
     <%= link_to "Instagram",
         social_accounts_instagram_code_path,
         method: :get,
         data: {
           turbo: false
         },
-        class: "btn btn-primary", style: "max-width: 300px;" %>
+        class: "btn btn-primary", style: "max-width: 200px;" %>
   </div>
 
   <% if @social_accounts&.any? %>
@@ -49,211 +48,10 @@
   </div>
   <% end %>
 <% else %>
-  <div class="content-wrapper">
-    <!-- Main Slider -->
-    <div class="crumina-module crumina-module-slider container-full-width">
-      <div class="swiper-container main-slider navigation-center-both-sides" data-effect="fade">
-        <!-- Additional required wrapper -->
-        <div class="swiper-wrapper">
-          <!-- Slides -->
-          <div class="swiper-slide bg-1 main-slider-bg-light">
-            <div class="container">
-              <div class="row table-cell">
-                <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-sm-offset-0 col-xs-12">
-                  <div class="slider-content align-center">
-                    <h1 class="slider-content-title with-decoration" data-swiper-parallax="-100">
-                      The power of Technology
-                      <svg class="first-decoration utouch-icon utouch-icon-arrow-left">
-                        <use xlink:href="#utouch-icon-arrow-left"></use>
-                      </svg>
-                      <svg class="second-decoration utouch-icon utouch-icon-arrow-left">
-                        <use xlink:href="#utouch-icon-arrow-left"></use>
-                      </svg>
-                    </h1>
-                    <h6 class="slider-content-text" data-swiper-parallax="-200"></h6>
-                    <div class="main-slider-btn-wrap" data-swiper-parallax="-300">
-                      <a href="#" class="btn btn--yellow btn--with-shadow">
-                      Learn More
-                      </a>
-                      <a href="#" class="btn btn-border btn--with-shadow c-primary">
-                      Get Started Now
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                  <div class="slider-thumb" data-swiper-parallax="-400" data-swiper-parallax-duration="600">
-                    <img src="img/slides1.png" alt="slider">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="swiper-slide bg-2 main-slider-bg-light">
-            <div class="container table">
-              <div class="row table-cell">
-                <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12">
-                  <div class="slider-content align-both">
-                    <h2 class="slider-content-title" data-swiper-parallax="-100">
-                      <span class="c-primary">Utouch</span>
-                      is quality product that will make your life better
-                    </h2>
-                    <h6 class="slider-content-text" data-swiper-parallax="-200">Lorem ipsum dolor sit amet,
-                      consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore
-                      magna aliquam erat volutpat.
-                    </h6>
-                    <div class="main-slider-btn-wrap" data-swiper-parallax="-300">
-                      <a href="#" class="btn btn-market btn--with-shadow">
-                        <svg class="utouch-icon utouch-icon-apple-logotype-1">
-                          <use xlink:href="#utouch-icon-apple-logotype-1"></use>
-                        </svg>
-                        <div class="text">
-                          <span class="sup-title">Download on the</span>
-                          <span class="title">App Store</span>
-                        </div>
-                      </a>
-                      <a href="#" class="btn btn-market btn--with-shadow">
-                        <img class="utouch-icon" src="svg-icons/google-play.svg" alt="google">
-                        <div class="text">
-                          <span class="sup-title">Download on the</span>
-                          <span class="title">Google Play</span>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="swiper-slide thumb-left bg-3 main-slider-bg-light">
-            <div class="container table full-height">
-              <div class="row table-cell">
-                <div class="col-lg-6 col-sm-12 table-cell">
-                  <div class="slider-content align-both">
-                    <h2 class="slider-content-title" data-swiper-parallax="-100">Rise Up With the Most Interesting App</h2>
-                    <h6 class="slider-content-text" data-swiper-parallax="-200">Lorem ipsum dolor sit amet,
-                      consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
-                      dolore magna aliquam erat volutpat.
-                    </h6>
-                    <div class="main-slider-btn-wrap" data-swiper-parallax="-300">
-                      <a href="02_company.html" class="btn btn--lime btn--with-shadow">
-                      Get Started Now
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6 col-sm-12 table-cell">
-                  <div class="slider-thumb" data-swiper-parallax="-300" data-swiper-parallax-duration="500">
-                    <img src="img/slides2.png" alt="slider">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!--Prev next buttons-->
-        <div class="btn-prev with-bg">
-          <svg class="utouch-icon icon-hover utouch-icon-arrow-left-1">
-            <use xlink:href="#utouch-icon-arrow-left-1"></use>
-          </svg>
-          <svg class="utouch-icon utouch-icon-arrow-left1">
-            <use xlink:href="#utouch-icon-arrow-left1"></use>
-          </svg>
-        </div>
-        <div class="btn-next with-bg">
-          <svg class="utouch-icon icon-hover utouch-icon-arrow-right-1">
-            <use xlink:href="#utouch-icon-arrow-right-1"></use>
-          </svg>
-          <svg class="utouch-icon utouch-icon-arrow-right1">
-            <use xlink:href="#utouch-icon-arrow-right1"></use>
-          </svg>
-        </div>
-      </div>
-    </div>
-    <!-- ... end Main Slider -->
-
-    <!-- Video -->
-    <section class="bg-8 background-contain pt100">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-            <div class="crumina-module crumina-heading">
-              <h6 class="heading-sup-title">Watch the video</h6>
-              <h2 class="heading-title">How the <span class="c-primary">Feed Mama</span> works</h2>
-              <p class="heading-text"></p>
-            </div>
-            <a href="#" class="btn btn-small btn--icon-right btn-border btn--with-shadow c-primary">
-              <svg class="utouch-icon utouch-icon-arrow-right1">
-                <use xlink:href="#utouch-icon-arrow-right1"></use>
-              </svg>
-              <div class="text">
-                <span class="title">Get Started Now</span>
-              </div>
-            </a>
-          </div>
-          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-            <div class="crumina-module crumina-our-video">
-              <div class="video-thumb">
-                <img src="img/video-thumb.png" alt="video">
-                <a href="https://www.youtube.com/watch?v=wnJ6LuUFpMo" class="video-control js-popup-iframe">
-                <img src="img/play.png" alt="play">
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- ... end Video -->
-    <!-- Clients Block -->
-    <section class="crumina-module crumina-clients background-contain bg-yellow">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-2 col-md-6 col-sm-6 col-xs-12">
-            <a class="clients-item" href="#">
-            <span class="clients-images">
-            <img src="img/clients1.png" class="" alt="logo">
-            </span>
-            </a>
-          </div>
-          <div class="col-lg-2 col-md-6 col-sm-6 col-xs-12">
-            <a class="clients-item" href="#">
-            <span class="clients-images">
-            <img src="img/clients2.png" class="" alt="logo">
-            </span>
-            </a>
-          </div>
-          <div class="col-lg-2 col-md-6 col-sm-6 col-xs-12">
-            <a class="clients-item" href="#">
-            <span class="clients-images">
-            <img src="img/clients3.png" class="" alt="logo">
-            </span>
-            </a>
-          </div>
-          <div class="col-lg-2 col-md-6 col-sm-6 col-xs-12">
-            <a class="clients-item" href="#">
-            <span class="clients-images">
-            <img src="img/clients4.png" class="" alt="logo">
-            </span>
-            </a>
-          </div>
-          <div class="col-lg-2 col-md-6 col-sm-6 col-xs-12">
-            <a class="clients-item" href="#">
-            <span class="clients-images">
-            <img src="img/clients1.png" class="" alt="logo">
-            </span>
-            </a>
-          </div>
-          <div class="col-lg-2 col-md-6 col-sm-6 col-xs-12">
-            <a class="clients-item" href="#">
-            <span class="clients-images">
-            <img src="img/clients2.png" class="" alt="logo">
-            </span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- ... end Clients Block -->
+  <div
+    class="container"
+    style="text-align: center; margin-bottom: 3%;"
+  >
+    <h1>This is body content</h1>
   </div>
 <% end %>

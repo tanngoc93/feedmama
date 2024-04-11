@@ -23,15 +23,29 @@
             API Provider
           </label>
           <div class="input-group">
-            <%= f.select :api_provider, options_for_select(user_setting_api_providers, @user_setting.api_provider) %>
+            <%= f.select :api_provider,
+              options_for_select(user_setting_api_providers, @user_setting.api_provider),
+              {},
+              { class: "form-select" } %>
           </div>
         </div>
+
+        <br/>
+
         <div class="form-group mb-3">
           <label>
             API Model (Required)
           </label>
           <div class="input-group">
             <%= f.text_field :api_model, class: "form-control", disabled: false %>
+          </div>
+        </div>
+        <div class="form-group mb-3">
+          <label>
+            API Access Token (Required)
+          </label>
+          <div class="input-group">
+            <%= f.text_field :api_access_token, class: "form-control", disabled: false %>
           </div>
         </div>
         <div class="form-group mb-3">
@@ -50,18 +64,12 @@
             <%= f.text_field :api_endpoint, class: "form-control", disabled: false %>
           </div>
         </div>
+
+        <br>
+
         <div class="form-group mb-3">
-          <label>
-            API Access Token (Required)
-          </label>
-          <div class="input-group">
-            <%= f.text_field :api_access_token, class: "form-control", disabled: false %>
-          </div>
+          <%= f.submit "UPDATE", class: "btn btn-primary text-white" %>
         </div>
-      <br>
-      <div class="form-group mb-3">
-        <%= f.submit "Update", class: "btn btn-primary login-btn btn-block" %>
-      </div>
       <% end %>
     </div>
   </div>

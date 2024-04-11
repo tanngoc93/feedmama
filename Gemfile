@@ -75,7 +75,7 @@ gem "jquery-rails"
 gem "jquery-ui-rails"
 
 #
-# gem "bootstrap", "~> 5.3.1"
+gem 'bootstrap', '~> 5.3.2'
 
 # Use Sass to process CSS
 gem "sassc-rails"
@@ -115,5 +115,3 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 end
-
-gem "tailwindcss-rails", "~> 2.3"
