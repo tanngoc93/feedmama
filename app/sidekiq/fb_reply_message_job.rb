@@ -19,7 +19,7 @@ class FbReplyMessageJob
 
     return unless message.is_a? String
 
-    FacebookCommentator.call(social_account, sender_id, message)
+    FacebookMessenger.call(social_account, sender_id, message)
   rescue StandardError => e
   end
 

@@ -20,10 +20,11 @@ class FacebooksController < ApplicationController
           render :plain => 'Failed to authorize facebook challenge request'
         end
       when 'POST'
-        entry = params['entry']&.first
 
         return unless @social_account.present?
         return unless @user_setting.present?
+
+        entry = params['entry']&.first
 
         if entry['changes']&.first
           reply_comment( entry['changes'][0]['value'] )

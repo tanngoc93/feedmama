@@ -6,6 +6,7 @@ class OpenaiCreator < ApplicationService
   def initialize(user_setting, social_account, prompt)
     @user_setting = user_setting
     @social_account = social_account
+    @prompt = prompt
   end
 
   def call
