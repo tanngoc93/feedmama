@@ -20,13 +20,18 @@ class FacebooksController < ApplicationController
           render :plain => 'Failed to authorize facebook challenge request'
         end
       when 'POST'
-        data = params['entry'][0]['changes'][0]['value']
+        entry = params['entry']&.first
 
         return unless @social_account.present?
         return unless @user_setting.present?
-        
-        facebook_comment(data) if @social_account.facebook?
-        instagram_comment(data) if @social_account.instagram?
+
+        if entry['changes']&.first
+          reply_comment( entry['changes'][0]['value'] )
+        end
+
+        if entry['messaging']&.first
+          reply_message( entry['messaging'][0] )
+        end
 
         render :plain => 'Thanks for the update.'
       end
@@ -58,6 +63,14 @@ class FacebooksController < ApplicationController
 
     @user_setting ||=
       UserSetting.where(user_id: @social_account.user_id, setting_status: :active)&.first
+  end
+
+  def reply_comment(data)
+    if @social_account.facebook?
+      facebook_comment(data)
+    elsif @social_account.instagram?
+      instagram_comment(data)
+    end
   end
 
   def facebook_comment(data)
@@ -106,6 +119,16 @@ class FacebooksController < ApplicationController
     )
 
     create_blocked_commentator(commentator_id, @social_account.id, media_id)
+  end
+
+  def reply_message(data)
+    FbReplyMessageJob.perform_at(
+      @social_account.perform_at.seconds.from_now,
+      data['sender']['id'],
+      data['message']['text'],
+      @social_account.id,
+      @user_setting.id
+    )
   end
 
   def create_blocked_commentator(commentator_id, social_account_id, post_id)

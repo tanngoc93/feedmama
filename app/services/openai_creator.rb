@@ -1,14 +1,11 @@
 class OpenaiCreator < ApplicationService
   attr_reader :user_setting,
               :social_account,
-              :commentator_name,
-              :comment
+              :prompt
 
-  def initialize(user_setting, social_account, commentator_name, comment)
+  def initialize(user_setting, social_account, prompt)
     @user_setting = user_setting
     @social_account = social_account
-    @commentator_name = commentator_name
-    @comment = comment
   end
 
   def call
@@ -19,16 +16,16 @@ class OpenaiCreator < ApplicationService
     response = openai_client.chat(
       parameters: {
         model: user_setting&.api_model,
-        messages: [{ role: 'user', content: content_builder }],
+        messages: [{ role: 'user', content: prompt }],
         temperature: 0.7,
       }
     )
 
-    content = response.dig('choices', 0, 'message', 'content')
+    response_content = response.dig('choices', 0, 'message', 'content')
 
-    return false unless content.is_a? String
+    return false unless response_content.is_a? String
 
-    content
+    response_content
   end
 
   private
@@ -43,12 +40,5 @@ class OpenaiCreator < ApplicationService
     end
 
     OpenAI::Client.new(access_token: user_setting&.api_access_token)
-  end
-
-  def content_builder
-    content = social_account.openai_prompt_prebuild
-    content = content.sub("#comment", comment)
-    content = content.sub("#fullName", commentator_name)
-    content
   end
 end

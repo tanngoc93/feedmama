@@ -1,8 +1,8 @@
-class FbReplyCommentJob
+class FbReplyMessageJob
   include Sidekiq::Job
   sidekiq_options retry: 3, dead: false
 
-  def perform(post_id, comment_id, comment, commentator_name, social_account_id, user_setting_id)
+  def perform(sender_id, message, social_account_id, user_setting_id)
     user_setting = UserSetting.find_by(id: user_setting_id, setting_status: :active)
     social_account = SocialAccount.find_by(id: social_account_id, status: true)
 
@@ -10,16 +10,16 @@ class FbReplyCommentJob
     return unless social_account.present?
 
     message =
-      if use_openai?(social_account, comment)
+      if use_openai?(social_account, message)
         OpenaiCreator.call(
-          user_setting, social_account, prompt(comment, commentator_name))
+          user_setting, social_account, prompt(message))
       else
         social_account&.random_contents&.sample&.content
       end
 
     return unless message.is_a? String
 
-    FacebookCommentator.call(social_account, comment_id, message)
+    FacebookCommentator.call(social_account, sender_id, message)
   rescue StandardError => e
   end
 
@@ -30,10 +30,8 @@ class FbReplyCommentJob
       comment.split.size > social_account.minimum_words_required_to_processing_with_openai
   end
 
-  def prompt(comment, commentator_name)
-    content = social_account.openai_prompt_prebuild
-    content = content.sub("#comment", comment)
-    content = content.sub("#fullName", commentator_name)
+  def prompt(message)
+    content = "Reply this message from a Facebook user: #{message}"
     content
   end
 end

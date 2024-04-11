@@ -3,17 +3,16 @@ class InsReplyCommentJob
   sidekiq_options retry: 3, dead: false
 
   def perform(post_id, comment_id, comment, commentator_name, social_account_id, user_setting_id)
-    user_setting = UserSetting.find_by(id: user_setting_id)
-    social_account = SocialAccount.find_by(id: social_account_id)
+    user_setting = UserSetting.find_by(id: user_setting_id, setting_status: :active)
+    social_account = SocialAccount.find_by(id: social_account_id, status: true)
 
     return unless user_setting.present?
-    return unless user_setting.active?
     return unless social_account.present?
 
     message =
       if use_openai?(social_account, comment)
         OpenaiCreator.call(
-          user_setting, social_account, commentator_name, comment)
+          user_setting, social_account, prompt(comment, commentator_name))
       else
         social_account&.random_contents&.sample&.content
       end
@@ -29,5 +28,12 @@ class InsReplyCommentJob
   def use_openai?(social_account, comment)
     social_account.processing_with_openai &&
       comment.split.size > social_account.minimum_words_required_to_processing_with_openai
+  end
+
+  def prompt(comment, commentator_name)
+    content = social_account.openai_prompt_prebuild
+    content = content.sub("#comment", comment)
+    content = content.sub("#fullName", commentator_name)
+    content
   end
 end
