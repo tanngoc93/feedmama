@@ -7,7 +7,7 @@ class SocialAccountsController < ApplicationController
     if @social_account&.update(social_account_params)
       redirect_to root_path, notice: 'Your data has been updated successfully'
     else
-      render :show, notice: @social_account&.errors&.full_messages&.to_sentence
+      redirect_to :edit_social_account, alert: @social_account&.errors&.full_messages&.to_sentence
     end
   end
 

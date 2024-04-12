@@ -4,16 +4,16 @@
       <h5 class="opacity">Registration</h5>
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email" %>
-      <%= f.password_field :password, placeholder: "Password" %>
-      <%= f.password_field :password_confirmation, placeholder: "Password confirmation" %>
-      <%= f.submit "Submit", class: "btn opacity" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email", class: "rounded-0" %>
+      <%= f.password_field :password, placeholder: "Password", class: "rounded-0" %>
+      <%= f.password_field :password_confirmation, placeholder: "Password confirmation", class: "rounded-0" %>
+      <%= f.submit "Submit", class: "btn btn-primary text-light" %>
       <% end %>
-      <div class="register-forget opacity">Have an account 👉 
-        <%= link_to "Sign in", new_session_path(resource_name), class: "text-light" %>
+      <div class="register-forget">Have an account 👉 
+        <%= link_to "Sign in", new_session_path(resource_name), class: "text-dark" %>
       </div>
       <br>
-      <div class="opacity" style="text-align: center;">
+      <div style="text-align: center;">
         <%= render "users/shared/links" %>
       </div>
       <br>

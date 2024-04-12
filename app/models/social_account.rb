@@ -13,6 +13,14 @@ class SocialAccount < ApplicationRecord
     instagram: 'instagram',
   }
 
+  validates :minimum_words_required_to_processing_with_openai,
+            :time_blocking,
+            :perform_at, presence: true
+
+  validates :minimum_words_required_to_processing_with_openai,
+            :time_blocking,
+            :perform_at, numericality: { only_numeric: true }
+
   after_create :refresh_meta_access_token, if: -> { facebook? || instagram? }
   after_create :facebook_subscribed_fields, if: -> { facebook? }
 

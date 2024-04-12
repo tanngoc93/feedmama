@@ -5,6 +5,10 @@ class UserSetting < ApplicationRecord
   enum :setting_type, %i[self_service managed_service]
   enum :api_provider, %i[openai_service azure_openai_service]
 
+  validates :api_provider,
+            :api_model,
+            :api_access_token, presence: true
+
   before_create :set_setting_type_and_provider
 
   private

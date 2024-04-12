@@ -4,11 +4,11 @@
       <h6 class="opacity">Forgot your password?</h6>
       <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
       <%= render "users/shared/error_messages", resource: resource %>
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email" %>
-      <%= f.submit "Send me instructions", class: "btn opacity" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email", class: "rounded-0" %>
+      <%= f.submit "Send me instructions", class: "btn btn-primary" %>
       <% end %>
-      <div class="register-forget opacity">Have an account 👉 
-        <%= link_to "Sign in", new_session_path(resource_name), class: "text-light" %>
+      <div class="register-forget">Have an account 👉 
+        <%= link_to "Sign in", new_session_path(resource_name), class: "text-dark" %>
       </div>
     </div>
   </div>

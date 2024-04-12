@@ -9,20 +9,17 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", 'type': 'module', defer: true %>
-    <!--External fonts-->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,700,900" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Baloo+Paaji" rel="stylesheet">
   </head>
   <body>
     <% if notice.present? %>
-      <div class="alert alert-success rounded-0" style="text-align: center; font-size: 1.75rem;">
+      <div class="alert alert-success mb-0 rounded-0" style="text-align: center; font-size: 1.2rem;">
         <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
         <%= notice %>
       </div>
     <% end %>
 
     <% if alert.present? %>
-      <div class="alert alert-danger rounded-0" style="text-align: center; font-size: 1.75rem;">
+      <div class="alert alert-danger mb-0 rounded-0" style="text-align: center; font-size: 1.2rem;">
         <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
         <%= alert %>
       </div>
@@ -41,34 +38,42 @@
                 <a class="nav-link" href="/">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/">Pricing</a>
+                <a class="nav-link" href="#">Why FeedMama</a>
               </li>
               <% if current_user.present? %>
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Profile
+                    Account
                   </a>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="/profile">Edit</a></li>
-                    <li><a class="dropdown-item" href="#">Logout</a></li>
+                    <li>
+                      <a class="dropdown-item" href="/profile">User Profile</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="/settings">User Settings</a>
+                    </li>
+                    <li>
+                      <%= link_to "Logout", destroy_user_session_path, method: :delete, data: { turbo: false }, class: "dropdown-item" %>
+                    </li>
                   </ul>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/settings">Settings</a>
-                </li>
+                
               <% else %>
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    User
+                    Get Started
                   </a>
                   <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="/login">Login</a></li>
-                    <li><a class="dropdown-item" href="/resgistration">Resgistration</a></li>
+                    <li><a class="dropdown-item" href="/resgistration">Registration</a></li>
                   </ul>
                 </li>
               <% end %>
               <li class="nav-item">
-                <a class="nav-link" href="#">Contact</a>
+                <a class="nav-link" href="#">Pricing</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Contact Us</a>
               </li>
             </ul>
           </div>
@@ -78,89 +83,19 @@
 
     <%= yield %>
 
-    <footer class="footer" id="site-footer">
-      <div class="header-lines-decoration">
-        <span class="bg-secondary-color"></span>
-        <span class="bg-blue"></span>
-        <span class="bg-blue-light"></span>
-        <span class="bg-orange-light"></span>
-        <span class="bg-red"></span>
-        <span class="bg-green"></span>
-        <span class="bg-secondary-color"></span>
-      </div>
-      <div class="container">
-      <div class="row">
-        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-          <div class="widget w-info">
-            <div class="site-logo">
-              <a href="/" class="full-block"></a>
-              <div class="logo-text">
-                <div class="logo-title">FeedMama</div>
-                <div class="logo-sub-title">app startup</div>
-              </div>
-            </div>
-            <p>The application is under development and is not accepting public registrations yet, please come back later.</p>
-            <a href="#" class="learn-more">Learn more about us</a>
-          </div>
-        </div>
-        <div class="col-lg-2 col-lg-offset-1 col-md-3 col-sm-12 col-sm-offset-0 col-xs-12">
-          <div class="widget w-list">
-            <h5 class="widget-title">Userful Links</h5>
-            <ul class="list list--primary">
-              <li>
-                <a href="//markiee.co">Company</a>
-                <svg class="utouch-icon utouch-icon-arrow-right">
-                  <use xlink:href="#utouch-icon-arrow-right"></use>
-                </svg>
-              </li>
-              <li>
-                <a href="/privacy_policy">Privacy Policy</a>
-                <svg class="utouch-icon utouch-icon-arrow-right">
-                  <use xlink:href="#utouch-icon-arrow-right"></use>
-                </svg>
-              </li>
-              <li>
-                <a href="/terms_of_service">Terms of Service</a>
-                <svg class="utouch-icon utouch-icon-arrow-right">
-                  <use xlink:href="#utouch-icon-arrow-right"></use>
-                </svg>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-lg-3 col-lg-offset-1 col-md-4 col-sm-12 col-sm-offset-0 col-xs-12">
-          <div class="widget w-contacts">
-            <h5 class="widget-title">Contact with us</h5>
-            <div class="contact-item display-flex">
-              <svg class="utouch-icon utouch-icon-telephone-keypad-with-ten-keys">
-                <use xlink:href="#utouch-icon-telephone-keypad-with-ten-keys"></use>
-              </svg>
-              <span class="info">(307) 392-4868</span>
-            </div>
-            <div class="contact-item display-flex">
-              <svg class="utouch-icon utouch-icon-message-closed-envelope-1">
-                <use xlink:href="#utouch-icon-message-closed-envelope-1"></use>
-              </svg>
-              <span class="info">business@markiee.co</span>
-            </div>
-            <a href="#" class="btn btn--green full-width btn--with-shadow js-message-popup cd-nav-trigger">
-            Send a Message
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="sub-footer">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <span>Copyright © 2024 <a href="#" class="sub-footer__link">FeedMama</a></span>
-              <span>Designed & Developed by <a href="https://markiee.co/">Markiee LLC</a></span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-    <!-- jQuery first, then Other JS. -->
+    <div class="container">
+      <footer class="py-3 my-4">
+        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+          <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">Home</a></li>
+          <li class="nav-item"><a href="/privacy_policy" class="nav-link px-2 text-muted">Privacy Policy</a></li>
+          <li class="nav-item"><a href="/terms_of_service" class="nav-link px-2 text-muted">Terms of Service</a></li>
+          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
+          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
+        </ul>
+        <p class="text-center text-muted">© 2024 Markiee LLC</p>
+      </footer>
+    </div>
+
     <script src="/js/jquery-3.3.1.js"></script>
   </body>
 </html>
