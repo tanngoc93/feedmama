@@ -21,6 +21,7 @@ class FbReplyMessageJob
 
     FacebookMessenger.call(social_account, sender_id, message)
   rescue StandardError => e
+    Rails.logger.debug(">>>>>>>>>>>> #{self.class.name} - #{e.message}")
   end
 
   private

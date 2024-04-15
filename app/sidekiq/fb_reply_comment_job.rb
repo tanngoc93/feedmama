@@ -12,7 +12,7 @@ class FbReplyCommentJob
     message =
       if use_openai?(social_account, comment)
         OpenaiCreator.call(
-          user_setting, social_account, prompt(comment, commentator_name))
+          user_setting, social_account, prompt(social_account, comment, commentator_name))
       else
         social_account&.random_contents&.sample&.content
       end
@@ -21,6 +21,7 @@ class FbReplyCommentJob
 
     FacebookCommentator.call(social_account, comment_id, message)
   rescue StandardError => e
+    Rails.logger.debug(">>>>>>>>>>>> #{self.class.name} - #{e.message}")
   end
 
   private
@@ -30,7 +31,7 @@ class FbReplyCommentJob
       comment.split.size > social_account.minimum_words_required_to_processing_with_openai
   end
 
-  def prompt(comment, commentator_name)
+  def prompt(social_account, comment, commentator_name)
     content = social_account.openai_prompt_prebuild
     content = content.sub("#comment", comment)
     content = content.sub("#fullName", commentator_name)
