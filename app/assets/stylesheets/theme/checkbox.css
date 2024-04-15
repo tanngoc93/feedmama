@@ -8,6 +8,10 @@
   font-size: var(--size);
 }
 
+.checkbox-wrapper-5 .check label {
+  margin-bottom: 0px !important;
+}
+
 .checkbox-wrapper-5 .check input[type="checkbox"],
 .checkbox-wrapper-5 .check label,
 .checkbox-wrapper-5 .check label::before,
@@ -52,6 +56,7 @@
 
 .checkbox-wrapper-5 .check label::before,
 .checkbox-wrapper-5 .check label::after {
+  margin-bottom: 0px !important;
   content: "· ·";
   position: absolute;
   overflow: hidden;

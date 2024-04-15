@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <%= favicon_link_tag 'favicon.png' %>
-    <title>FeedMama by Markiee</title>
+    <title>FeedMama - FeedMama.Markiee.co</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <%= favicon_link_tag 'favicon.png' %>
     <%= csp_meta_tag %>
     <%= csrf_meta_tags %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
@@ -27,20 +27,22 @@
     <% end %>
 
     <header>
-      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <nav class="navbar navbar-expand-lg ftco_navbar ftco-navbar-light" id="ftco-navbar">
         <div class="container">
           <a class="navbar-brand" href="/">FeedMama</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+          <div class="social-media order-lg-last">
+            <p class="mb-0 d-flex">
+              <a href="#" class="text-decoration-none d-flex align-items-center justify-content-center"><span class="fa-brands fa-facebook-f"><i class="sr-only">Facebook</i></span></a>
+              <a href="#" class="text-decoration-none d-flex align-items-center justify-content-center"><span class="fa-brands fa-x-twitter"><i class="sr-only">Twitter</i></span></a>
+              <a href="#" class="text-decoration-none d-flex align-items-center justify-content-center"><span class="fa-brands fa-instagram"><i class="sr-only">Instagram</i></span></a>
+            </p>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="fa fa-bars"></span> Menu
           </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link" href="/">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Why FeedMama</a>
-              </li>
+          <div class="collapse navbar-collapse" id="ftco-nav">
+            <ul class="navbar-nav ml-auto mr-md-3">
+              <li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
               <% if current_user.present? %>
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
