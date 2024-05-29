@@ -12,6 +12,14 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", 'type': 'module', defer: true %>
   </head>
   <body>
+    <!--[if lte IE 9]>
+      <p class="browserupgrade">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="https://browsehappy.com/">upgrade your browser</a> to improve
+        your experience and security.
+      </p>
+    <![endif]-->
+
     <% if notice.present? %>
       <div class="alert alert-success mb-0 rounded-0" style="text-align: center; font-size: 1.2rem;">
         <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
