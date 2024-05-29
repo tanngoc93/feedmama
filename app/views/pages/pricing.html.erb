@@ -1,0 +1,244 @@
+<section class="pricing">
+  <div class="content">
+    <div class="basic box">
+      <h2 class="title">FOREVER FREE</h2>
+      <div class="view">
+        <div class="icon">
+          <img src="https://i.postimg.cc/2jcfMcf4/hot-air-balloon.png" alt="hot-air-balloon">
+        </div>
+        <div class="cost">
+          <p class="amount">$0</p>
+          <p class="detail">per month</p>
+        </div>
+      </div>
+      <div class="description">
+        <ul>
+          <li>Connect 1 Facebook & Instagram.</li>
+          <li>Unlimited campaigns.</li>
+          <li>Sentiment Analysis.</li>
+          <li>Self-Service with OpenAI or AzureAI.</li>
+          <li>Maximum 1000 replies <br>(Private messages + Public comments)</li>
+        </ul>
+      </div>
+      <div class="button">
+        <button type="b">START NOW</button>
+      </div>
+    </div>
+    <div class="standard box">
+      <h2 class="title">Standard</h2>
+      <div class="view">
+        <div class="icon">
+          <img src="https://i.postimg.cc/DzrTN72Z/airplane.png" alt="airplane">
+        </div>
+        <div class="cost">
+          <p class="amount">$9</p>
+          <p class="detail">per month</p>
+        </div>
+      </div>
+      <div class="description">
+        <ul>
+          <li>Unlimited pages.</li>
+          <li>Unlimited campaigns.</li>
+          <li>Sentiment Analysis.</li>
+          <li>Self-Service with OpenAI or AzureAI.</li>
+          <li>Unlimited replies <br>(Private messages + Public comments)</li>
+        </ul>
+      </div>
+      <div class="button">
+        <button type="submit">COMING SOON</button>
+      </div>
+    </div>
+    <div class="business box">
+      <h2 class="title">Business</h2>
+      <div class="view">
+        <div class="icon">
+          <img src="https://i.postimg.cc/wvFd6FRY/startup.png" alt="startup">
+        </div>
+        <div class="cost">
+          <p class="amount">$19</p>
+          <p class="detail">per month</p>
+        </div>
+      </div>
+      <div class="description">
+        <ul>
+          <li>Unlimited pages.</li>
+          <li>Unlimited campaigns.</li>
+          <li>Sentiment Analysis.</li>
+          <li>Self-Service with OpenAI or AzureAI.</li>
+          <li>Unlimited replies <br>(Private messages + Public comments)</li>
+        </ul>
+      </div>
+      <div class="button">
+        <button type="submit">COMING SOON</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<style type="text/css">
+  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
+  :root {
+    --pinkish-red: #C35A74;
+    --medium-blue: #307BAA;
+    --greenish-blue: #53BAB5;
+    --bright-orange: #FF7445;
+    --white-smoke: #F5F5F4;
+    --white: #FFF;
+    --dark-gray: #7D7C7C;
+    --black: #000;
+  }
+
+  section.pricing {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+
+    background: var(--white-smoke);
+  }
+
+  section.pricing .content {
+    display: flex;
+    justify-content: space-between;
+    width: 1200px;
+    margin: 100px;
+  }
+
+  section.pricing .box {
+    display: flex;
+    flex-direction: column;
+    height: 586px;
+    width: 300px;
+    border-radius: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+
+    background: var(--white);
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 20%);
+  }
+
+  section.pricing .title {
+    width: 100%;
+    margin: 0;
+    padding: 10px 0;
+    font-size: 1.2em;
+    font-weight: lighter;
+    text-align: center;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    color: var(--white-smoke);
+  }
+
+  section.pricing .basic .title {
+    background: var(--pinkish-red);
+  }
+
+  section.pricing .standard .title {
+    background: var(--medium-blue);
+  }
+
+  section.pricing .business .title {
+    background: var(--greenish-blue);
+  }
+
+  section.pricing .view {
+    display: block;
+    width: 100%;
+    padding: 30px 0 20px;
+
+    background: var(--white-smoke);
+  }
+
+  section.pricing .icon {
+    display: flex;
+    justify-content: center;
+  }
+
+  section.pricing .icon img {
+    width: 100px;
+  }
+
+  section.pricing .cost {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    margin-top: 50px;
+  }
+
+  section.pricing .amount {
+    font-size: 2.8em;
+    font-weight: bolder;
+  }
+
+  section.pricing .detail {
+    margin: auto 0 auto 5px;
+    width: 70px;
+    font-size: 0.7em;
+    font-weight: bold;
+    line-height: 15px;
+    color: #7D7C7C;
+  }
+
+  section.pricing .description {
+    margin: 30px auto;
+    font-size: 0.8em;
+    color: #7D7C7C;
+  }
+
+  section.pricing li::before {
+    content: "";
+    background-image: url("https://i.postimg.cc/ht7g996V/check.png");
+    background-position: center;
+    background-size: cover;
+    opacity: 0.5;
+
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 10px;
+  }
+
+  section.pricing .button {
+    margin: 0 auto 30px;
+  }
+
+  section.pricing button {
+    height: 40px;
+    width: 250px;
+    font-size: 0.7em;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    color: #7D7C7C;
+    border: 2px solid var(--dark-gray);
+    border-radius: 50px;
+
+    background: transparent;
+  }
+
+  section.pricing button:hover {
+    color: var(--white-smoke);
+    transition: 0.5s;
+    border: none;
+
+    background: var(--bright-orange);
+  }
+
+  /* Responsiveness:Start */
+  @media screen and (max-width:970px) {
+    section.pricing .content {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      margin: 50px auto;
+    }
+
+    section.pricing .standard,
+    section.pricing .business {
+      margin-top: 25px;
+    }
+  }
+/* Responsiveness:End */
+</style>

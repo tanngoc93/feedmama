@@ -11,7 +11,7 @@ div.div-container {
   width: 400px;
   border: 1px solid hsla(0, 0%, 65%, 0.158);
   box-shadow: 0 0 36px 1px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
+  border-radius: 0px !important;
   backdrop-filter: blur(20px);
   padding: 2rem;
   -webkit-border-radius: 10px;
@@ -49,7 +49,7 @@ div.div-container {
 }
 
 .form-container form .btn {
-  background-color: #04AA6D;
+  background-color: #37C2CC;
   color: #FAFAFA;
   border-radius: 0px;
   font-weight: bold;

@@ -3,9 +3,9 @@
     <div class="form-container">
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
       <%= render "users/shared/error_messages", resource: resource %>
-      <h4>You have <b>
+      <!-- <h4>You have <b>
         <%= set_number_to_delimited(resource.token_amount, delimiter: ',') %></b> AI Tokens
-      </h4>
+      </h4> -->
       <div class="form-group mb-3">
         <%= f.label :email, class: "label" %>
         <div class="input-group">
