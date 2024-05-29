@@ -32,57 +32,61 @@
           <a class="navbar-brand" href="/">FeedMama</a>
           <div class="social-media order-lg-last">
             <p class="mb-0 d-flex">
-              <a href="#" class="text-decoration-none d-flex align-items-center justify-content-center"><span class="fa-brands fa-facebook-f"><i class="sr-only">Facebook</i></span></a>
-              <a href="#" class="text-decoration-none d-flex align-items-center justify-content-center"><span class="fa-brands fa-x-twitter"><i class="sr-only">Twitter</i></span></a>
-              <a href="#" class="text-decoration-none d-flex align-items-center justify-content-center"><span class="fa-brands fa-instagram"><i class="sr-only">Instagram</i></span></a>
+              <a href="https://www.facebook.com/feddmama" class="text-decoration-none d-flex align-items-center justify-content-center"><span class="fa-brands fa-facebook-f"><i class="sr-only">Facebook</i></span></a>
+              <a href="https://www.twitter.com/feedmama" class="text-decoration-none d-flex align-items-center justify-content-center"><span class="fa-brands fa-x-twitter"><i class="sr-only">Twitter</i></span></a>
+              <a href="https://www.instagram.com/feedmama" class="text-decoration-none d-flex align-items-center justify-content-center"><span class="fa-brands fa-instagram"><i class="sr-only">Instagram</i></span></a>
             </p>
           </div>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="fa fa-bars"></span> Menu
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="fa fa-bars"></span> MENU
           </button>
           <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav ml-auto mr-md-3">
-              <li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
+              <li class="nav-item active"><a href="/" class="nav-link">HOME</a></li>
               <% if current_user.present? %>
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Account
+                    ACCOUNT
                   </a>
                   <ul class="dropdown-menu">
                     <li>
-                      <a class="dropdown-item" href="/profile">User Profile</a>
+                      <a class="dropdown-item" href="/profile">USER PROFILE</a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="/settings">User Settings</a>
+                      <a class="dropdown-item" href="/settings">USER SETTINGS</a>
                     </li>
                     <li>
-                      <%= link_to "Logout", destroy_user_session_path, method: :delete, data: { turbo: false }, class: "dropdown-item" %>
+                      <%= link_to "SIGN OUT", destroy_user_session_path, method: :delete, data: { turbo: false }, class: "dropdown-item" %>
                     </li>
                   </ul>
                 </li>
-                
               <% else %>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Get Started
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="/login">Login</a></li>
-                    <li><a class="dropdown-item" href="/resgistration">Registration</a></li>
-                  </ul>
+                <li class="nav-item">
+                  <a class="nav-link" href="/login">SIGN IN</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/resgistration">SIGN UP</a>
                 </li>
               <% end %>
               <li class="nav-item">
-                <a class="nav-link" href="#">Pricing</a>
+                <a class="nav-link" href="#">PRICING</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Contact Us</a>
+                <a class="nav-link" href="#">CONTACT</a>
               </li>
             </ul>
           </div>
         </div>
       </nav>
     </header>
+
+    <style>
+      .ftco-navbar-light {
+        border-radius: 0;
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+    </style>
 
     <%= yield %>
 
