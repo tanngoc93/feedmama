@@ -1,4 +1,4 @@
-class InstagramCommentator < ApplicationService
+class InstagramCommenter < ApplicationService
   attr_reader :social_account,
               :comment_id,
               :comment

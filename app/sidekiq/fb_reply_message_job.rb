@@ -16,7 +16,16 @@ class FbReplyMessageJob
 
     return unless message.is_a? String
 
-    FacebookMessenger.call(social_account, sender_id, message)
+    response = FacebookMessenger.call(social_account, sender_id, message)
+
+    unless response.status != 200
+      social_account.update!(
+        status: false,
+        service_error_status: true,
+        service_error_at: DateTime.now,
+        service_error_logs: service_error_logs(social_account, response)
+      )
+    end
   rescue StandardError => e
     Rails.logger.debug(">>>>>>>>>>>> #{self.class.name} - #{e.message}")
   end
@@ -32,5 +41,12 @@ class FbReplyMessageJob
     content = social_account.openai_prompt_direct_message_prebuild
     content = content.sub("#message", comment)
     content
+  end
+
+  def service_error_logs(social_account, response)
+    social_account.service_error_logs << {
+      status: response.status,
+      body: JSON.parse(response.body)
+    }.to_json
   end
 end

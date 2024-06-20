@@ -19,7 +19,16 @@ class FbReplyCommentJob
 
     return unless message.is_a? String
 
-    FacebookCommentator.call(social_account, comment_id, message)
+    response = FacebookCommenter.call(social_account, comment_id, message)
+
+    unless response.status != 200
+      social_account.update!(
+        status: false,
+        service_error_status: true,
+        service_error_at: DateTime.now,
+        service_error_logs: service_error_logs(social_account, response)
+      )
+    end
   rescue StandardError => e
     Rails.logger.debug(">>>>>>>>>>>> #{self.class.name} - #{e.message}")
   end
@@ -36,5 +45,12 @@ class FbReplyCommentJob
     content = content.sub("#comment", comment)
     content = content.sub("#fullName", commentator_name)
     content
+  end
+
+  def service_error_logs(social_account, response)
+    social_account.service_error_logs << {
+      status: response.status,
+      body: JSON.parse(response.body)
+    }.to_json
   end
 end

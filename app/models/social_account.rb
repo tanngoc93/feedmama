@@ -21,23 +21,10 @@ class SocialAccount < ApplicationRecord
             :time_blocking,
             :perform_at, numericality: { only_numeric: true }
 
-  after_create :refresh_meta_access_token, if: -> { facebook? || instagram? }
   after_create :facebook_subscribed_fields, if: -> { facebook? }
+  after_update :set_service_error_unlocker_job, if: -> { saved_change_to_service_error_status? }
 
   private
-
-  def refresh_meta_access_token
-    if saved_change_to_resource_access_token?
-      remove_old_scheduled && RefreshMetaAccessTokenJob.perform_at(15.days.from_now, id)
-    end
-  end
- 
-  def remove_old_scheduled
-    scheduled_set = Sidekiq::ScheduledSet.new
-    scheduled_set.select do |scheduled|
-      scheduled.klass == 'RefreshMetaAccessTokenJob' && scheduled.args[0] == id
-    end.map(&:delete)
-  end
 
   def facebook_subscribed_fields
     connect = Faraday.new(
@@ -48,5 +35,11 @@ class SocialAccount < ApplicationRecord
     )
 
     connect.post
+  end
+
+  def set_service_error_unlocker_job
+    if service_error_status
+      ServiceErrorUnlockerJob.perform_at(30.minutes, id)
+    end
   end
 end

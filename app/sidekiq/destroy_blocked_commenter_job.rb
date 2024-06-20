@@ -1,4 +1,4 @@
-class DestroyBlockedCommentatorJob
+class DestroyBlockedCommenterJob
   include Sidekiq::Job
   sidekiq_options retry: 3, dead: false
 
