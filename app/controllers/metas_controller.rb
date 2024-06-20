@@ -1,4 +1,4 @@
-class FacebooksController < ApplicationController
+class MetasController < ApplicationController
   skip_before_action :authenticate_user!, only: [:subscription]
   skip_before_action :verify_authenticity_token, only: [:subscription]
 

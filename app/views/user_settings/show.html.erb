@@ -5,7 +5,7 @@
         <div>
           <h5>
             <label for="checkboxStatus">
-              Service Status (Inactive / Active)
+              Status (Active / Inactive)
             </label>
           </h5>
           <div class="checkbox-wrapper-5">
@@ -15,11 +15,7 @@
             </div>
           </div>
         </div>
-
         <br>
-
-        <h3>OpenAI Service Setting</h3>
-
         <div class="form-group mb-3">
           <label>
             API Provider
@@ -31,39 +27,37 @@
               { class: "form-select" } %>
           </div>
         </div>
-
         <br/>
-
         <div class="form-group mb-3">
           <label>
-            API Model (Required)
+            Access Token (Required)
           </label>
           <div class="input-group">
-            <%= f.text_field :api_model, class: "rounded-0", disabled: false %>
+            <%= f.text_field :api_access_token, placeholder: '3d89e7ef1a7c4675a7af23hhd28bbea1', class: "rounded-0", disabled: false %>
           </div>
         </div>
         <div class="form-group mb-3">
           <label>
-            API Access Token (Required)
+            Model (Required)
           </label>
           <div class="input-group">
-            <%= f.text_field :api_access_token, class: "rounded-0", disabled: false %>
+            <%= f.text_field :api_model, placeholder: 'gpt-3.5-turbo', class: "rounded-0", disabled: false %>
           </div>
         </div>
         <div class="form-group mb-3">
           <label>
-            API Version (Azure only)
+            Version (Azure only)
           </label>
           <div class="input-group">
-            <%= f.text_field :api_version, class: "rounded-0", disabled: false %>
+            <%= f.text_field :api_version, placeholder: '2023-07-01-preview', class: "rounded-0", disabled: false %>
           </div>
         </div>
         <div class="form-group mb-3">
           <label>
-            API Endpoint  (Azure only)
+            Endpoint (Azure only)
           </label>
           <div class="input-group">
-            <%= f.text_field :api_endpoint, class: "rounded-0", disabled: false %>
+            <%= f.text_field :api_endpoint, placeholder: 'https://your-deployment-xxx.openai.azure.com/openai/deployments/your-deployment', class: "rounded-0", disabled: false %>
           </div>
         </div>
 

@@ -8,7 +8,7 @@ class UserSettingsController < ApplicationController
     if @user_setting&.update(user_setting_params)
       redirect_to root_path, notice: 'Your data has been updated successfully'
     else
-      redirect_to :user_settings, alert: @user_setting&.errors&.full_messages&.to_sentence
+      redirect_to :user_settings, alert: @user_setting.errors.full_messages.to_sentence
     end
   end
 

@@ -34,8 +34,8 @@ Rails.application.routes.draw do
   post "stripe/webhook", to: "stripes#webhook"
 
   #
-  get  "webhooks/:secured_token", to: "facebooks#subscription"
-  post "webhooks/:secured_token", to: "facebooks#subscription"
+  get  "webhooks/:secured_token", to: "metas#subscription"
+  post "webhooks/:secured_token", to: "metas#subscription"
 
   # 
   get "/settings", to: "user_settings#show", as: :user_settings
