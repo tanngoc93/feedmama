@@ -12,6 +12,8 @@ class FbReplyMessageJob
     message =
       if use_openai?(social_account, message)
         OpenaiCreator.call(user_setting, social_account, prompt(social_account, message))
+      else
+        return
       end
 
     return unless message.is_a? String

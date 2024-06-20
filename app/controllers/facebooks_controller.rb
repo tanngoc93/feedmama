@@ -66,6 +66,16 @@ class FacebooksController < ApplicationController
       UserSetting.where(user_id: @social_account.user_id, setting_status: :active)&.first
   end
 
+  def reply_message(data)
+    FbReplyMessageJob.perform_at(
+      @social_account.perform_at.seconds.from_now,
+      data['sender']['id'],
+      data['message']['text'],
+      @social_account.id,
+      @user_setting.id
+    )
+  end
+
   def reply_comment(data)
     if @social_account.facebook?
       facebook_comment(data)
@@ -120,16 +130,6 @@ class FacebooksController < ApplicationController
     )
 
     create_blocked_commentator(commentator_id, @social_account.id, media_id)
-  end
-
-  def reply_message(data)
-    FbReplyMessageJob.perform_at(
-      @social_account.perform_at.seconds.from_now,
-      data['sender']['id'],
-      data['message']['text'],
-      @social_account.id,
-      @user_setting.id
-    )
   end
 
   def create_blocked_commentator(commentator_id, social_account_id, post_id)
