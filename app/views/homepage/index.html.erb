@@ -24,7 +24,7 @@
             <th scope="col">Name</th>
             <th scope="col">Platform</th>
             <th scope="col">Status</th>
-            <th scope="col">OpenAI's Status</th>
+            <th scope="col">Use ChatGPT?</th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -35,6 +35,7 @@
             <td style="text-align: left;">
               <span
                 class="btn btn-info btn-sm text-light"
+                style="white-space: nowrap;"
               >
                 <%= social_account.resource_name %>
               </span>
@@ -62,7 +63,7 @@
             </td>
             <td style="text-align: left;">
               <a class="btn btn-info btn-sm text-light" href="/social_accounts/<%= social_account.id %>">
-              Update
+              Edit
               </a>
             </td>
           </tr>

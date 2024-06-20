@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_04_08_075250) do
+ActiveRecord::Schema[7.0].define(version: 2024_06_20_070825) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -143,6 +143,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_08_075250) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "parent_social_account_id"
+    t.text "openai_prompt_direct_message_prebuild", default: "Please help me reply to a Facebook message from \"#fullName\", the content: \"#message\". Send them back a thank you note or an encouraging comment. A comment should not exceed 25 or 30 words."
     t.index ["parent_social_account_id"], name: "index_social_accounts_on_parent_social_account_id"
     t.index ["user_id"], name: "index_social_accounts_on_user_id"
   end

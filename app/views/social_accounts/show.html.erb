@@ -2,27 +2,26 @@
   <div class="div-container">
     <div class="form-container">
       <%= form_for @social_account, method: :put do |f| %>
-      <h2 class="text-center">Edit <%= @social_account.resource_name.humanize %></h2>
+      <h2 class="text-center">
+        <span class="fa-brands fa-<%= @social_account.resource_platform.downcase %>">
+          <i class="sr-only"><%= @social_account.resource_platform.humanize %></i>
+        </span> <span style="font-weight: bold;"><%= @social_account.resource_name.humanize.titleize %></span>
+      </h2>
+      <hr />
       <div class="form-group mb-3">
-        <%= f.label "Name", class: "form-label" %>
+        <label class="form-label">
+          ChatGPT Prompt [Commenting]
+        </label>
         <div class="input-group">
-          <%= f.text_field :resource_name, class: "form-control", disabled: true %>
-        </div>
-      </div>
-      <div class="form-group mb-3">
-        <%= f.label "Platform", class: "form-label" %>
-        <div class="input-group">
-          <%= f.text_field :resource_platform,
-            value: @social_account&.resource_platform&.humanize,
-            class: "form-control", disabled: true %>
+          <%= f.text_area :openai_prompt_prebuild, size: "30x8", class: "rounded-0", disabled: false %>
         </div>
       </div>
       <div class="form-group mb-3">
         <label class="form-label">
-          Content Builder
+          ChatGPT Prompt [Direct Messaging]
         </label>
         <div class="input-group">
-          <%= f.text_area :openai_prompt_prebuild, size: "30x12", class: "form-control", disabled: false %>
+          <%= f.text_area :openai_prompt_direct_message_prebuild, size: "30x8", class: "rounded-0", disabled: false %>
         </div>
       </div>
       <div class="form-group mb-3">
@@ -30,7 +29,7 @@
           Don't reply to user's comment after (?) hours from the last reply
         </label>
         <div class="input-group">
-          <%= f.number_field :time_blocking, class: "form-control", disabled: false %>
+          <%= f.number_field :time_blocking, class: "rounded-0", disabled: false %>
         </div>
       </div>
       <div class="form-group mb-3">
@@ -38,7 +37,7 @@
           Reply to user's comment after (?) seconds
         </label>
         <div class="input-group">
-          <%= f.number_field :perform_at, class: "form-control", disabled: false %>
+          <%= f.number_field :perform_at, class: "rounded-0", disabled: false %>
         </div>
       </div>
       <div class="form-group mb-3">
@@ -46,7 +45,7 @@
           Only use OpenAI for comments longer than (?) words
         </label>
         <div class="input-group">
-          <%= f.number_field :minimum_words_required_to_processing_with_openai, class: "form-control", disabled: false %>
+          <%= f.number_field :minimum_words_required_to_processing_with_openai, class: "rounded-0", disabled: false %>
         </div>
       </div>
       <h5>
@@ -65,7 +64,7 @@
 
       <h5>
         <label for="checkboxUseOpenAI">
-          OpenAI (Inactive / Active)
+          Use ChatGPT?
         </label>
       </h5>
       <div class="checkbox-wrapper-5">
@@ -76,7 +75,7 @@
       </div>
       <br>
       <div class="random_contents mt-3">
-        <h6>Random Comments (In case you don't use OpenAI)</h6>
+        <h6>Random content (In case you don't use OpenAI)</h6>
         <%= f.fields_for :random_contents do |builder| %>
         <%= render "social_accounts/form/random_content_fields", f: builder %>
         <% end %>

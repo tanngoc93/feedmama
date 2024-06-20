@@ -49,6 +49,7 @@ Rails.application.routes.draw do
   get "social_accounts/instagram/callback", to: "social_accounts#instagram_oauth_callback"
 
   #
+  get "/contact", to: "pages#contact"
   get "/pricing", to: "pages#pricing"
   get "/privacy_policy", to: "pages#privacy_policy"
   get "/terms_of_service", to: "pages#terms_of_service"

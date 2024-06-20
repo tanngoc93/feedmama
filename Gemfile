@@ -86,6 +86,9 @@ gem "stripe"
 # 
 gem "resend"
 
+#
+gem 'logrotate', '~> 1.2', '>= 1.2.1'
+
 # 
 gem "font-awesome-sass"
 

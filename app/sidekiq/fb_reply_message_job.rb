@@ -11,10 +11,7 @@ class FbReplyMessageJob
 
     message =
       if use_openai?(social_account, message)
-        OpenaiCreator.call(
-          user_setting, social_account, prompt(message))
-      else
-        social_account&.random_contents&.sample&.content
+        OpenaiCreator.call(user_setting, social_account, prompt(social_account, message))
       end
 
     return unless message.is_a? String
@@ -31,8 +28,9 @@ class FbReplyMessageJob
       comment.split.size > social_account.minimum_words_required_to_processing_with_openai
   end
 
-  def prompt(message)
-    content = "Reply this message from a Facebook user: #{message}"
+  def prompt(social_account, message)
+    content = social_account.openai_prompt_direct_message_prebuild
+    content = content.sub("#message", comment)
     content
   end
 end

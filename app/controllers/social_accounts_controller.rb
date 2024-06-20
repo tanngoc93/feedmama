@@ -103,6 +103,7 @@ class SocialAccountsController < ApplicationController
         :status,
         :processing_with_openai,
         :openai_prompt_prebuild,
+        :openai_prompt_direct_message_prebuild,
         :minimum_words_required_to_processing_with_openai,
         :time_blocking,
         :perform_at,
