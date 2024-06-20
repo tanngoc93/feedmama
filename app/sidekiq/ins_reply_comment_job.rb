@@ -21,7 +21,7 @@ class InsReplyCommentJob
 
     response = InstagramCommenter.call(social_account, comment_id, message)
 
-    unless response.status != 200
+    unless response.status == 200
       service_error_at = DateTime.now
 
       social_account.update!(

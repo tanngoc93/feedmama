@@ -20,7 +20,7 @@ class FbReplyMessageJob
 
     response = FacebookMessenger.call(social_account, sender_id, message)
 
-    unless response.status != 200
+    unless response.status == 200
       service_error_at = DateTime.now
 
       social_account.update!(
@@ -36,14 +36,14 @@ class FbReplyMessageJob
 
   private
 
-  def use_openai?(social_account, comment)
+  def use_openai?(social_account, message)
     social_account.processing_with_openai &&
-      comment.split.size > social_account.minimum_words_required_to_processing_with_openai
+      message.split.size > social_account.minimum_words_required_to_processing_with_openai
   end
 
   def prompt(social_account, message)
     content = social_account.openai_prompt_direct_message_prebuild
-    content = content.sub("#message", comment)
+    content = content.sub("#message", message)
     content
   end
 
