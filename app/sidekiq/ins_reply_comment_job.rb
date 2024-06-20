@@ -22,11 +22,13 @@ class InsReplyCommentJob
     response = InstagramCommenter.call(social_account, comment_id, message)
 
     unless response.status != 200
+      service_error_at = DateTime.now
+
       social_account.update!(
         status: false,
         service_error_status: true,
-        service_error_at: DateTime.now,
-        service_error_logs: service_error_logs(social_account, response)
+        service_error_at: service_error_at,
+        service_error_logs: service_error_logs(social_account, service_error_at, response)
       )
     end
   rescue StandardError => e
@@ -47,8 +49,9 @@ class InsReplyCommentJob
     content
   end
 
-  def service_error_logs(social_account, response)
+  def service_error_logs(social_account, service_error_at, response)
     social_account.service_error_logs << {
+      service_error_at: service_error_at,
       status: response.status,
       body: JSON.parse(response.body)
     }.to_json
