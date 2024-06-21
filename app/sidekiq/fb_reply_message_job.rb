@@ -20,19 +20,32 @@ class FbReplyMessageJob
 
     response = FacebookMessenger.call(social_account, sender_id, message)
 
-    unless response.status == 200
-      service_error_at = DateTime.now
+    return if response.status == 200
 
+    service_error_at = DateTime.now
+
+    if response.status == 400
       social_account.update!(
         status: false,
         service_error_status: true,
         service_error_at: service_error_at,
         service_error_logs: service_error_logs(social_account, service_error_at, response)
       )
-
-      ServiceErrorNotification.send_email(
-        social_account, response.status, service_error_at, JSON.parse(response.body)['error']).deliver_later
     end
+
+    ServiceErrorNotification.send_email(
+      social_account,
+      response.status,
+      service_error_at,
+      JSON.parse(response.body)['error'],
+      {
+        sender_id: sender_id,
+        message: message,
+        social_account_id: social_account_id,
+        user_setting_id: user_setting_id
+      }.to_h
+    ).deliver_later
+
   rescue StandardError => e
     Rails.logger.debug(">>>>>>>>>>>> #{self.class.name} - #{e.message}")
   end

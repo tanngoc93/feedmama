@@ -43,7 +43,7 @@ class SocialAccount < ApplicationRecord
 
   def set_service_error_unlocker_job
     if service_error_status
-      ServiceErrorUnlockerJob.perform_at(30.minutes, id)
+      ServiceErrorUnlockerJob.perform_at(60.minutes, id)
     end
   end
 end

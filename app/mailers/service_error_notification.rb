@@ -1,10 +1,11 @@
 class ServiceErrorNotification < ApplicationMailer
 
-  def send_email(social_account, error_code, error_at, error_message)
+  def send_email(social_account, error_code, error_at, error_message, job_params)
     @social_account = social_account
     @error_code = error_code
     @error_at = error_at
     @error_message = error_message
+    @job_params = job_params
 
     if @social_account.owner_email
       mail(to: @social_account.owner_email,
