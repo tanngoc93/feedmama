@@ -6,13 +6,20 @@
         <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email", class: "rounded-0" %>
         <%= f.password_field :password, autocomplete: "current-password", placeholder: "Password", class: "rounded-0" %>
         <%= f.submit "Submit", class: "btn btn-primary" %>
+        <div class="custom-control custom-checkbox">
+          <%= f.check_box :remember_me, class: "custom-control-input", id: "customControlInline" %>
+          <label class="custom-control-label" for="customControlInline">
+            Remember me
+          </label>
+        </div>
       <% end %>
+      <hr />
       <div class="register-forget">
         <%= link_to "Registration", new_registration_path(resource_name), class: "text-dark" %>
         <%= link_to "Forgot password", new_password_path(resource_name), class: "text-dark" %>
       </div>
       <br>
-      <div style="text-align: center;">
+      <div>
         <%= render 'users/shared/links' %>
       </div>
       <br>
