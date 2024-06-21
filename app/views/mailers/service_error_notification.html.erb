@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h3>---- FeedMama Error ----</h3>
+    <p>Platform: <%= @social_account.resource_platform.humanize %></p>
+    <p>Account: <%= @social_account.resource_name.humanize.titleize %></p>
+    <p>Error at: <%= @error_at %></p>
+    <p>Error code: <%= @error_code %></p>
+    <p>Error Message: <%= @error_message %></p>
+  </body>
+</html>

@@ -24,6 +24,10 @@ class SocialAccount < ApplicationRecord
   after_create :facebook_subscribed_fields, if: -> { facebook? }
   after_update :set_service_error_unlocker_job, if: -> { saved_change_to_service_error_status? }
 
+  def owner_email
+    self.user&.email
+  end
+
   private
 
   def facebook_subscribed_fields

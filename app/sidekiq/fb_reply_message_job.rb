@@ -29,6 +29,9 @@ class FbReplyMessageJob
         service_error_at: service_error_at,
         service_error_logs: service_error_logs(social_account, service_error_at, response)
       )
+
+      ServiceErrorNotification.send_email(
+        social_account, response.status, service_error_at, response.body['error']).deliver_later
     end
   rescue StandardError => e
     Rails.logger.debug(">>>>>>>>>>>> #{self.class.name} - #{e.message}")
