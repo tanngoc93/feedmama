@@ -35,14 +35,14 @@ class FacebookCommenter < ApplicationService
     return unless social_account.present?
 
     conn = Faraday.new(
-      url: "https://graph.facebook.com/#{ FACEBOOK_VERSION }/#{ '497169726156773_1012898640575492' }/comments",
+      url: "https://graph.facebook.com/#{ FACEBOOK_VERSION }/#{ comment_id }/comments",
       headers: headers
     )
 
     response = conn.post do |req|
       req.body = {
-        message: 'hello',
-        access_token: access_token
+        message: comment,
+        access_token: social_account.resource_access_token
       }.to_json
     end
   end
