@@ -53,6 +53,8 @@ services:
       RAILS_ENV: development
       PORT: 3000
       #
+      RESEND_KEY: ''
+      #
       FACEBOOK_VERSION: ''
       FACEBOOK_APP_SECRET: ''
       FACEBOOK_APP_ID: ''
@@ -101,6 +103,8 @@ services:
       BUNDLE_PATH: /bundle
       RAILS_ENV: development
       PORT: 3000
+      #
+      RESEND_KEY: ''
       #
       FACEBOOK_VERSION: ''
       FACEBOOK_APP_SECRET: ''
